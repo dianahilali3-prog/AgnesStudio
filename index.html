@@ -3,2019 +3,1109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0a0612">
-<title>Studio — Création IA</title>
+<meta name="theme-color" content="#1a0a1e">
+<title>Girly Studio ✨</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{
---bg:#0a0612;--bg2:#12091e;--panel:#180d28;--panel2:#1f1235;--panel3:#281843;
---border:#2d1b4a;--border2:#3d2461;
---ink:#f0e8ff;--ink2:#b8a4d8;--ink3:#7a6596;--ink4:#4d3d63;
---rose:#ff4d9d;--rose2:#ff7bb8;--rose3:#ffb3d9;
---fuchsia:#d946ef;--violet:#8b5cf6;--violet2:#a78bfa;
---success:#10b981;--error:#ef4444;--warn:#f59e0b;--info:#3b82f6;
---grad-main:linear-gradient(135deg,#ff4d9d 0%,#d946ef 50%,#8b5cf6 100%);
---grad-panel:linear-gradient(180deg,rgba(24,13,40,.95),rgba(18,9,30,.85));
---radius:16px;
---shadow:0 8px 32px rgba(255,77,157,.15);
---font:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif;
---mono:ui-monospace,'SF Mono',Menlo,monospace;
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --rose: #ff6b9d; --rose-soft: #ff9ec4; --rose-deep: #d44a7a;
+  --violet: #a855f7; --violet-soft: #c084fc; --violet-deep: #7c3aed;
+  --gold: #fbbf24; --gold-soft: #fcd34d;
+  --bg: #1a0a1e; --bg-2: #240e2a; --panel: rgba(255,255,255,0.06);
+  --glass: rgba(255,255,255,0.08); --glass-border: rgba(255,255,255,0.12);
+  --ink: #fce7f3; --ink-dim: #d8b4d8; --ink-faint: #9d7a9d;
+  --success: #4ade80; --error: #f87171; --warn: #fbbf24;
+  --radius: 20px; --radius-sm: 12px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
-html,body{overscroll-behavior:none;background:var(--bg)}
-body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh;font-size:15px;line-height:1.5;
-background-image:radial-gradient(ellipse at 0% 0%,rgba(255,77,157,.12),transparent 50%),radial-gradient(ellipse at 100% 0%,rgba(217,70,239,.10),transparent 50%),radial-gradient(ellipse at 50% 100%,rgba(139,92,246,.08),transparent 50%);
-background-attachment:fixed;
-padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-padding-top:calc(env(safe-area-inset-top) + 8px);
-overflow-x:hidden}
-.app{max-width:640px;margin:0 auto;padding:0 16px 140px;position:relative}
-.app-header{display:flex;align-items:center;gap:12px;padding:12px 0 20px;position:sticky;top:0;background:linear-gradient(180deg,rgba(10,6,18,.98),rgba(10,6,18,.85));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:50;border-bottom:1px solid transparent;margin:0 -16px;padding-left:16px;padding-right:16px}
-.app-header.scrolled{border-bottom-color:var(--border)}
-.logo{width:44px;height:44px;border-radius:12px;background:var(--grad-main);display:grid;place-items:center;font-size:20px;box-shadow:var(--shadow);flex-shrink:0}
-.app-title{font-size:16px;font-weight:700;letter-spacing:-.02em;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.app-title small{display:block;font-size:11px;color:var(--ink2);font-weight:500}
-.header-actions{display:flex;gap:6px}
-.icon-btn{width:36px;height:36px;border-radius:10px;background:var(--panel2);border:1px solid var(--border);color:var(--ink2);display:grid;place-items:center;font-size:15px;cursor:pointer;transition:all .15s;font-family:inherit}
-.icon-btn:active{transform:scale(.92);background:var(--panel3)}
-.tabs-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -16px;padding:0 16px 12px}
-.tabs-scroll::-webkit-scrollbar{display:none}
-.tabs{display:flex;gap:8px;min-width:max-content}
-.tab{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:14px;background:var(--panel);border:1px solid var(--border);color:var(--ink2);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:inherit}
-.tab.active{background:var(--grad-main);color:#fff;border-color:transparent;box-shadow:var(--shadow)}
-.tab-dot{width:6px;height:6px;border-radius:50%;background:var(--success);flex-shrink:0}
-.tab.tab-new{padding:10px 14px;background:transparent;border-style:dashed;color:var(--ink3)}
-.card{background:var(--grad-panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;overflow:hidden}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,77,157,.3),transparent)}
-.card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.card-title .badge{font-size:10px;padding:2px 8px;border-radius:999px;background:rgba(255,77,157,.15);color:var(--rose2);border:1px solid rgba(255,77,157,.3);font-weight:700}
-.card-title .badge.off{background:rgba(122,101,150,.15);color:var(--ink3);border-color:var(--border)}
-.card-title .badge.on{background:rgba(16,185,129,.15);color:var(--success);border-color:rgba(16,185,129,.3)}
-.field{margin-bottom:12px}
-.field:last-child{margin-bottom:0}
-.field label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);margin-bottom:6px}
-.field input,.field textarea,.field select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg2);color:var(--ink);font-family:inherit;font-size:14px;outline:none;transition:border-color .15s;-webkit-appearance:none;appearance:none}
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(255,77,157,.12)}
-.field textarea{resize:vertical;min-height:80px;line-height:1.5}
-.field select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23b8a4d8' d='M0 0l5 6 5-6z'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
-.btn{width:100%;padding:14px 20px;border-radius:14px;border:none;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;-webkit-appearance:none}
-.btn-primary{background:var(--grad-main);color:#fff;box-shadow:var(--shadow)}
-.btn-primary:active:not(:disabled){transform:scale(.97)}
-.btn-primary:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
-.btn-secondary{background:var(--panel2);border:1px solid var(--border);color:var(--ink)}
-.btn-secondary:active{background:var(--panel3);transform:scale(.97)}
-.btn-danger{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
-.btn-sm{padding:8px 14px;font-size:13px;width:auto;border-radius:10px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.section{margin-bottom:20px}
-.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:0 4px}
-.section-title{font-size:16px;font-weight:700;letter-spacing:-.01em;color:var(--ink);display:flex;align-items:center;gap:8px}
-.section-title .count{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--panel2);color:var(--ink3);font-weight:600}
-.section-action{font-size:13px;color:var(--rose2);font-weight:600;cursor:pointer;background:none;border:none;font-family:inherit}
-.empty{text-align:center;padding:40px 20px;color:var(--ink3)}
-.empty .icon{font-size:44px;margin-bottom:12px;opacity:.6}
-.empty .text{font-size:14px;line-height:1.5}
-.toast{position:fixed;top:calc(env(safe-area-inset-top) + 16px);left:50%;transform:translateX(-50%) translateY(-200px);background:var(--panel3);border:1px solid var(--border2);border-radius:14px;padding:12px 18px;font-size:14px;font-weight:600;color:var(--ink);z-index:1000;opacity:0;transition:all .35s cubic-bezier(.2,.9,.3,1.2);max-width:calc(100vw - 32px);display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,.5);pointer-events:none}
-.toast.visible{transform:translateX(-50%) translateY(0);opacity:1}
-.toast.success{border-color:rgba(16,185,129,.5);background:linear-gradient(180deg,rgba(16,185,129,.15),var(--panel3))}
-.toast.error{border-color:rgba(239,68,68,.5);background:linear-gradient(180deg,rgba(239,68,68,.15),var(--panel3))}
-.toast.warn{border-color:rgba(245,158,11,.5);background:linear-gradient(180deg,rgba(245,158,11,.15),var(--panel3))}
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s}
-.modal-backdrop.visible{opacity:1;pointer-events:auto}
-.modal{position:fixed;bottom:0;left:0;right:0;background:var(--panel);border-radius:24px 24px 0 0;padding:20px;padding-bottom:calc(20px + env(safe-area-inset-bottom));z-index:201;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.9,.3,1);max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;border-top:1px solid var(--border2)}
-.modal.visible{transform:translateY(0)}
-.modal-handle{width:40px;height:4px;border-radius:2px;background:var(--border2);margin:0 auto 16px}
-.modal-title{font-size:18px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,rgba(24,13,40,.9),rgba(18,9,30,.98));backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border);padding:8px 12px;padding-bottom:calc(8px + env(safe-area-inset-bottom));z-index:100;display:flex;justify-content:space-around;max-width:640px;margin:0 auto}
-.nav-btn{flex:1;background:none;border:none;color:var(--ink3);display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;cursor:pointer;font-family:inherit;font-size:10px;font-weight:600;transition:color .15s;position:relative}
-.nav-btn.active{color:var(--rose2)}
-.nav-btn .nav-icon{font-size:20px;line-height:1;transition:transform .2s}
-.nav-btn.active .nav-icon{transform:scale(1.1)}
-.nav-btn.create{color:#fff}
-.nav-btn.create .nav-icon{background:var(--grad-main);width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:22px;box-shadow:var(--shadow);margin-top:-12px;border:3px solid var(--bg)}
-.console-panel{position:fixed;bottom:0;left:0;right:0;height:40vh;background:rgba(10,6,18,.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:2px solid var(--rose);z-index:150;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.9,.3,1);display:flex;flex-direction:column;max-width:640px;margin:0 auto;padding-bottom:env(safe-area-inset-bottom)}
-.console-panel.visible{transform:translateY(0)}
-.console-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
-.console-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--rose2);display:flex;align-items:center;gap:8px}
-.console-filters{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:6px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
-.console-filters::-webkit-scrollbar{display:none}
-.cf{padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--ink3);font-size:11px;font-weight:600;font-family:inherit;cursor:pointer;white-space:nowrap}
-.cf.active{background:rgba(255,77,157,.15);color:var(--rose2);border-color:rgba(255,77,157,.4)}
-.console-body{flex:1;overflow-y:auto;padding:8px 14px 20px;font-family:var(--mono);font-size:11px;line-height:1.6;-webkit-overflow-scrolling:touch}
-.log-line{padding:3px 0;border-bottom:1px solid rgba(45,27,74,.3);word-break:break-word}
-.log-time{color:var(--ink4);margin-right:6px}
-.log-cat{font-weight:700;margin-right:6px}
-.log-cat.SYSTEM{color:var(--violet2)}
-.log-cat.AGENT{color:var(--fuchsia)}
-.log-cat.QUEUE{color:var(--info)}
-.log-cat.IMAGE{color:var(--rose2)}
-.log-cat.VIDEO{color:var(--fuchsia)}
-.log-cat.VERIFY{color:var(--warn)}
-.log-cat.ERROR{color:var(--error)}
-.log-msg{color:var(--ink2)}
-.status-bar{position:fixed;bottom:calc(64px + env(safe-area-inset-bottom));left:16px;right:16px;background:var(--grad-panel);border:1px solid var(--border2);border-radius:14px;padding:12px 16px;font-size:13px;font-weight:600;color:var(--ink);z-index:99;display:flex;align-items:center;gap:10px;transform:translateY(200px);transition:transform .3s;box-shadow:0 8px 32px rgba(0,0,0,.5);max-width:608px;margin:0 auto}
-.status-bar.visible{transform:translateY(0)}
-.spinner{width:14px;height:14px;border:2px solid rgba(255,77,157,.2);border-top-color:var(--rose);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
-@keyframes spin{to{transform:rotate(360deg)}}
-.list-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--panel);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all .15s}
-.list-item:active{background:var(--panel2);transform:scale(.99)}
-.list-item.selected{border-color:var(--rose);background:linear-gradient(135deg,rgba(255,77,157,.08),rgba(217,70,239,.05))}
-.list-thumb{width:44px;height:44px;border-radius:10px;background:var(--panel2);flex-shrink:0;display:grid;place-items:center;overflow:hidden;font-size:18px;color:var(--ink3);border:1px solid var(--border)}
-.list-thumb img{width:100%;height:100%;object-fit:cover}
-.list-info{flex:1;min-width:0}
-.list-name{font-size:14px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.list-sub{font-size:12px;color:var(--ink3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.lock{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;background:rgba(255,77,157,.12);color:var(--rose2);border:1px solid rgba(255,77,157,.3);font-size:10px;font-weight:700;cursor:pointer;margin:2px;font-family:inherit}
-.lock.off{background:rgba(122,101,150,.1);color:var(--ink3);border-color:var(--border)}
-.lock.locked{background:rgba(255,77,157,.2);border-color:var(--rose)}
-.task-item{display:flex;gap:10px;padding:10px 12px;background:var(--panel);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;font-size:12px;align-items:center}
-.task-status{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:var(--ink3)}
-.task-status.QUEUED{background:var(--ink3)}
-.task-status.RUNNING{background:var(--info);animation:pulse 1.5s infinite}
-.task-status.VERIFYING{background:var(--warn);animation:pulse 1.5s infinite}
-.task-status.COMPLETED{background:var(--success)}
-.task-status.FAILED{background:var(--error)}
-.task-status.RETRYING{background:var(--warn);animation:pulse 1.5s infinite}
-.task-status.CANCELLED{background:var(--ink4)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
-.gallery-item{aspect-ratio:9/16;border-radius:10px;overflow:hidden;background:var(--panel);border:1px solid var(--border);position:relative;cursor:pointer}
-.gallery-item img,.gallery-item video{width:100%;height:100%;object-fit:cover;display:block}
-.gallery-item .badge{position:absolute;bottom:4px;left:4px;font-size:9px;padding:2px 6px;border-radius:6px;background:rgba(0,0,0,.7);color:#fff;font-weight:700;backdrop-filter:blur(8px)}
-.hidden{display:none!important}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.fade-in{animation:fadeIn .3s ease}
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+html, body { background: var(--bg); }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255,107,157,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 90% 20%, rgba(168,85,247,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 50% 100%, rgba(251,191,36,0.08) 0%, transparent 50%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--ink); min-height: 100vh;
+  padding: calc(var(--safe-top) + 1rem) 1rem calc(var(--safe-bottom) + 6rem);
+  font-size: 15px; line-height: 1.55;
+  max-width: 720px; margin: 0 auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
+body::before {
+  content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(255,107,157,0.03) 1px, transparent 1px);
+  background-size: 24px 24px; pointer-events: none; z-index: 0;
+  animation: drift 60s linear infinite;
+}
+@keyframes drift { from { transform: translate(0,0); } to { transform: translate(24px,24px); } }
+header { text-align: center; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+.logo-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 64px; height: 64px; border-radius: 22px;
+  background: linear-gradient(135deg, var(--rose), var(--violet));
+  font-size: 28px; margin-bottom: 0.6rem;
+  box-shadow: 0 8px 32px rgba(255,107,157,0.35), 0 0 0 1px rgba(255,255,255,0.1) inset;
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+h1 {
+  font-size: 1.8rem; font-weight: 700; letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--rose-soft), var(--gold-soft), var(--violet-soft));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 0.2rem;
+}
+.subtitle { font-size: 0.78rem; color: var(--ink-dim); letter-spacing: 0.05em; }
+
+/* Glassmorphism */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  position: relative; z-index: 1;
+  overflow: hidden;
+}
+.glass::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+}
+.section { margin-bottom: 0.9rem; }
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.2rem; cursor: pointer; user-select: none;
+  transition: background 0.2s;
+}
+.section-header:active { background: rgba(255,255,255,0.03); }
+.section-title {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.15em;
+  font-weight: 700; color: var(--ink-dim);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.section-title .badge {
+  padding: 0.15rem 0.5rem; border-radius: 999px;
+  font-size: 0.6rem; letter-spacing: 0.05em; text-transform: none;
+  background: rgba(255,107,157,0.15); color: var(--rose-soft);
+  border: 1px solid rgba(255,107,157,0.3);
+}
+.section-title .badge.ok { background: rgba(74,222,128,0.12); color: var(--success); border-color: rgba(74,222,128,0.3); }
+.chevron { font-size: 0.7rem; color: var(--ink-faint); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+.section.open .chevron { transform: rotate(180deg); }
+.section-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1); }
+.section.open .section-body { max-height: 5000px; }
+.section-content { padding: 0 1.2rem 1.2rem; }
+
+/* API Panel */
+.api-input {
+  width: 100%; padding: 0.9rem 1rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border); background: rgba(0,0,0,0.25);
+  color: var(--ink); font-family: ui-monospace, 'SF Mono', monospace;
+  font-size: 0.82rem; margin-bottom: 0.6rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.api-input:focus { outline: none; border-color: var(--rose); box-shadow: 0 0 0 3px rgba(255,107,157,0.15); }
+.btn-save {
+  width: 100%; padding: 0.85rem; border-radius: var(--radius-sm);
+  border: none; cursor: pointer; font-family: inherit;
+  font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em;
+  background: linear-gradient(135deg, var(--rose), var(--violet));
+  color: #fff; box-shadow: 0 4px 20px rgba(255,107,157,0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn-save:active { transform: scale(0.97); }
+.api-status {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.72rem; color: var(--ink-dim);
+  padding: 0.5rem 0.7rem; margin-top: 0.5rem;
+  background: rgba(0,0,0,0.2); border-radius: var(--radius-sm);
+}
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-faint); flex-shrink: 0; transition: background 0.3s; }
+.api-status.ok .status-dot { background: var(--success); box-shadow: 0 0 8px var(--success); }
+
+/* Inputs */
+textarea, select, input[type="text"] {
+  width: 100%; padding: 0.9rem 1rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border); background: rgba(0,0,0,0.25);
+  color: var(--ink); font-family: inherit; font-size: 0.88rem;
+  resize: vertical; transition: border-color 0.2s, box-shadow 0.2s;
+}
+textarea:focus, select:focus, input:focus { outline: none; border-color: var(--violet); box-shadow: 0 0 0 3px rgba(168,85,247,0.15); }
+textarea { min-height: 90px; line-height: 1.5; }
+select {
+  -webkit-appearance: none; appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23ff9ec4' d='M0 0l5 6 5-6z'/></svg>");
+  background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem;
+}
+select option { background: var(--bg-2); color: var(--ink); }
+.control-label {
+  display: block; font-size: 0.7rem; color: var(--ink-dim);
+  text-transform: uppercase; letter-spacing: 0.12em;
+  font-weight: 700; margin-bottom: 0.5rem;
+}
+.control-row { margin-bottom: 1rem; }
+
+/* Styles Grid */
+.styles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.5rem; }
+.style-card {
+  padding: 0.8rem 0.5rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
+  cursor: pointer; text-align: center; transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.style-card:active { transform: scale(0.95); }
+.style-card.selected {
+  background: linear-gradient(135deg, rgba(255,107,157,0.25), rgba(168,85,247,0.2));
+  border-color: var(--rose); box-shadow: 0 0 20px rgba(255,107,157,0.2);
+}
+.style-card .emoji { font-size: 1.5rem; display: block; margin-bottom: 0.3rem; }
+.style-card .name { font-size: 0.7rem; font-weight: 600; line-height: 1.2; }
+
+/* Character Library */
+.char-toolbar { display: flex; gap: 0.5rem; margin-bottom: 0.7rem; }
+.char-toolbar button {
+  flex: 1; padding: 0.6rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
+  color: var(--ink-dim); font-size: 0.72rem; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.char-toolbar button:active { transform: scale(0.97); background: rgba(255,255,255,0.05); }
+.char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 0.5rem; max-height: 280px; overflow-y: auto; padding: 0.2rem; }
+.char-card {
+  position: relative; border-radius: var(--radius-sm); overflow: hidden;
+  border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
+  aspect-ratio: 3/4; cursor: pointer; transition: all 0.2s;
+}
+.char-card:active { transform: scale(0.95); }
+.char-card.selected { border-color: var(--gold); box-shadow: 0 0 16px rgba(251,191,36,0.3); }
+.char-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.char-card .char-name {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 0.4rem 0.5rem; font-size: 0.62rem; font-weight: 600;
+  background: linear-gradient(transparent, rgba(10,10,18,0.95));
+  color: var(--ink); text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
+}
+.char-card .char-remove {
+  position: absolute; top: 4px; right: 4px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(248,113,113,0.9); color: #fff; border: none;
+  font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
+/* Prompt Cards */
+.prompt-card {
+  background: rgba(0,0,0,0.15); border-radius: var(--radius-sm);
+  padding: 1rem; margin-bottom: 0.7rem; border: 1px solid var(--glass-border);
+}
+.prompt-card .pc-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.7rem; }
+.prompt-card .pc-num {
+  width: 26px; height: 26px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--rose), var(--violet));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 700; flex-shrink: 0;
+}
+.prompt-card .pc-title { font-size: 0.78rem; font-weight: 600; flex: 1; }
+.prompt-card .pc-type {
+  padding: 0.15rem 0.5rem; border-radius: 999px;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em;
+  background: rgba(168,85,247,0.15); color: var(--violet-soft);
+  border: 1px solid rgba(168,85,247,0.3);
+}
+.prompt-card .pc-type.video { background: rgba(255,107,157,0.15); color: var(--rose-soft); border-color: rgba(255,107,157,0.3); }
+.prompt-card textarea { min-height: 60px; font-size: 0.82rem; margin-bottom: 0.5rem; }
+.pc-preview {
+  border-radius: var(--radius-sm); overflow: hidden;
+  background: #000; aspect-ratio: 9/16; max-width: 120px;
+  margin: 0.5rem auto; border: 1px solid var(--glass-border);
+}
+.pc-preview img, .pc-preview video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pc-status {
+  font-size: 0.68rem; color: var(--ink-dim);
+  display: flex; align-items: center; gap: 0.4rem; margin-top: 0.4rem;
+}
+.pc-status .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-faint); flex-shrink: 0; }
+.pc-status.creating .dot { background: var(--warn); animation: pulse 1s infinite; }
+.pc-status.done .dot { background: var(--success); }
+.pc-status.failed .dot { background: var(--error); }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* Buttons */
+.btn-primary {
+  width: 100%; padding: 1.1rem; border-radius: var(--radius);
+  border: none; cursor: pointer; font-family: inherit;
+  font-size: 1rem; font-weight: 700; letter-spacing: 0.05em;
+  background: linear-gradient(135deg, var(--rose), var(--violet));
+  color: #fff; box-shadow: 0 8px 32px rgba(255,107,157,0.35);
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+  margin-bottom: 0.8rem; position: relative; z-index: 1;
+}
+.btn-primary:active:not(:disabled) { transform: scale(0.97); }
+.btn-primary:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+.btn-stop {
+  width: 100%; padding: 0.85rem; border-radius: var(--radius);
+  border: 1px solid rgba(248,113,113,0.4); background: rgba(248,113,113,0.08);
+  color: var(--error); font-family: inherit; font-size: 0.82rem; font-weight: 700;
+  cursor: pointer; display: none; margin-bottom: 0.8rem; letter-spacing: 0.08em;
+}
+.btn-stop.visible { display: block; }
+.btn-secondary {
+  padding: 0.7rem 1rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
+  color: var(--ink-dim); font-family: inherit; font-size: 0.78rem; font-weight: 600;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-secondary:active { transform: scale(0.97); background: rgba(255,255,255,0.05); }
+
+/* Agent Box */
+.agent-box {
+  background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(255,107,157,0.08));
+  border: 1px solid rgba(168,85,247,0.25); border-radius: var(--radius);
+  padding: 1rem; margin-bottom: 1rem; position: relative; z-index: 1;
+}
+.agent-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; }
+.agent-avatar {
+  width: 36px; height: 36px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--violet), var(--rose));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(168,85,247,0.3);
+}
+.agent-name { font-size: 0.82rem; font-weight: 700; }
+.agent-desc { font-size: 0.68rem; color: var(--ink-dim); }
+.agent-toggle {
+  display: flex; align-items: center; gap: 0.5rem; margin-top: 0.6rem;
+  font-size: 0.72rem; color: var(--ink-dim); cursor: pointer;
+}
+.toggle-switch {
+  width: 40px; height: 22px; border-radius: 11px;
+  background: rgba(255,255,255,0.1); position: relative;
+  transition: background 0.3s; flex-shrink: 0;
+}
+.toggle-switch.on { background: linear-gradient(135deg, var(--rose), var(--violet)); }
+.toggle-knob {
+  position: absolute; top: 2px; left: 2px;
+  width: 18px; height: 18px; border-radius: 50%; background: #fff;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.toggle-switch.on .toggle-knob { transform: translateX(18px); }
+
+/* Progress */
+.progress-bar {
+  height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px;
+  overflow: hidden; margin: 0.8rem 0;
+}
+.progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--rose), var(--violet), var(--gold));
+  border-radius: 2px; transition: width 0.4s ease;
+}
+
+/* Status Bar */
+.status-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  padding: 0.85rem 1.2rem calc(var(--safe-bottom) + 0.85rem);
+  background: rgba(26,10,30,0.9); backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--glass-border);
+  font-size: 0.78rem; display: flex; align-items: center; gap: 0.6rem;
+  transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  z-index: 100;
+}
+.status-bar.visible { transform: translateY(0); }
+.spinner {
+  width: 14px; height: 14px; border: 2px solid rgba(255,107,157,0.2);
+  border-top-color: var(--rose); border-radius: 50%;
+  animation: spin 0.8s linear infinite; flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Toast */
+.toast {
+  position: fixed; top: calc(var(--safe-top) + 1rem); left: 50%;
+  transform: translateX(-50%) translateY(-120px);
+  padding: 0.8rem 1.2rem; border-radius: var(--radius-sm);
+  background: rgba(26,10,30,0.95); backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  font-size: 0.82rem; font-weight: 500; z-index: 1000;
+  display: flex; align-items: center; gap: 0.5rem;
+  opacity: 0; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s;
+  max-width: 90vw;
+}
+.toast.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast.success { border-color: rgba(74,222,128,0.4); }
+.toast.error { border-color: rgba(248,113,113,0.4); }
+
+/* Debug */
+.debug-panel {
+  position: fixed; bottom: 0; left: 0; right: 0; height: 200px;
+  background: rgba(10,5,12,0.97); backdrop-filter: blur(20px);
+  border-top: 2px solid var(--violet-deep); z-index: 200;
+  display: flex; flex-direction: column; font-family: ui-monospace, monospace;
+  transition: height 0.3s ease;
+}
+.debug-panel.collapsed { height: 32px; }
+.debug-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.4rem 0.8rem; cursor: pointer; user-select: none;
+  border-bottom: 1px solid var(--glass-border); flex-shrink: 0;
+}
+.debug-title { font-size: 0.65rem; color: var(--violet-soft); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; }
+.debug-actions button {
+  background: transparent; border: 1px solid var(--glass-border);
+  color: var(--ink-dim); font-size: 0.58rem; padding: 0.2rem 0.5rem;
+  border-radius: 4px; cursor: pointer; margin-left: 0.3rem;
+}
+.debug-body { flex: 1; overflow-y: auto; padding: 0.4rem 0.6rem; font-size: 0.65rem; line-height: 1.5; }
+.debug-entry { padding: 0.15rem 0; border-left: 2px solid transparent; padding-left: 0.4rem; word-break: break-word; }
+.debug-entry.info { border-left-color: var(--ink-faint); color: #a0a0b0; }
+.debug-entry.success { border-left-color: var(--success); color: #86efac; }
+.debug-entry.error { border-left-color: var(--error); color: #fca5a5; }
+.debug-entry.api { border-left-color: var(--violet); color: #c4b5fd; }
+
+.hidden { display: none !important; }
+#noSleepCanvas { position: fixed; top: 0; left: 0; width: 1px; height: 1px; opacity: 0.01; pointer-events: none; z-index: -1; }
 </style>
 </head>
 <body>
-<div class="app" id="app">
-  <header class="app-header" id="appHeader">
-    <div class="logo"><span>✦</span></div>
-    <div class="app-title">Studio<small id="headerSubtitle">Chargement…</small></div>
-    <div class="header-actions">
-      <button class="icon-btn" id="btnConsole" title="Console">▤</button>
-      <button class="icon-btn" id="btnMenu" title="Menu">☰</button>
+
+<header>
+  <div class="logo-mark">✨</div>
+  <h1>Girly Studio</h1>
+  <p class="subtitle">Créez. Rêvez. Générez.</p>
+</header>
+
+<!-- API Section -->
+<div class="section glass open" id="sec-api">
+  <div class="section-header" data-toggle="sec-api">
+    <span class="section-title">🔑 Clé API Agnes <span class="badge" id="api-badge">requise</span></span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+    <input type="password" class="api-input" id="api-input" placeholder="sk-..." autocomplete="off" spellcheck="false">
+    <button class="btn-save" id="btn-save-api">Enregistrer ✨</button>
+    <div class="api-status" id="api-status">
+      <span class="status-dot"></span>
+      <span id="api-status-text">Aucune clé enregistrée</span>
     </div>
-  </header>
-  <div id="tabsContainer"></div>
-  <div id="view-root"></div>
+  </div></div>
 </div>
-<nav class="bottom-nav" id="bottomNav">
-  <button class="nav-btn" data-view="home"><span class="nav-icon">◈</span>Accueil</button>
-  <button class="nav-btn" data-view="agent"><span class="nav-icon">◉</span>Agent</button>
-  <button class="nav-btn create" data-view="create"><span class="nav-icon">＋</span>Créer</button>
-  <button class="nav-btn" data-view="library"><span class="nav-icon">▦</span>Bibliothèque</button>
-  <button class="nav-btn" data-view="profile"><span class="nav-icon">◐</span>Profil</button>
-</nav>
-<div class="console-panel" id="consolePanel">
-  <div class="console-head">
-    <div class="console-title">▤ Console <span id="consoleCount" style="color:var(--ink3);font-weight:600">0</span></div>
-    <div style="display:flex;gap:6px">
-      <button class="icon-btn" id="consoleClear" style="width:28px;height:28px;font-size:12px">✕</button>
-      <button class="icon-btn" id="consoleClose" style="width:28px;height:28px;font-size:12px">▼</button>
+
+<!-- Agent Section -->
+<div class="agent-box" id="agent-box">
+  <div class="agent-header">
+    <div class="agent-avatar">🤖</div>
+    <div>
+      <div class="agent-name">Agnes Agent</div>
+      <div class="agent-desc">Analyse votre demande et propose un scénario</div>
     </div>
   </div>
-  <div class="console-filters" id="consoleFilters">
-    <button class="cf active" data-filter="ALL">Tout</button>
-    <button class="cf" data-filter="SYSTEM">Système</button>
-    <button class="cf" data-filter="QUEUE">File</button>
-    <button class="cf" data-filter="IMAGE">Image</button>
-    <button class="cf" data-filter="VIDEO">Vidéo</button>
-    <button class="cf" data-filter="VERIFY">Vérif</button>
-    <button class="cf" data-filter="ERROR">Erreurs</button>
+  <div class="agent-toggle" id="agent-toggle">
+    <div class="toggle-switch" id="agent-switch"><div class="toggle-knob"></div></div>
+    <span>Activer l'agent créatif</span>
   </div>
-  <div class="console-body" id="consoleBody"></div>
 </div>
-<div class="status-bar" id="statusBar"><div class="spinner"></div><span id="statusText">Préparation…</span></div>
-<div class="toast" id="toast"><span id="toastIcon">✓</span><span id="toastText">Message</span></div>
-<div class="modal-backdrop" id="modalBackdrop"></div>
-<div class="modal" id="modal"></div>
+
+<!-- Main Prompt -->
+<div class="section glass open" id="sec-main">
+  <div class="section-header" data-toggle="sec-main">
+    <span class="section-title">💭 Votre vision</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+    <textarea id="main-prompt" placeholder="Décrivez ce que vous voulez créer..."></textarea>
+    <div class="control-row" style="margin-top:0.7rem;">
+      <label class="control-label">Type de génération</label>
+      <select id="gen-type">
+        <option value="image">🖼️ Images uniquement</option>
+        <option value="video" selected>🎬 Images + Vidéos</option>
+      </select>
+    </div>
+  </div></div>
+</div>
+
+<!-- Style Section -->
+<div class="section glass" id="sec-style">
+  <div class="section-header" data-toggle="sec-style">
+    <span class="section-title">🎨 Style visuel</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+    <div class="styles-grid" id="styles-grid"></div>
+  </div></div>
+</div>
+
+<!-- Characters Section -->
+<div class="section glass" id="sec-chars">
+  <div class="section-header" data-toggle="sec-chars">
+    <span class="section-title">👥 Personnages <span class="badge" id="char-badge">0</span></span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+    <div class="char-toolbar">
+      <button type="button" id="btn-add-char">＋ Ajouter</button>
+      <button type="button" id="btn-clear-chars">✕ Tout effacer</button>
+    </div>
+    <div class="char-grid" id="char-grid">
+      <div style="grid-column:1/-1;text-align:center;color:var(--ink-faint);font-size:0.72rem;padding:1rem;">Aucun personnage sauvegardé</div>
+    </div>
+    <input type="file" id="char-file-input" accept="image/*" style="display:none">
+  </div></div>
+</div>
+
+<!-- Technical Section -->
+<div class="section glass" id="sec-tech">
+  <div class="section-header" data-toggle="sec-tech">
+    <span class="section-title">⚙️ Paramètres</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+    <div class="control-row">
+      <label class="control-label">Nombre de scènes</label>
+      <select id="scene-count">
+        <option value="3">3 scènes</option>
+        <option value="5" selected>5 scènes</option>
+        <option value="8">8 scènes</option>
+        <option value="10">10 scènes</option>
+      </select>
+    </div>
+    <div class="control-row">
+      <label class="control-label">Durée vidéo</label>
+      <select id="video-duration">
+        <option value="5">5 secondes</option>
+        <option value="7" selected>7 secondes</option>
+        <option value="10">10 secondes</option>
+      </select>
+    </div>
+  </div></div>
+</div>
+
+<button class="btn-primary" id="btn-generate" disabled>✨ Générer</button>
+<button class="btn-stop" id="btn-stop">⏹ Arrêter</button>
+
+<!-- Prompts Section -->
+<div class="section glass hidden" id="sec-prompts">
+  <div class="section-header" data-toggle="sec-prompts">
+    <span class="section-title">📝 Scènes générées <span class="badge ok" id="prompt-count">0</span></span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body"><div class="section-content">
+    <div id="prompts-container"></div>
+  </div></div>
+</div>
+
+<!-- Progress -->
+<div class="progress-bar hidden" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+<!-- Status Bar -->
+<div class="status-bar" id="status-bar">
+  <div class="spinner"></div>
+  <span id="status-text">Prêt</span>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><span>✓</span><span id="toast-text">Message</span></div>
+
+<!-- Debug -->
+<div class="debug-panel collapsed" id="debug-panel">
+  <div class="debug-header" id="debug-header">
+    <span class="debug-title">🖥️ Console</span>
+    <div class="debug-actions">
+      <button type="button" id="debug-clear">Effacer</button>
+      <button type="button" id="debug-collapse">+</button>
+    </div>
+  </div>
+  <div class="debug-body" id="debug-body"></div>
+</div>
+
+<canvas id="noSleepCanvas" width="2" height="2"></canvas>
+<video id="noSleepVideo" playsinline muted loop style="display:none"></video>
 
 <script>
-'use strict';
+// ═══════════════════════════════════════════════════════════════════
+// CONFIG (basé sur tes codes sources validés)
+// ═══════════════════════════════════════════════════════════════════
+const API_BASE = 'https://apihub.agnes-ai.com/v1';
+const POLL_BASE = 'https://apihub.agnes-ai.com/agnesapi';
+const MODEL_TEXT = 'agnes-2.5-flash';
+const MODEL_IMAGE = 'agnes-image-2.1-flash';
+const MODEL_VIDEO = 'agnes-video-2.5-flash';
+const FRAME_RATE = 24;
 
-const PLATFORM = {
-  version: '0.1.0',
-  dbName: 'studio_db',
-  dbVersion: 1,
-  retryMax: 3,
-  pollIntervalMs: 5000,
-  constraintPriority: { LOCKED: 100, PROJECT: 75, SCENE: 50, SHOT: 25, GENERATION: 10 },
-  stores: { projects:'projects', characters:'characters', environments:'environments', references:'references', scenes:'scenes', shots:'shots', prompts:'prompts', tasks:'tasks', results:'results', protocols:'protocols', jobs:'jobs', eventLog:'eventLog' },
-  lsKeys: { lastProjectId:'studio_last_project', wakeLock:'studio_wakelock', apiKey:'studio_api_key' }
+const IMAGE_PARALLEL = 3;
+const IMAGE_INTERVAL_MS = 3400;
+const VIDEO_INTERVAL_MS = 70000; // RPM 1, safe 70s
+const VIDEO_FIRST_POLL_DELAY = 80;
+const POLL_INTERVALS = [8, 8, 12, 12, 20, 20, 25];
+const MAX_POLL = 100;
+
+const API_KEY_STORAGE = 'girly_studio_api_key';
+const CHAR_STORAGE = 'girly_studio_characters';
+const TIMING_STORAGE = 'girly_studio_timing';
+
+// ═══════════════════════════════════════════════════════════════════
+// STYLES (7 types validés)
+// ═══════════════════════════════════════════════════════════════════
+const STYLES = [
+  { id: 'realistic-cinematic', name: 'Réaliste Cinématique', emoji: '🎬',
+    prompt: 'cinematic film look, dramatic lighting, shallow depth of field, professional color grading, photorealistic, 35mm film grain' },
+  { id: 'manga-anime', name: 'Manga Animé', emoji: '🌸',
+    prompt: 'Japanese anime style, cel shading, expressive eyes, vibrant colors, Studio Ghibli influence, hand-drawn aesthetic' },
+  { id: 'whiteboard', name: 'Whiteboard', emoji: '📝',
+    prompt: 'whiteboard animation style, hand-drawn sketches on white background, simple black outlines, educational, marker pen' },
+  { id: 'painting', name: 'Dessin / Peinture', emoji: '🎨',
+    prompt: 'oil painting style, visible brushstrokes, rich textured paint, classical art technique, impasto' },
+  { id: 'documentary', name: 'Documentaire', emoji: '📹',
+    prompt: 'documentary photography style, natural lighting, candid framing, realistic textures, 35mm film, vérité' },
+  { id: 'pedagogical', name: 'Pédagogue', emoji: '📚',
+    prompt: 'educational illustration style, clear diagrams, friendly character design, bright accessible colors, infographic' },
+  { id: 'historical', name: 'Historique', emoji: '🏛️',
+    prompt: 'historical film aesthetic, period-accurate costumes and sets, warm aged tones, dusty atmosphere, museum quality' }
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// ÉTAT
+// ═══════════════════════════════════════════════════════════════════
+const state = {
+  apiKey: '',
+  characters: [],
+  selectedCharacters: new Set(),
+  selectedStyle: STYLES[0],
+  genType: 'video',
+  sceneCount: 5,
+  videoDuration: 7,
+  agentEnabled: false,
+  scenes: [],
+  isRunning: false,
+  stopRequested: false
 };
 
-const IdGen = (() => {
-  const prefixes = { project:'prj', character:'chr', environment:'env', reference:'ref', scene:'scn', shot:'sht', prompt:'prm', task:'tsk', result:'res', protocol:'prt', job:'job', provider:'prv', model:'mdl', event:'evt', constraint:'cst', lock:'lck' };
-  function randomChars(n) {
-    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    let out = '';
-    const arr = new Uint8Array(n);
-    (window.crypto || window.msCrypto).getRandomValues(arr);
-    for (let i = 0; i < n; i++) out += chars[arr[i] % chars.length];
-    return out;
+// ═══════════════════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════════════════
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(msg, type='success') {
+  const t = $('toast');
+  $('toast-text').textContent = msg;
+  t.className = 'toast ' + type;
+  requestAnimationFrame(() => t.classList.add('visible'));
+  setTimeout(() => t.classList.remove('visible'), 2500);
+}
+
+function debugLog(msg, type='info') {
+  const body = $('debug-body');
+  const time = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const el = document.createElement('div');
+  el.className = 'debug-entry ' + type;
+  el.textContent = '[' + time + '] ' + msg;
+  body.appendChild(el);
+  body.scrollTop = body.scrollHeight;
+  while (body.children.length > 200) body.removeChild(body.firstChild);
+}
+
+function setStatus(text) {
+  const bar = $('status-bar');
+  if (text) { bar.classList.add('visible'); $('status-text').textContent = text; }
+  else bar.classList.remove('visible');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// API KEY
+// ═══════════════════════════════════════════════════════════════════
+function loadApiKey() { try { return localStorage.getItem(API_KEY_STORAGE) || ''; } catch(e) { return ''; } }
+function saveApiKey() {
+  const key = $('api-input').value.trim();
+  if (!key) { localStorage.removeItem(API_KEY_STORAGE); state.apiKey = ''; }
+  else { localStorage.setItem(API_KEY_STORAGE, key); state.apiKey = key; }
+  updateApiUI();
+}
+function updateApiUI() {
+  const key = state.apiKey || loadApiKey();
+  if (key) {
+    $('api-status').classList.add('ok');
+    $('api-status-text').textContent = '✓ ' + key.slice(0,8) + '…' + key.slice(-4);
+    $('api-badge').textContent = 'active';
+    $('api-badge').className = 'badge ok';
+    $('api-input').value = key;
+  } else {
+    $('api-status').classList.remove('ok');
+    $('api-status-text').textContent = 'Aucune clé enregistrée';
+    $('api-badge').textContent = 'requise';
+    $('api-badge').className = 'badge';
   }
-  return {
-    new(type) { return (prefixes[type] || 'id') + '_' + Date.now().toString(36) + randomChars(6); },
-    short() { return randomChars(8); }
+  updateGenerateBtn();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CHARACTERS
+// ═══════════════════════════════════════════════════════════════════
+function loadCharacters() { try { return JSON.parse(localStorage.getItem(CHAR_STORAGE) || '[]'); } catch(e) { return []; } }
+function saveCharacters(chars) { localStorage.setItem(CHAR_STORAGE, JSON.stringify(chars.slice(-30))); }
+function renderCharacters() {
+  const grid = $('char-grid');
+  if (!state.characters.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--ink-faint);font-size:0.72rem;padding:1rem;">Aucun personnage sauvegardé</div>';
+    $('char-badge').textContent = '0';
+    return;
+  }
+  grid.innerHTML = state.characters.map(c =>
+    '<div class="char-card ' + (state.selectedCharacters.has(c.id) ? 'selected' : '') + '" data-id="' + c.id + '">' +
+      '<img src="' + c.imageData + '" alt="">' +
+      '<div class="char-name">' + esc(c.name) + '</div>' +
+      '<button class="char-remove" data-remove="' + c.id + '">✕</button>' +
+    '</div>'
+  ).join('');
+  $('char-badge').textContent = state.characters.length;
+ 
+  grid.querySelectorAll('.char-card').forEach(el => {
+    el.addEventListener('click', (e) => {
+      if (e.target.classList.contains('char-remove')) return;
+      const id = parseInt(el.dataset.id);
+      if (state.selectedCharacters.has(id)) state.selectedCharacters.delete(id);
+      else state.selectedCharacters.add(id);
+      renderCharacters();
+    });
+  });
+  grid.querySelectorAll('[data-remove]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = parseInt(btn.dataset.remove);
+      state.characters = state.characters.filter(c => c.id !== id);
+      state.selectedCharacters.delete(id);
+      saveCharacters(state.characters);
+      renderCharacters();
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// API FETCH (protocole validé)
+// ═══════════════════════════════════════════════════════════════════
+async function apiFetch(url, options, label) {
+  for (let attempt = 0; attempt < 7; attempt++) {
+    if (state.stopRequested) throw new Error('Arrêt demandé');
+    try {
+      const res = await fetch(url, options);
+      if (res.status === 429) {
+        const wait = [10, 20, 35, 50, 75, 100, 150][Math.min(attempt, 6)];
+        debugLog('429 — attente ' + wait + 's', 'error');
+        await sleep(wait * 1000); continue;
+      }
+      if (res.status === 503) {
+        const wait = [5, 10, 15, 20, 30, 45][Math.min(attempt, 5)];
+        debugLog('503 — attente ' + wait + 's', 'error');
+        await sleep(wait * 1000); continue;
+      }
+      return res;
+    } catch(e) {
+      if (e.message === 'Arrêt demandé') throw e;
+      await sleep(5000);
+    }
+  }
+  return fetch(url, options);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// AGENT (analyse + scénario)
+// ═══════════════════════════════════════════════════════════════════
+async function runAgent(userPrompt) {
+  debugLog('Agent: analyse du prompt…', 'api');
+  const body = {
+    model: MODEL_TEXT,
+    messages: [
+      { role: 'system', content: 'Tu es un directeur créatif. Retourne UNIQUEMENT un JSON valide avec ce schéma: {"title":"...","scenes":[{"number":1,"imagePrompt":"...","actionPrompt":"...","emotion":"..."}]}. Chaque imagePrompt décrit UNE image précise. Chaque actionPrompt décrit le mouvement vidéo en anglais.' },
+      { role: 'user', content: 'Crée ' + state.sceneCount + ' scènes pour: ' + userPrompt + '\nStyle: ' + state.selectedStyle.prompt }
+    ],
+    temperature: 0.8,
+    max_tokens: 4000,
+    response_format: { type: 'json_object' }
   };
-})();
+  const res = await apiFetch(API_BASE + '/chat/completions', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + state.apiKey, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  }, 'Agent');
+  if (!res.ok) throw new Error('Agent HTTP ' + res.status);
+  const data = await res.json();
+  const content = data.choices?.[0]?.message?.content;
+  return parseJson(content);
+}
 
-const EventBus = (() => {
-  const listeners = new Map();
-  const log = [];
-  function emit(type, payload = {}) {
-    const entry = { id: IdGen.new('event'), type, timestamp: Date.now(), projectId: payload.projectId || AppState.getCurrentProjectId() || null, category: payload.category || 'SYSTEM', message: payload.message || type, data: payload.data || null };
-    log.push(entry);
-    if (log.length > 2000) log.shift();
-    const set = listeners.get(type) || new Set();
-    for (const fn of set) { try { fn(entry); } catch (e) { console.error('[EventBus]', type, e); } }
-    const all = listeners.get('*') || new Set();
-    for (const fn of all) { try { fn(entry); } catch (e) { console.error('[EventBus]', '*', e); } }
-    if (typeof Console !== 'undefined') Console.log(entry);
-    return entry;
-  }
-  function on(type, fn) {
-    if (!listeners.has(type)) listeners.set(type, new Set());
-    listeners.get(type).add(fn);
-    return () => listeners.get(type).delete(fn);
-  }
-  function getLog() { return log.slice(); }
-  function clearLog() { log.length = 0; }
-  return { emit, on, getLog, clearLog };
-})();
+function parseJson(text) {
+  let c = text.trim();
+  const fm = c.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (fm) c = fm[1].trim();
+  const fb = c.indexOf('{');
+  if (fb >= 0) c = c.slice(fb);
+  try { return JSON.parse(c); } catch(e) {}
+  try { return JSON.parse(c.replace(/[\n\r\t]/g, ' ')); } catch(e) {}
+  return null;
+}
 
-const StorageEngine = (() => {
-  let db = null;
-  function open() {
-    if (db) return Promise.resolve(db);
-    return new Promise((resolve, reject) => {
-      const req = indexedDB.open(PLATFORM.dbName, PLATFORM.dbVersion);
-      req.onupgradeneeded = (e) => {
-        const d = e.target.result;
-        for (const name of Object.values(PLATFORM.stores)) {
-          if (!d.objectStoreNames.contains(name)) {
-            const store = d.createObjectStore(name, { keyPath: 'id' });
-            if (name !== 'eventLog') store.createIndex('projectId', 'projectId', { unique: false });
-            if (name === 'tasks') store.createIndex('status', 'status', { unique: false });
-            if (name === 'shots') store.createIndex('sceneId', 'sceneId', { unique: false });
+// ═══════════════════════════════════════════════════════════════════
+// IMAGE GENERATION
+// ═══════════════════════════════════════════════════════════════════
+async function generateImage(prompt) {
+  const res = await apiFetch(API_BASE + '/images/generations', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + state.apiKey, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: MODEL_IMAGE,
+      prompt: prompt + '. ' + state.selectedStyle.prompt + '. Portrait 9:16 vertical.',
+      n: 1,
+      size: '1024x1792',
+      response_format: 'url'
+    })
+  }, 'Image');
+  if (!res.ok) throw new Error('Image HTTP ' + res.status);
+  const data = await res.json();
+  return data.data?.[0]?.url || data.data?.[0]?.b64_json;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// VIDEO GENERATION
+// ═══════════════════════════════════════════════════════════════════
+async function createVideo(imageUrl, prompt) {
+  const res = await apiFetch(API_BASE + '/videos', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + state.apiKey, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: MODEL_VIDEO,
+      prompt: prompt + '. Portrait 9:16 vertical, 24fps, no text, no watermark.',
+      image: imageUrl,
+      seconds: String(state.videoDuration),
+      size: '720P',
+      aspect_ratio: '9:16'
+    })
+  }, 'Video');
+  if (!res.ok) throw new Error('Video HTTP ' + res.status);
+  const data = await res.json();
+  return data.video_id || data.id || data.task_id;
+}
+
+async function pollVideo(videoId, onProgress) {
+  let remaining = VIDEO_FIRST_POLL_DELAY;
+  while (remaining > 0) {
+    if (state.stopRequested) throw new Error('Arrêt demandé');
+    onProgress('Préparation… ' + remaining + 's');
+    await sleep(1000); remaining--;
+  }
+  for (let i = 0; i < MAX_POLL; i++) {
+    if (state.stopRequested) throw new Error('Arrêt demandé');
+    if (i > 0) {
+      const wait = POLL_INTERVALS[Math.min(i-1, POLL_INTERVALS.length-1)];
+      let r = wait;
+      while (r > 0) { if (state.stopRequested) throw new Error('Arrêt demandé'); onProgress('En cours… ' + r + 's'); await sleep(1000); r--; }
+    }
+    const res = await apiFetch(POLL_BASE + '?video_id=' + encodeURIComponent(videoId) + '&model_name=' + MODEL_VIDEO, {
+      headers: { 'Authorization': 'Bearer ' + state.apiKey }
+    }, 'Poll');
+    const d = await res.json();
+    const status = d.status || 'unknown';
+    onProgress('Création… ' + (d.progress || 0) + '%');
+    if (status === 'completed' || status === 'succeeded' || status === 'done') {
+      return (d.metadata?.url) || d.url || (d.output?.url);
+    }
+    if (status === 'failed' || status === 'error') throw new Error('Échec vidéo');
+  }
+  throw new Error('Timeout');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PIPELINE
+// ═══════════════════════════════════════════════════════════════════
+async function startGeneration() {
+  if (state.isRunning) return;
+  if (!state.apiKey) { toast('Ajoutez votre clé API', 'error'); return; }
+  const mainPrompt = $('main-prompt').value.trim();
+  if (!mainPrompt) { toast('Décrivez votre vision', 'error'); return; }
+ 
+  state.isRunning = true;
+  state.stopRequested = false;
+  state.scenes = [];
+  $('btn-stop').classList.add('visible');
+  $('btn-generate').disabled = true;
+  $('progress-bar').classList.remove('hidden');
+  $('sec-prompts').classList.remove('hidden');
+  $('sec-prompts').classList.add('open');
+  $('prompts-container').innerHTML = '';
+ 
+  debugLog('=== DÉMARRAGE ===', 'success');
+  debugLog('Prompt: ' + mainPrompt.slice(0, 80), 'info');
+  debugLog('Style: ' + state.selectedStyle.name, 'info');
+  debugLog('Type: ' + state.genType, 'info');
+ 
+  try {
+    // Phase 1: Agent
+    setStatus('Agent analyse…');
+    let scenario;
+    if (state.agentEnabled) {
+      scenario = await runAgent(mainPrompt);
+      if (!scenario || !scenario.scenes) throw new Error('Agent: pas de scènes');
+      debugLog('Agent: ' + scenario.scenes.length + ' scènes', 'success');
+    } else {
+      scenario = { title: 'Création', scenes: [] };
+      for (let i = 0; i < state.sceneCount; i++) {
+        scenario.scenes.push({
+          number: i + 1,
+          imagePrompt: mainPrompt + ' — scène ' + (i+1),
+          actionPrompt: mainPrompt + ' — mouvement ' + (i+1),
+          emotion: 'neutre'
+        });
+      }
+    }
+   
+    // Phase 2: Create scene cards
+    state.scenes = scenario.scenes.map((s, i) => ({
+      id: i,
+      number: s.number || i+1,
+      imagePrompt: s.imagePrompt,
+      actionPrompt: s.actionPrompt,
+      imageUrl: null,
+      videoUrl: null,
+      status: 'pending',
+      videoStatus: 'pending'
+    }));
+    renderPrompts();
+    $('prompt-count').textContent = state.scenes.length;
+   
+    // Phase 3: Images en parallèle
+    setStatus('Génération des images…');
+    debugLog('Images: ' + state.scenes.length + ' en parallèle x' + IMAGE_PARALLEL, 'info');
+    const imgQueue = [];
+    for (const scene of state.scenes) {
+      imgQueue.push(generateSceneImage(scene));
+      if (imgQueue.length >= IMAGE_PARALLEL) {
+        await Promise.all(imgQueue);
+        imgQueue.length = 0;
+        await sleep(IMAGE_INTERVAL_MS);
+      }
+    }
+    await Promise.all(imgQueue);
+   
+    const imgOk = state.scenes.filter(s => s.imageUrl).length;
+    debugLog('Images: ' + imgOk + '/' + state.scenes.length, imgOk === state.scenes.length ? 'success' : 'error');
+   
+    // Phase 4: Videos (si activé)
+    if (state.genType === 'video') {
+      setStatus('Génération des vidéos…');
+      debugLog('Vidéos: 1 par ' + (VIDEO_INTERVAL_MS/1000) + 's (RPM 1)', 'info');
+      const videoPromises = [];
+      for (let i = 0; i < state.scenes.length; i++) {
+        const scene = state.scenes[i];
+        if (!scene.imageUrl) continue;
+        videoPromises.push(generateSceneVideo(scene));
+        if (i < state.scenes.length - 1) {
+          const waitSec = Math.ceil(VIDEO_INTERVAL_MS / 1000);
+          for (let r = waitSec; r > 0; r--) {
+            if (state.stopRequested) break;
+            setStatus('Prochaine vidéo dans ' + r + 's…');
+            await sleep(1000);
           }
         }
-      };
-      req.onsuccess = () => { db = req.result; resolve(db); };
-      req.onerror = () => reject(req.error);
-    });
-  }
-  async function tx(storeName, mode, fn) {
-    const d = await open();
-    return new Promise((resolve, reject) => {
-      const t = d.transaction(storeName, mode);
-      const store = t.objectStore(storeName);
-      const req = fn(store);
-      t.oncomplete = () => resolve(req && req.result !== undefined ? req.result : null);
-      t.onerror = () => reject(t.error);
-      t.onabort = () => reject(t.error);
-    });
-  }
-  async function put(s, o) { return tx(s, 'readwrite', st => st.put(o)); }
-  async function get(s, id) { return tx(s, 'readonly', st => st.get(id)); }
-  async function del(s, id) { return tx(s, 'readwrite', st => st.delete(id)); }
-  async function getAll(s) { return tx(s, 'readonly', st => st.getAll()); }
-  async function getAllByIndex(s, i, v) {
-    const d = await open();
-    return new Promise((resolve, reject) => {
-      const t = d.transaction(s, 'readonly');
-      const idx = t.objectStore(s).index(i);
-      const req = idx.getAll(v);
-      req.onsuccess = () => resolve(req.result);
-      req.onerror = () => reject(req.error);
-    });
-  }
-  async function clear(s) { return tx(s, 'readwrite', st => st.clear()); }
-  return { open, put, get, del, getAll, getAllByIndex, clear };
-})();
-
-const PromptEngine = (() => {
-  function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
-  function applyConstraint(c, map, conflicts) {
-    const existing = map.get(c.target);
-    if (!existing) { map.set(c.target, c); return; }
-    if (existing.value.toLowerCase() !== c.value.toLowerCase()) {
-      let winner, loser;
-      if (c.priority > existing.priority) { winner = c; loser = existing; map.set(c.target, c); }
-      else { winner = existing; loser = c; }
-      conflicts.push({ id: IdGen.new('constraint'), target: c.target, winner, loser, resolution: winner.type === 'LOCKED' ? 'LOCKED_WINS' : 'MANUAL', message: `Conflit "${c.target}" : "${winner.value}" (${winner.type}) l'emporte sur "${loser.value}" (${loser.type}).`, detectedAt: Date.now() });
-      EventBus.emit('CONFLICT_DETECTED', { category: 'AGENT', message: `⚠️ Conflit sur "${c.target}"`, data: { winner, loser } });
-    } else if (c.priority > existing.priority) map.set(c.target, c);
-  }
-  function mergeLayers(layers) {
-    const sorted = [...layers].sort((a, b) => a.order - b.order);
-    const layersUsed = [];
-    const conflicts = [];
-    const constraintByTarget = new Map();
-    for (const layer of sorted) {
-      if (!layer.content || !layer.content.trim()) continue;
-      layersUsed.push(layer.kind);
-      if (layer.locks && layer.locks.length) {
-        for (const lock of layer.locks) {
-          applyConstraint({ id: IdGen.new('constraint'), type: 'LOCKED', target: lock.field, value: lock.value, source: lock.sourceId, priority: PLATFORM.constraintPriority.LOCKED, onConflict: 'LOCKED_WINS' }, constraintByTarget, conflicts);
-        }
       }
-      if (layer.constraints && layer.constraints.length) {
-        for (const c of layer.constraints) applyConstraint(c, constraintByTarget, conflicts);
-      }
+      await Promise.allSettled(videoPromises);
     }
-    const parts = [];
-    const seen = new Set();
-    for (const layer of sorted) {
-      if (!layer.content || !layer.content.trim()) continue;
-      let content = layer.content.trim();
-      for (const c of constraintByTarget.values()) {
-        if (c.type === 'LOCKED' && content.toLowerCase().includes(c.value.toLowerCase())) {
-          content = content.replace(new RegExp(escapeRegex(c.value), 'gi'), '').trim();
-        }
-      }
-      const key = content.toLowerCase();
-      if (content && !seen.has(key)) { seen.add(key); parts.push(content); }
-    }
-    for (const c of constraintByTarget.values()) {
-      if (c.type === 'LOCKED') parts.push(`[LOCKED: ${c.target} = ${c.value}]`);
-    }
-    return { final: parts.join('. ').replace(/\.\s*\./g, '.').trim(), conflicts, layersUsed };
+   
+    const vidOk = state.scenes.filter(s => s.videoUrl).length;
+    debugLog('Terminé: ' + imgOk + ' images, ' + vidOk + ' vidéos', 'success');
+    toast('✨ ' + imgOk + ' images, ' + vidOk + ' vidéos', 'success');
+    $('progress-fill').style.width = '100%';
+   
+  } catch(e) {
+    debugLog('Erreur: ' + e.message, 'error');
+    toast('Erreur: ' + e.message.slice(0, 60), 'error');
   }
-  async function buildContext(ctx) {
-    const { project, characterIds = [], environmentId = null, referenceIds = [], scene = null, shot = null, generationType = 'IMAGE', technicalParameters = {}, masterPromptOverride = null } = ctx;
-    const layers = [];
-    const locks = [];
-    const constraints = [];
-    const masterEnabled = masterPromptOverride !== false && project.masterPrompt && project.masterPrompt.content;
-    if (masterEnabled) layers.push({ kind: 'MASTER', content: project.masterPrompt.content, order: 1 });
-    if (project.description) layers.push({ kind: 'PROJECT', content: project.description, order: 2 });
-    if (project.globalStyle) layers.push({ kind: 'STYLE', content: project.globalStyle, order: 3 });
-    if (project.constraints && project.constraints.length) {
-      const content = project.constraints.map(c => c.value).filter(Boolean).join(', ');
-      if (content) layers.push({ kind: 'CONSTRAINTS', content, order: 4, constraints: project.constraints });
-    }
-    const characters = (await Promise.all(characterIds.map(id => StorageEngine.get('characters', id)))).filter(Boolean);
-    if (characters.length) {
-      const content = characters.map(c => c.identityPrompt || c.description || c.name).filter(Boolean).join('. ');
-      const charLocks = [];
-      for (const c of characters) {
-        if (c.locks) for (const k of Object.keys(c.locks)) {
-          const lock = c.locks[k];
-          if (lock && lock.value) { charLocks.push(lock); locks.push(lock); }
-        }
-      }
-      if (content) layers.push({ kind: 'CHARACTERS', content, order: 5, locks: charLocks });
-    }
-    let envName = null;
-    if (environmentId) {
-      const env = await StorageEngine.get('environments', environmentId);
-      if (env) {
-        envName = env.name;
-        const content = env.prompt || env.description || env.name;
-        const envLocks = [];
-        if (env.locks) for (const k of Object.keys(env.locks)) {
-          const lock = env.locks[k];
-          if (lock && lock.value) { envLocks.push(lock); locks.push(lock); }
-        }
-        if (content) layers.push({ kind: 'ENVIRONMENTS', content, order: 6, locks: envLocks });
-      }
-    }
-    const refs = (await Promise.all(referenceIds.map(id => StorageEngine.get('references', id)))).filter(r => r && r.active);
-    if (refs.length) {
-      const lockedRefs = refs.filter(r => r.locked && r.description);
-      if (lockedRefs.length) layers.push({ kind: 'REFERENCES', content: lockedRefs.map(r => r.description).join('. '), order: 7 });
-    }
-    if (scene) {
-      const content = [scene.title, scene.description].filter(Boolean).join(' — ');
-      if (content) layers.push({ kind: 'SCENE', content, order: 8, constraints: scene.constraints || [] });
-    }
-    if (shot) {
-      const content = generationType === 'VIDEO' ? (shot.videoPrompt || shot.description) : (shot.imagePrompt || shot.description);
-      if (content) layers.push({ kind: 'SHOT', content, order: 9, constraints: shot.constraints || [] });
-    }
-    const genInstr = generationType === 'IMAGE' ? 'Portrait 9:16 vertical, cinematic photography, high detail, no text, no watermark' : 'Portrait 9:16 vertical, 24fps, smooth cinematic motion, no text, no watermark';
-    layers.push({ kind: 'GENERATION', content: genInstr, order: 10 });
-    const techParts = [];
-    for (const [k, v] of Object.entries(technicalParameters)) {
-      if (v !== undefined && v !== null && v !== '') techParts.push(`${k}: ${v}`);
-    }
-    if (techParts.length) layers.push({ kind: 'TECHNICAL', content: techParts.join(', '), order: 11 });
-    const merged = mergeLayers(layers);
-    return { prompt: merged.final, layersUsed: merged.layersUsed, conflicts: merged.conflicts, locks, constraints, snapshot: { masterPromptEnabled: masterEnabled, characterNames: characters.map(c => c.name), environmentName: envName, referenceIds, locksApplied: locks, constraintsApplied: constraints } };
-  }
-  async function buildAndSave(ctx) {
-    const built = await buildContext(ctx);
-    const prompt = { id: IdGen.new('prompt'), projectId: ctx.project.id, sceneId: ctx.scene ? ctx.scene.id : null, shotId: ctx.shot ? ctx.shot.id : null, taskId: null, original: ctx.shot ? (ctx.shot.imagePrompt || ctx.shot.videoPrompt || '') : '', final: built.prompt, layersUsed: built.layersUsed, conflicts: built.conflicts, context: built.snapshot, createdAt: Date.now() };
-    await StorageEngine.put('prompts', prompt);
-    EventBus.emit('PROMPT_BUILT', { category: 'AGENT', message: `Prompt construit (${built.layersUsed.length} couches, ${built.conflicts.length} conflits)`, data: { promptId: prompt.id } });
-    return prompt;
-  }
-  return { buildContext, buildAndSave, mergeLayers };
-})();
-
-const CharacterEngine = (() => {
-  function createEmpty() {
-    return { id: IdGen.new('character'), name: '', description: '', appearance: { face:'',hair:'',eyes:'',body:'',age:'',clothing:'',accessories:'',notes:'' }, locks: {}, referenceImageIds: [], identityPrompt: '', voice: '', createdAt: Date.now(), updatedAt: Date.now() };
-  }
-  async function create(data) {
-    const char = Object.assign(createEmpty(), data, { id: IdGen.new('character') });
-    if (!char.identityPrompt) char.identityPrompt = buildIdentityPrompt(char);
-    await StorageEngine.put('characters', char);
-    EventBus.emit('CHARACTER_CREATED', { category: 'AGENT', message: `Personnage créé : ${char.name || '(sans nom)'}`, data: { characterId: char.id } });
-    return char;
-  }
-  async function update(id, patch) {
-    const existing = await StorageEngine.get('characters', id);
-    if (!existing) throw new Error('Personnage introuvable');
-    const updated = Object.assign({}, existing, patch, { id, updatedAt: Date.now() });
-    await StorageEngine.put('characters', updated);
-    return updated;
-  }
-  async function remove(id) { await StorageEngine.del('characters', id); }
-  async function get(id) { return StorageEngine.get('characters', id); }
-  async function listByProject(projectId) { return StorageEngine.getAllByIndex('characters', 'projectId', projectId); }
-  async function toggleLock(id, field, value) {
-    const char = await StorageEngine.get('characters', id);
-    if (!char) return null;
-    const locks = Object.assign({}, char.locks || {});
-    if (locks[field]) delete locks[field];
-    else {
-      locks[field] = { id: IdGen.new('lock'), field, value: value || (char.appearance && char.appearance[field]) || '', source: 'CHARACTER', sourceId: id, priority: PLATFORM.constraintPriority.LOCKED, createdAt: Date.now() };
-      EventBus.emit('CHARACTER_LOCKED', { category: 'AGENT', message: `Lock activé : ${char.name} → ${field}` });
-    }
-    const updated = Object.assign({}, char, { locks, updatedAt: Date.now() });
-    await StorageEngine.put('characters', updated);
-    return updated;
-  }
-  function buildIdentityPrompt(c) {
-    const a = c.appearance || {};
-    const parts = [];
-    if (c.name) parts.push(c.name);
-    if (c.description) parts.push(c.description);
-    if (a.face) parts.push(`visage : ${a.face}`);
-    if (a.hair) parts.push(`cheveux : ${a.hair}`);
-    if (a.eyes) parts.push(`yeux : ${a.eyes}`);
-    if (a.body) parts.push(`corps : ${a.body}`);
-    if (a.age) parts.push(`âge : ${a.age}`);
-    if (a.clothing) parts.push(`vêtements : ${a.clothing}`);
-    if (a.accessories) parts.push(`accessoires : ${a.accessories}`);
-    if (a.notes) parts.push(a.notes);
-    return parts.join('. ');
-  }
-  return { createEmpty, create, update, remove, get, listByProject, toggleLock, buildIdentityPrompt };
-})();
-
-const EnvironmentEngine = (() => {
-  function createEmpty() {
-    return { id: IdGen.new('environment'), name: '', description: '', properties: { architecture:'',colors:'',furniture:'',layout:'',lighting:'',atmosphere:'',era:'',materials:'',weather:'',notes:'' }, locks: {}, referenceImageIds: [], prompt: '', createdAt: Date.now(), updatedAt: Date.now() };
-  }
-  async function create(data) {
-    const env = Object.assign(createEmpty(), data, { id: IdGen.new('environment') });
-    env.prompt = buildPrompt(env);
-    await StorageEngine.put('environments', env);
-    EventBus.emit('ENVIRONMENT_CREATED', { category: 'AGENT', message: `Décor créé : ${env.name || '(sans nom)'}` });
-    return env;
-  }
-  async function update(id, patch) {
-    const existing = await StorageEngine.get('environments', id);
-    if (!existing) throw new Error('Décor introuvable');
-    const updated = Object.assign({}, existing, patch, { id, updatedAt: Date.now() });
-    updated.prompt = buildPrompt(updated);
-    await StorageEngine.put('environments', updated);
-    return updated;
-  }
-  async function remove(id) { await StorageEngine.del('environments', id); }
-  async function get(id) { return StorageEngine.get('environments', id); }
-  async function listByProject(projectId) { return StorageEngine.getAllByIndex('environments', 'projectId', projectId); }
-  async function toggleLock(id, field, value) {
-    const env = await StorageEngine.get('environments', id);
-    if (!env) return null;
-    const locks = Object.assign({}, env.locks || {});
-    if (locks[field]) delete locks[field];
-    else {
-      locks[field] = { id: IdGen.new('lock'), field, value: value || (env.properties && env.properties[field]) || '', source: 'ENVIRONMENT', sourceId: id, priority: PLATFORM.constraintPriority.LOCKED, createdAt: Date.now() };
-      EventBus.emit('ENVIRONMENT_LOCKED', { category: 'AGENT', message: `Lock activé : ${env.name} → ${field}` });
-    }
-    const updated = Object.assign({}, env, { locks, updatedAt: Date.now() });
-    await StorageEngine.put('environments', updated);
-    return updated;
-  }
-  function buildPrompt(env) {
-    const p = env.properties || {};
-    const parts = [];
-    if (env.name) parts.push(env.name);
-    if (env.description) parts.push(env.description);
-    for (const k of ['architecture','colors','furniture','layout','lighting','atmosphere','era','materials','weather','notes']) {
-      if (p[k]) parts.push(k + ' : ' + p[k]);
-    }
-    return parts.join('. ');
-  }
-  return { createEmpty, create, update, remove, get, listByProject, toggleLock, buildPrompt };
-})();
-
-const ReferenceEngine = (() => {
-  async function create(projectId, data) {
-    const ref = { id: IdGen.new('reference'), projectId, url: data.url || '', type: data.type || 'GLOBAL', active: data.active !== false, locked: data.locked === true, priority: data.priority || 50, linkedTo: data.linkedTo || [], description: data.description || '', createdAt: Date.now(), updatedAt: Date.now() };
-    await StorageEngine.put('references', ref);
-    EventBus.emit('REFERENCE_ADDED', { category: 'AGENT', message: `Référence ajoutée (${ref.type})` });
-    return ref;
-  }
-  async function update(id, patch) {
-    const existing = await StorageEngine.get('references', id);
-    if (!existing) throw new Error('Référence introuvable');
-    const updated = Object.assign({}, existing, patch, { id, updatedAt: Date.now() });
-    await StorageEngine.put('references', updated);
-    return updated;
-  }
-  async function remove(id) { await StorageEngine.del('references', id); }
-  async function get(id) { return StorageEngine.get('references', id); }
-  async function listByProject(projectId) { return StorageEngine.getAllByIndex('references', 'projectId', projectId); }
-  async function toggleActive(id) {
-    const ref = await StorageEngine.get('references', id);
-    return ref ? update(id, { active: !ref.active }) : null;
-  }
-  async function toggleLocked(id) {
-    const ref = await StorageEngine.get('references', id);
-    if (!ref) return null;
-    const updated = await update(id, { locked: !ref.locked });
-    if (updated.locked) EventBus.emit('REFERENCE_LOCKED', { category: 'AGENT', message: 'Référence verrouillée' });
-    return updated;
-  }
-  async function linkTo(id, entityType, entityId) {
-    const ref = await StorageEngine.get('references', id);
-    if (!ref) return null;
-    const linkedTo = (ref.linkedTo || []).slice();
-    if (!linkedTo.some(l => l.entityType === entityType && l.entityId === entityId)) linkedTo.push({ entityType, entityId });
-    return update(id, { linkedTo });
-  }
-  return { create, update, remove, get, listByProject, toggleActive, toggleLocked, linkTo };
-})();
-
-const SceneEngine = (() => {
-  async function create(projectId, data) {
-    const scene = { id: IdGen.new('scene'), projectId, number: data.number || 1, title: data.title || '', description: data.description || '', characterIds: data.characterIds || [], environmentId: data.environmentId || null, referenceIds: data.referenceIds || [], shotIds: [], masterPromptOverride: data.masterPromptOverride !== undefined ? data.masterPromptOverride : null, status: 'DRAFT', createdAt: Date.now(), updatedAt: Date.now() };
-    await StorageEngine.put('scenes', scene);
-    const project = await StorageEngine.get('projects', projectId);
-    if (project) {
-      const sceneIds = Array.from(new Set((project.sceneIds || []).concat(scene.id)));
-      await StorageEngine.put('projects', Object.assign({}, project, { sceneIds, updatedAt: Date.now() }));
-    }
-    EventBus.emit('SCENE_CREATED', { category: 'AGENT', message: `Scène ${scene.number} créée : ${scene.title || '(sans titre)'}` });
-    return scene;
-  }
-  async function update(id, patch) {
-    const existing = await StorageEngine.get('scenes', id);
-    if (!existing) throw new Error('Scène introuvable');
-    const updated = Object.assign({}, existing, patch, { id, updatedAt: Date.now() });
-    await StorageEngine.put('scenes', updated);
-    return updated;
-  }
-  async function remove(id) {
-    const scene = await StorageEngine.get('scenes', id);
-    if (!scene) return;
-    for (const shotId of scene.shotIds || []) await StorageEngine.del('shots', shotId);
-    await StorageEngine.del('scenes', id);
-    const project = await StorageEngine.get('projects', scene.projectId);
-    if (project) {
-      const sceneIds = (project.sceneIds || []).filter(s => s !== id);
-      await StorageEngine.put('projects', Object.assign({}, project, { sceneIds, updatedAt: Date.now() }));
-    }
-  }
-  async function get(id) { return StorageEngine.get('scenes', id); }
-  async function listByProject(projectId) {
-    const scenes = await StorageEngine.getAllByIndex('scenes', 'projectId', projectId);
-    return scenes.sort((a, b) => a.number - b.number);
-  }
-  return { create, update, remove, get, listByProject };
-})();
-
-const ShotEngine = (() => {
-  async function create(sceneId, projectId, data) {
-    const shot = { id: IdGen.new('shot'), sceneId, projectId, number: data.number || 1, description: data.description || '', imagePrompt: data.imagePrompt || '', videoPrompt: data.videoPrompt || '', imageCount: data.imageCount || 1, videoCount: data.videoCount || 0, videoDuration: data.videoDuration || 6.4, ratio: data.ratio || '9:16', style: data.style || '', constraints: data.constraints || [], referenceIds: data.referenceIds || [], generationTaskIds: [], status: 'DRAFT', createdAt: Date.now(), updatedAt: Date.now() };
-    await StorageEngine.put('shots', shot);
-    const scene = await StorageEngine.get('scenes', sceneId);
-    if (scene) {
-      const shotIds = Array.from(new Set((scene.shotIds || []).concat(shot.id)));
-      await StorageEngine.put('scenes', Object.assign({}, scene, { shotIds, updatedAt: Date.now() }));
-    }
-    EventBus.emit('SHOT_CREATED', { category: 'AGENT', message: `Shot ${shot.number} créé` });
-    return shot;
-  }
-  async function update(id, patch) {
-    const existing = await StorageEngine.get('shots', id);
-    if (!existing) throw new Error('Shot introuvable');
-    const updated = Object.assign({}, existing, patch, { id, updatedAt: Date.now() });
-    await StorageEngine.put('shots', updated);
-    return updated;
-  }
-  async function remove(id) {
-    const shot = await StorageEngine.get('shots', id);
-    if (!shot) return;
-    await StorageEngine.del('shots', id);
-    const scene = await StorageEngine.get('scenes', shot.sceneId);
-    if (scene) {
-      const shotIds = (scene.shotIds || []).filter(s => s !== id);
-      await StorageEngine.put('scenes', Object.assign({}, scene, { shotIds, updatedAt: Date.now() }));
-    }
-  }
-  async function get(id) { return StorageEngine.get('shots', id); }
-  async function listByScene(sceneId) {
-    const shots = await StorageEngine.getAllByIndex('shots', 'sceneId', sceneId);
-    return shots.sort((a, b) => a.number - b.number);
-  }
-  return { create, update, remove, get, listByScene };
-})();
-
-const ProjectEngine = (() => {
-  async function create(data = {}) {
-    const project = {
-      id: IdGen.new('project'), name: data.name || 'Nouveau projet', description: data.description || '', status: 'ACTIVE',
-      masterPrompt: { kind: 'MASTER', content: data.masterPrompt || '', order: 1 },
-      globalStyle: data.globalStyle || '', constraints: data.constraints || [],
-      characterIds: [], environmentIds: [], referenceIds: [], sceneIds: [],
-      settings: { mode: 'CREATOR', theme: 'DARK', locale: 'fr-FR', defaultGeneration: { maxParallelImage: 3, maxParallelVideo: 1, maxRetries: 3, retryBaseDelayMs: 5000, taskTimeoutMs: 600000, defaultVideoDuration: 6.4, defaultRatio: '9:16' } },
-      createdAt: Date.now(), updatedAt: Date.now()
-    };
-    await StorageEngine.put('projects', project);
-    EventBus.emit('PROJECT_CREATED', { category: 'SYSTEM', message: `Projet créé : ${project.name}` });
-    return project;
-  }
-  async function update(id, patch) {
-    const existing = await StorageEngine.get('projects', id);
-    if (!existing) throw new Error('Projet introuvable');
-    const updated = Object.assign({}, existing, patch, { id, updatedAt: Date.now() });
-    await StorageEngine.put('projects', updated);
-    return updated;
-  }
-  async function remove(id) {
-    const project = await StorageEngine.get('projects', id);
-    if (!project) return;
-    for (const charId of project.characterIds || []) await StorageEngine.del('characters', charId);
-    for (const envId of project.environmentIds || []) await StorageEngine.del('environments', envId);
-    for (const refId of project.referenceIds || []) await StorageEngine.del('references', refId);
-    for (const sceneId of project.sceneIds || []) {
-      const scene = await StorageEngine.get('scenes', sceneId);
-      if (scene) for (const shotId of scene.shotIds || []) await StorageEngine.del('shots', shotId);
-      await StorageEngine.del('scenes', sceneId);
-    }
-    await StorageEngine.del('projects', id);
-    EventBus.emit('PROJECT_DELETED', { category: 'SYSTEM', message: 'Projet supprimé' });
-  }
-  async function get(id) { return StorageEngine.get('projects', id); }
-  async function listAll() {
-    const projects = await StorageEngine.getAll('projects');
-    return projects.filter(p => p.status !== 'DELETED').sort((a, b) => b.updatedAt - a.updatedAt);
-  }
-  async function linkCharacter(projectId, characterId) {
-    const p = await StorageEngine.get('projects', projectId);
-    if (!p) return;
-    const characterIds = Array.from(new Set((p.characterIds || []).concat(characterId)));
-    const char = await StorageEngine.get('characters', characterId);
-    if (char) await StorageEngine.put('characters', Object.assign({}, char, { projectId }));
-    await update(projectId, { characterIds });
-  }
-  async function linkEnvironment(projectId, environmentId) {
-    const p = await StorageEngine.get('projects', projectId);
-    if (!p) return;
-    const environmentIds = Array.from(new Set((p.environmentIds || []).concat(environmentId)));
-    const env = await StorageEngine.get('environments', environmentId);
-    if (env) await StorageEngine.put('environments', Object.assign({}, env, { projectId }));
-    await update(projectId, { environmentIds });
-  }
-  return { create, update, remove, get, listAll, linkCharacter, linkEnvironment };
-})();
-
-const AGNES = {
-  apiBase: 'https://apihub.agnes-ai.com/v1',
-  pollBase: 'https://apihub.agnes-ai.com/agnesapi',
-  models: { text: 'agnes-2.5-flash', image: 'agnes-image-2.1-flash', video: 'agnes-video-v2.0' },
-  frameRate: 24,
-  limits: {
-    image: { rpm: 20, createIntervalMs: 3400, avgGenerationTimeMs: 15000, maxBatchSize: 20 },
-    video: { rpm: 1, createIntervalMs: 62000, avgGenerationTimeMs: 209000, maxBatchSize: 20, maxDurationSeconds: 15 },
-    text: { rpm: 10, avgResponseTimeMs: 8000 }
-  }
-};
-
-const ApiClient = (() => {
-  function getKey() { try { return (localStorage.getItem(PLATFORM.lsKeys.apiKey) || '').trim(); } catch (e) { return ''; } }
-  function setKey(k) { try { if (k) localStorage.setItem(PLATFORM.lsKeys.apiKey, k); else localStorage.removeItem(PLATFORM.lsKeys.apiKey); } catch (e) {} }
-  async function fetchWithRetry(url, options = {}, maxRetries = 3, label = 'API') {
-    for (let attempt = 0; attempt <= maxRetries; attempt++) {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 60000);
-        const res = await fetch(url, Object.assign({}, options, { signal: controller.signal }));
-        clearTimeout(timeout);
-        if (res.status === 429 && attempt < maxRetries) {
-          const wait = Math.min(60000, Math.pow(2, attempt) * 5000);
-          EventBus.emit('RATE_LIMIT_HIT', { category: 'ERROR', message: `${label} : 429, attente ${Math.round(wait/1000)}s` });
-          await new Promise(r => setTimeout(r, wait));
-          continue;
-        }
-        if ((res.status === 500 || res.status === 502 || res.status === 503 || res.status === 520) && attempt < maxRetries) {
-          await new Promise(r => setTimeout(r, Math.pow(2, attempt) * 3000));
-          continue;
-        }
-        return res;
-      } catch (e) {
-        if (attempt < maxRetries) await new Promise(r => setTimeout(r, Math.pow(2, attempt) * 2000));
-        else throw e;
-      }
-    }
-    throw new Error(`${label} : échec après ${maxRetries} tentatives`);
-  }
-  async function generateImage({ prompt, references = [], parameters = {} }) {
-    const key = getKey();
-    if (!key) throw new Error('NOT_CONFIGURED : clé API manquante');
-    const body = { model: AGNES.models.image, prompt, n: 1, size: parameters.size || '1024x1792', response_format: 'url' };
-    const res = await fetchWithRetry(AGNES.apiBase + '/images/generations', { method: 'POST', headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' }, body: JSON.stringify(body) }, 3, 'Image');
-    if (!res.ok) { const err = await res.text(); throw new Error(`Image HTTP ${res.status} — ${err.slice(0, 200)}`); }
-    const data = await res.json();
-    const item = data.data && data.data[0];
-    const url = item && (item.url || (item.b64_json ? 'data:image/png;base64,' + item.b64_json : null));
-    if (!url) throw new Error('Aucune URL image retournée');
-    return { url, raw: data };
-  }
-  async function createVideoTask({ prompt, firstFrame = null, lastFrame = null, parameters = {} }) {
-    const key = getKey();
-    if (!key) throw new Error('NOT_CONFIGURED : clé API manquante');
-    const durationSec = parameters.duration || 6.4;
-    const numFrames = Math.max(121, Math.round(durationSec * AGNES.frameRate));
-    const body = { model: AGNES.models.video, prompt, num_frames: numFrames, frame_rate: AGNES.frameRate };
-    if (firstFrame && lastFrame) { body.image = firstFrame; body.last_frame = lastFrame; }
-    else if (firstFrame) { body.image = firstFrame; }
-    const res = await fetchWithRetry(AGNES.apiBase + '/videos', { method: 'POST', headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' }, body: JSON.stringify(body) }, 3, 'Vidéo');
-    if (!res.ok) { const err = await res.text(); throw new Error(`Vidéo HTTP ${res.status} — ${err.slice(0, 200)}`); }
-    const data = await res.json();
-    const videoId = data.video_id || data.id || data.task_id;
-    if (!videoId) throw new Error('Aucun video_id retourné');
-    return { videoId, raw: data };
-  }
-  async function pollVideo(videoId) {
-    const key = getKey();
-    if (!key) throw new Error('NOT_CONFIGURED : clé API manquante');
-    const url = AGNES.pollBase + '?video_id=' + encodeURIComponent(videoId) + '&model_name=' + encodeURIComponent(AGNES.models.video);
-    const res = await fetchWithRetry(url, { method: 'GET', headers: { 'Authorization': 'Bearer ' + key } }, 2, 'Poll');
-    if (!res.ok) throw new Error(`Poll HTTP ${res.status}`);
-    const data = await res.json();
-    const status = data.status || 'unknown';
-    const progress = data.progress || 0;
-    let videoUrl = null;
-    if (status === 'completed' || status === 'succeeded' || status === 'done') {
-      videoUrl = (data.metadata && data.metadata.url) || data.url || (data.output && data.output.url) || null;
-    }
-    return { status, progress, videoUrl, raw: data };
-  }
-  return { getKey, setKey, generateImage, createVideoTask, pollVideo };
-})();
-
-const QueueEngine = (() => {
-  let loopRunning = false;
-  let loopTimer = null;
-  async function createTask(opts) {
-    const { projectId, sceneId, shotId = null, type, promptOriginal, promptFinal, promptId = null, referencesUsed = [], charactersUsed = [], environmentsUsed = [], constraints = [], parameters = {} } = opts;
-    const task = {
-      id: IdGen.new('task'), projectId, sceneId, shotId, type, promptOriginal, promptFinal, promptId,
-      referencesUsed, charactersUsed, environmentsUsed, constraints,
-      providerId: 'agnes', modelId: type === 'IMAGE' ? AGNES.models.image : AGNES.models.video,
-      parameters: { providerId: 'agnes', modelId: type === 'IMAGE' ? AGNES.models.image : AGNES.models.video, values: parameters },
-      status: 'QUEUED', progress: 0, retryCount: 0, error: null, providerTaskId: null, resultId: null,
-      createdAt: Date.now(), startedAt: null, completedAt: null
-    };
-    await StorageEngine.put('tasks', task);
-    EventBus.emit('TASK_QUEUED', { category: type === 'IMAGE' ? 'IMAGE' : 'VIDEO', message: `Tâche en file (${type})`, data: { taskId: task.id } });
-    return task;
-  }
-  function estimateTime(tasks) {
-    if (!tasks.length) return { minMs: 0, maxMs: 0 };
-    const imgCount = tasks.filter(t => t.type === 'IMAGE').length;
-    const vidCount = tasks.filter(t => t.type === 'VIDEO').length;
-    const imageMs = imgCount > 0 ? (imgCount * AGNES.limits.image.createIntervalMs) + AGNES.limits.image.avgGenerationTimeMs : 0;
-    const videoCreateMs = vidCount * AGNES.limits.video.createIntervalMs;
-    const videoGenMs = vidCount > 0 ? Math.ceil(vidCount / Math.max(1, AGNES.limits.video.rpm)) * AGNES.limits.video.avgGenerationTimeMs : 0;
-    const videoMs = videoCreateMs + videoGenMs;
-    const totalMs = Math.max(imageMs, videoMs);
-    return { minMs: Math.round(totalMs * 0.85), maxMs: Math.round(totalMs * 1.35) };
-  }
-  function formatDuration(ms) {
-    const s = Math.round(ms / 1000);
-    if (s < 60) return s + 's';
-    const m = Math.floor(s / 60);
-    const sec = s % 60;
-    if (m < 60) return m + 'min' + (sec ? ' ' + sec + 's' : '');
-    const h = Math.floor(m / 60);
-    const min = m % 60;
-    return h + 'h' + (min ? ' ' + min + 'min' : '');
-  }
-  function startLoop() { if (loopRunning) return; loopRunning = true; tick(); }
-  async function tick() { if (!loopRunning) return; try { await processQueue(); } catch (e) { console.error('[Queue]', e); } loopTimer = setTimeout(tick, 3000); }
-  function stopLoop() { loopRunning = false; if (loopTimer) { clearTimeout(loopTimer); loopTimer = null; } }
-  async function processQueue() {
-    const allTasks = await StorageEngine.getAll('tasks');
-    const queued = allTasks.filter(t => t.status === 'QUEUED');
-    const runningImage = allTasks.filter(t => t.type === 'IMAGE' && (t.status === 'RUNNING' || t.status === 'VERIFYING')).length;
-    const runningVideo = allTasks.filter(t => t.type === 'VIDEO' && (t.status === 'RUNNING' || t.status === 'VERIFYING')).length;
-    const imgToStart = queued.filter(t => t.type === 'IMAGE').slice(0, Math.max(0, 3 - runningImage));
-    const vidToStart = queued.filter(t => t.type === 'VIDEO').slice(0, Math.max(0, 1 - runningVideo));
-    for (const t of imgToStart) runTask(t);
-    for (const t of vidToStart) runTask(t);
-  }
-  async function runTask(task) {
-    task.status = 'RUNNING'; task.startedAt = Date.now(); task.progress = 5;
-    await StorageEngine.put('tasks', task);
-    EventBus.emit('TASK_STARTED', { category: task.type === 'IMAGE' ? 'IMAGE' : 'VIDEO', message: `${task.type} — début`, data: { taskId: task.id } });
-    try {
-      if (task.type === 'IMAGE') await runImageTask(task);
-      else await runVideoTask(task);
-    } catch (e) {
-      if (e.message === 'CANCELLED') { task.status = 'CANCELLED'; await StorageEngine.put('tasks', task); return; }
-      if (task.retryCount < PLATFORM.retryMax) {
-        task.retryCount++;
-        task.status = 'RETRYING';
-        const wait = Math.min(60000, 5000 * Math.pow(2, task.retryCount - 1));
-        EventBus.emit('TASK_RETRYING', { category: 'ERROR', message: `Retry ${task.retryCount}/3 dans ${Math.round(wait/1000)}s : ${e.message}`, data: { taskId: task.id } });
-        await StorageEngine.put('tasks', task);
-        setTimeout(async () => { task.status = 'QUEUED'; task.progress = 0; await StorageEngine.put('tasks', task); }, wait);
-      } else {
-        task.status = 'FAILED'; task.error = e.message; task.completedAt = Date.now();
-        await StorageEngine.put('tasks', task);
-        EventBus.emit('TASK_FAILED', { category: 'ERROR', message: `Échec : ${e.message}`, data: { taskId: task.id } });
-      }
-    }
-  }
-  async function runImageTask(task) {
-    task.progress = 20; await StorageEngine.put('tasks', task);
-    const result = await ApiClient.generateImage({ prompt: task.promptFinal, references: task.referencesUsed, parameters: task.parameters.values });
-    task.progress = 90; await StorageEngine.put('tasks', task);
-    const genResult = { id: IdGen.new('result'), taskId: task.id, projectId: task.projectId, type: 'IMAGE', url: result.url, metadata: { size: task.parameters.values.size || '1024x1792' }, verification: null, createdAt: Date.now() };
-    await StorageEngine.put('results', genResult);
-    task.status = 'COMPLETED'; task.progress = 100; task.resultId = genResult.id; task.completedAt = Date.now();
-    await StorageEngine.put('tasks', task);
-    EventBus.emit('TASK_COMPLETED', { category: 'IMAGE', message: '✓ Image générée', data: { taskId: task.id } });
-  }
-  async function runVideoTask(task) {
-    task.progress = 10; await StorageEngine.put('tasks', task);
-    const firstFrame = task.parameters.values.firstFrame || null;
-    const lastFrame = task.parameters.values.lastFrame || null;
-    const created = await ApiClient.createVideoTask({ prompt: task.promptFinal, firstFrame, lastFrame, parameters: task.parameters.values });
-    task.providerTaskId = created.videoId; task.progress = 25;
-    await StorageEngine.put('tasks', task);
-    EventBus.emit('TASK_PROGRESS', { category: 'VIDEO', message: `Tâche créée (id: ${String(created.videoId).slice(0,16)}…)`, data: { taskId: task.id } });
-    const maxAttempts = 200;
-    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-      await new Promise(r => setTimeout(r, 8000));
-      const fresh = await StorageEngine.get('tasks', task.id);
-      if (!fresh || fresh.status === 'CANCELLED') throw new Error('CANCELLED');
-      try {
-        const poll = await ApiClient.pollVideo(task.providerTaskId);
-        task.progress = Math.min(95, 25 + Math.round((poll.progress || attempt / 2) * 0.7));
-        await StorageEngine.put('tasks', task);
-        EventBus.emit('TASK_PROGRESS', { category: 'VIDEO', message: `Poll #${attempt} — ${poll.status}`, data: { taskId: task.id } });
-        if (poll.videoUrl) {
-          const genResult = { id: IdGen.new('result'), taskId: task.id, projectId: task.projectId, type: 'VIDEO', url: poll.videoUrl, metadata: { duration: task.parameters.values.duration || 6.4 }, verification: null, createdAt: Date.now() };
-          await StorageEngine.put('results', genResult);
-          task.status = 'COMPLETED'; task.progress = 100; task.resultId = genResult.id; task.completedAt = Date.now();
-          await StorageEngine.put('tasks', task);
-          EventBus.emit('TASK_COMPLETED', { category: 'VIDEO', message: '✓ Vidéo générée', data: { taskId: task.id } });
-          return;
-        }
-        if (poll.status === 'failed' || poll.status === 'error' || poll.status === 'cancelled') throw new Error(`Provider : ${poll.status}`);
-      } catch (e) {
-        if (e.message === 'CANCELLED') throw e;
-        EventBus.emit('TASK_PROGRESS', { category: 'VIDEO', message: `Poll erreur : ${e.message}`, data: { taskId: task.id } });
-      }
-    }
-    throw new Error('Délai maximal dépassé');
-  }
-  async function cancelTask(taskId) {
-    const task = await StorageEngine.get('tasks', taskId);
-    if (!task) return;
-    if (['QUEUED','RUNNING','RETRYING'].includes(task.status)) {
-      task.status = 'CANCELLED';
-      await StorageEngine.put('tasks', task);
-      EventBus.emit('TASK_CANCELLED', { category: 'QUEUE', message: 'Tâche annulée', data: { taskId } });
-    }
-  }
-  async function listByProject(projectId) {
-    const tasks = await StorageEngine.getAllByIndex('tasks', 'projectId', projectId);
-    return tasks.sort((a, b) => b.createdAt - a.createdAt);
-  }
-  async function getStats(projectId) {
-    const tasks = await listByProject(projectId);
-    return {
-      total: tasks.length,
-      queued: tasks.filter(t => t.status === 'QUEUED').length,
-      running: tasks.filter(t => t.status === 'RUNNING' || t.status === 'VERIFYING').length,
-      retrying: tasks.filter(t => t.status === 'RETRYING').length,
-      completed: tasks.filter(t => t.status === 'COMPLETED').length,
-      failed: tasks.filter(t => t.status === 'FAILED').length,
-      cancelled: tasks.filter(t => t.status === 'CANCELLED').length,
-      tasks
-    };
-  }
-  return { createTask, estimateTime, formatDuration, startLoop, stopLoop, processQueue, cancelTask, listByProject, getStats };
-})();
-
-const ExportEngine = (() => {
-  let crcTable = null;
-  function crc32(data) {
-    if (!crcTable) {
-      crcTable = new Uint32Array(256);
-      for (let i = 0; i < 256; i++) {
-        let c = i;
-        for (let j = 0; j < 8; j++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
-        crcTable[i] = c;
-      }
-    }
-    let crc = 0xFFFFFFFF;
-    for (let i = 0; i < data.length; i++) crc = crcTable[(crc ^ data[i]) & 0xFF] ^ (crc >>> 8);
-    return (crc ^ 0xFFFFFFFF) >>> 0;
-  }
-  function buildZipStore(files) {
-    const chunks = [];
-    const centralDirectory = [];
-    let offset = 0;
-    const encoder = new TextEncoder();
-    for (const file of files) {
-      const nameBytes = encoder.encode(file.name);
-      const crc = crc32(file.data);
-      const size = file.data.length;
-      const lfh = new Uint8Array(30 + nameBytes.length);
-      const dv = new DataView(lfh.buffer);
-      dv.setUint32(0, 0x04034b50, true);
-      dv.setUint16(4, 20, true); dv.setUint16(6, 0, true); dv.setUint16(8, 0, true);
-      dv.setUint16(10, 0, true); dv.setUint16(12, 0, true);
-      dv.setUint32(14, crc, true); dv.setUint32(18, size, true); dv.setUint32(22, size, true);
-      dv.setUint16(26, nameBytes.length, true); dv.setUint16(28, 0, true);
-      lfh.set(nameBytes, 30);
-      chunks.push(lfh, file.data);
-      const cde = new Uint8Array(46 + nameBytes.length);
-      const cdv = new DataView(cde.buffer);
-      cdv.setUint32(0, 0x02014b50, true); cdv.setUint16(4, 20, true); cdv.setUint16(6, 20, true);
-      cdv.setUint16(8, 0, true); cdv.setUint16(10, 0, true); cdv.setUint16(12, 0, true); cdv.setUint16(14, 0, true);
-      cdv.setUint32(16, crc, true); cdv.setUint32(20, size, true); cdv.setUint32(24, size, true);
-      cdv.setUint16(28, nameBytes.length, true); cdv.setUint16(30, 0, true); cdv.setUint16(32, 0, true); cdv.setUint16(34, 0, true); cdv.setUint16(36, 0, true);
-      cdv.setUint32(38, 0, true); cdv.setUint32(42, offset, true);
-      cde.set(nameBytes, 46);
-      centralDirectory.push(cde);
-      offset += lfh.length + size;
-    }
-    const cdSize = centralDirectory.reduce((s, c) => s + c.length, 0);
-    const eocd = new Uint8Array(22);
-    const edv = new DataView(eocd.buffer);
-    edv.setUint32(0, 0x06054b50, true); edv.setUint16(4, 0, true); edv.setUint16(6, 0, true);
-    edv.setUint16(8, files.length, true); edv.setUint16(10, files.length, true);
-    edv.setUint32(12, cdSize, true); edv.setUint32(16, offset, true); edv.setUint16(20, 0, true);
-    return new Blob(chunks.concat(centralDirectory, [eocd]));
-  }
-  function downloadBlob(blob, filename) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click();
-    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
-  }
-  async function exportProjectZip(projectId) {
-    const project = await StorageEngine.get('projects', projectId);
-    if (!project) throw new Error('Projet introuvable');
-    const tasks = await QueueEngine.listByProject(projectId);
-    const doneTasks = tasks.filter(t => t.status === 'COMPLETED' && t.resultId);
-    const items = [];
-    for (const task of doneTasks) {
-      const result = await StorageEngine.get('results', task.resultId);
-      if (!result) continue;
-      const ext = result.type === 'IMAGE' ? 'png' : 'mp4';
-      items.push({ url: result.url, filename: `${result.type.toLowerCase()}_${task.id}.${ext}` });
-    }
-    if (!items.length) throw new Error('Aucun résultat à exporter');
-    const files = [];
-    for (const item of items) {
-      try { const res = await fetch(item.url); const blob = await res.blob(); const buf = await blob.arrayBuffer(); files.push({ name: item.filename, data: new Uint8Array(buf) }); } catch (e) {}
-    }
-    const blob = buildZipStore(files);
-    downloadBlob(blob, `projet_${project.name.replace(/[^a-z0-9]/gi, '_')}_${Date.now()}.zip`);
-  }
-  return { exportProjectZip, downloadBlob };
-})();
-
-const ProtocolEngine = (() => {
-  function normalizeJson(data) {
-    return {
-      project: { name: (data.project && data.project.name) || 'Projet importé', description: (data.project && data.project.description) || '', masterPrompt: (data.project && data.project.masterPrompt) || data.masterPrompt || '', globalStyle: (data.project && data.project.globalStyle) || data.globalStyle || '' },
-      characters: (data.characters || []).map(c => ({ name: c.name || 'Personnage', description: c.description || '', appearance: c.appearance || {}, identityPrompt: c.identityPrompt || c.prompt || '' })),
-      environments: (data.environments || []).map(e => ({ name: e.name || 'Décor', description: e.description || '', properties: e.properties || {}, prompt: e.prompt || '' })),
-      scenes: (data.scenes || []).map(s => ({ number: s.number || s.scene_number || 1, title: s.title || '', description: s.description || '', characterNames: s.characterNames || s.characters || [], environmentName: s.environmentName || s.environment || null, shots: (s.shots || []).map(sh => ({ number: sh.number || sh.shot_number || 1, description: sh.description || '', imagePrompt: sh.imagePrompt || sh.image_prompt || '', videoPrompt: sh.videoPrompt || sh.video_prompt || '', imageCount: sh.imageCount || 1, videoCount: sh.videoCount || 0, videoDuration: sh.videoDuration || 6.4 })) })),
-      constraints: data.constraints || []
-    };
-  }
-  function parseText(raw) {
-    const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
-    const result = { project: { name: 'Projet importé', description: '', masterPrompt: '', globalStyle: '' }, characters: [], environments: [], scenes: [], constraints: [] };
-    let current = null;
-    for (const line of lines) {
-      const lower = line.toLowerCase();
-      if (lower.startsWith('# projet') || lower.startsWith('## projet')) {
-        result.project.name = line.replace(/^#+\s*projet\s*:?\s*/i, '') || 'Projet importé';
-      } else if (lower.startsWith('# personnage') || lower.startsWith('## personnage')) {
-        current = { type: 'character', data: { name: line.replace(/^#+\s*personnage\s*:?\s*/i, ''), description: '', appearance: {}, identityPrompt: '' } };
-      } else if (lower.startsWith('# décor') || lower.startsWith('## décor') || lower.startsWith('# decor')) {
-        current = { type: 'environment', data: { name: line.replace(/^#+\s*(décor|decor)\s*:?\s*/i, ''), description: '', properties: {}, prompt: '' } };
-      } else if (lower.startsWith('# scène') || lower.startsWith('## scène') || lower.startsWith('# scene')) {
-        current = { type: 'scene', data: { number: result.scenes.length + 1, title: line.replace(/^#+\s*(scène|scene)\s*:?\s*/i, ''), description: '', characterNames: [], environmentName: null, shots: [] } };
-      } else if (current) {
-        if (current.type === 'character') {
-          if (lower.startsWith('description')) current.data.description = line.split(':').slice(1).join(':').trim();
-          else if (lower.startsWith('prompt')) current.data.identityPrompt = line.split(':').slice(1).join(':').trim();
-          else current.data.description += (current.data.description ? ' ' : '') + line;
-        } else if (current.type === 'environment') {
-          if (lower.startsWith('description')) current.data.description = line.split(':').slice(1).join(':').trim();
-          else if (lower.startsWith('prompt')) current.data.prompt = line.split(':').slice(1).join(':').trim();
-          else current.data.description += (current.data.description ? ' ' : '') + line;
-        } else if (current.type === 'scene') {
-          if (lower.startsWith('description')) current.data.description = line.split(':').slice(1).join(':').trim();
-          else current.data.description += (current.data.description ? ' ' : '') + line;
-        }
-      }
-    }
-    if (current) pushCurrent(result, current);
-    return result;
-  }
-  function pushCurrent(result, current) {
-    if (current.type === 'character') result.characters.push(current.data);
-    else if (current.type === 'environment') result.environments.push(current.data);
-    else if (current.type === 'scene') result.scenes.push(current.data);
-  }
-  function parse(raw, format) {
-    if (format === 'json') {
-      try { return normalizeJson(JSON.parse(raw)); }
-      catch (e) { throw new Error('JSON invalide : ' + e.message); }
-    }
-    return parseText(raw);
-  }
-  async function importProtocol(parsed) {
-    const project = await ProjectEngine.create({ name: parsed.project.name, description: parsed.project.description, masterPrompt: parsed.project.masterPrompt, globalStyle: parsed.project.globalStyle });
-    const charMap = new Map();
-    for (const c of parsed.characters) {
-      const created = await CharacterEngine.create({ name: c.name, description: c.description, appearance: c.appearance || {}, identityPrompt: c.identityPrompt || CharacterEngine.buildIdentityPrompt(c) });
-      await ProjectEngine.linkCharacter(project.id, created.id);
-      charMap.set(c.name.toLowerCase(), created.id);
-    }
-    const envMap = new Map();
-    for (const e of parsed.environments) {
-      const created = await EnvironmentEngine.create({ name: e.name, description: e.description, properties: e.properties || {}, prompt: e.prompt || '' });
-      await ProjectEngine.linkEnvironment(project.id, created.id);
-      envMap.set(e.name.toLowerCase(), created.id);
-    }
-    for (const s of parsed.scenes) {
-      const scene = await SceneEngine.create(project.id, { number: s.number, title: s.title, description: s.description, characterIds: (s.characterNames || []).map(n => charMap.get(n.toLowerCase())).filter(Boolean), environmentId: s.environmentName ? envMap.get(s.environmentName.toLowerCase()) : null });
-      for (const sh of s.shots || []) await ShotEngine.create(scene.id, project.id, sh);
-    }
-    return project;
-  }
-  return { parse, importProtocol };
-})();
-
-</script>
-
-<script>
-'use strict';
-
-function h(tag, attrs = {}, children = []) {
-  const el = document.createElement(tag);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (k === 'class') el.className = v;
-    else if (k === 'dataset') Object.assign(el.dataset, v);
-    else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2), v);
-    else if (v === true) el.setAttribute(k, '');
-    else if (v !== false && v != null) el.setAttribute(k, v);
-  }
-  if (typeof children === 'string') el.textContent = children;
-  else for (const c of [].concat(children)) {
-    if (c == null || c === false) continue;
-    el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
-  }
-  return el;
+ 
+  state.isRunning = false;
+  state.stopRequested = false;
+  $('btn-stop').classList.remove('visible');
+  $('btn-generate').disabled = false;
+  setStatus(null);
 }
 
-function escHtml(s) {
-  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-}
-
-const Toast = (() => {
-  let timeout = null;
-  function show(msg, type = 'success', duration = 2500) {
-    const toast = document.getElementById('toast');
-    const icon = document.getElementById('toastIcon');
-    const text = document.getElementById('toastText');
-    if (!toast) return;
-    toast.classList.remove('visible', 'success', 'error', 'warn');
-    void toast.offsetWidth;
-    icon.textContent = { success: '✓', error: '✕', warn: '⚠' }[type] || '✓';
-    text.textContent = msg;
-    toast.classList.add(type);
-    requestAnimationFrame(() => toast.classList.add('visible'));
-    if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => toast.classList.remove('visible'), duration);
-  }
-  return { show };
-})();
-
-const StatusBar = (() => {
-  let hideTimeout = null;
-  function show(text, autoHideMs = 0) {
-    const bar = document.getElementById('statusBar');
-    const t = document.getElementById('statusText');
-    if (!bar) return;
-    t.textContent = text;
-    bar.classList.add('visible');
-    if (hideTimeout) clearTimeout(hideTimeout);
-    if (autoHideMs > 0) hideTimeout = setTimeout(hide, autoHideMs);
-  }
-  function hide() { const bar = document.getElementById('statusBar'); if (bar) bar.classList.remove('visible'); }
-  return { show, hide };
-})();
-
-const Modal = (() => {
-  let currentCloser = null;
-  function open(contentNode) {
-    const backdrop = document.getElementById('modalBackdrop');
-    const modal = document.getElementById('modal');
-    if (!modal) return;
-    modal.innerHTML = '';
-    modal.appendChild(h('div', { class: 'modal-handle' }));
-    modal.appendChild(contentNode);
-    requestAnimationFrame(() => { backdrop.classList.add('visible'); modal.classList.add('visible'); });
-    currentCloser = () => {
-      backdrop.classList.remove('visible');
-      modal.classList.remove('visible');
-      setTimeout(() => { modal.innerHTML = ''; currentCloser = null; }, 350);
-    };
-  }
-  function close() { if (currentCloser) currentCloser(); }
-  return { open, close };
-})();
-
-document.getElementById('modalBackdrop').addEventListener('click', () => Modal.close());
-
-const AppState = (() => {
-  let currentProjectId = null;
-  let currentView = 'home';
-  let currentProject = null;
-  const subscribers = new Set();
-  function getCurrentProjectId() { return currentProjectId; }
-  function getCurrentProject() { return currentProject; }
-  function getCurrentView() { return currentView; }
-  async function setCurrentProject(id) {
-    currentProjectId = id;
-    currentProject = id ? await StorageEngine.get('projects', id) : null;
-    if (id) { try { localStorage.setItem(PLATFORM.lsKeys.lastProjectId, id); } catch (e) {} }
-    notify();
-  }
-  function setCurrentView(v) { currentView = v; notify(); }
-  function subscribe(fn) { subscribers.add(fn); return () => subscribers.delete(fn); }
-  function notify() { for (const fn of subscribers) { try { fn(); } catch (e) { console.error(e); } } }
-  return { getCurrentProjectId, getCurrentProject, getCurrentView, setCurrentProject, setCurrentView, subscribe };
-})();
-
-const Console = (() => {
-  let filter = 'ALL';
-  const buffer = [];
-  function log(entry) { buffer.push(entry); if (buffer.length > 500) buffer.shift(); render(); }
-  function setFilter(f) { filter = f; document.querySelectorAll('#consoleFilters .cf').forEach(b => b.classList.toggle('active', b.dataset.filter === f)); render(); }
-  function clear() { buffer.length = 0; EventBus.clearLog(); render(); }
-  function render() {
-    const body = document.getElementById('consoleBody');
-    const count = document.getElementById('consoleCount');
-    if (!body) return;
-    const filtered = filter === 'ALL' ? buffer : buffer.filter(e => e.category === filter);
-    count.textContent = String(filtered.length);
-    body.innerHTML = filtered.slice(-200).map(e => {
-      const t = new Date(e.timestamp).toLocaleTimeString('fr-FR', { hour12: false });
-      return `<div class="log-line"><span class="log-time">${t}</span><span class="log-cat ${e.category}">[${e.category}]</span><span class="log-msg">${escHtml(e.message)}</span></div>`;
-    }).join('');
-    body.scrollTop = body.scrollHeight;
-  }
-  return { log, setFilter, clear, render };
-})();
-
-const HomeView = {
-  async render() {
-    const projectId = AppState.getCurrentProjectId();
-    if (!projectId) return '';
-    const project = await ProjectEngine.get(projectId);
-    if (!project) return '<div class="empty"><div class="text">Projet introuvable</div></div>';
-    const scenes = await SceneEngine.listByProject(projectId);
-    const characters = await CharacterEngine.listByProject(projectId);
-    const environments = await EnvironmentEngine.listByProject(projectId);
-    const references = await ReferenceEngine.listByProject(projectId);
-    const stats = await QueueEngine.getStats(projectId);
-    const wrapper = h('div', { class: 'fade-in' });
-    wrapper.appendChild(h('div', { class: 'card' }, [
-      h('div', { class: 'card-title' }, ['◈ Vue d\'ensemble']),
-      h('div', { style: 'display:grid;grid-template-columns:1fr 1fr;gap:10px' }, [
-        statBox('Scènes', scenes.length),
-        statBox('Personnages', characters.length),
-        statBox('Décors', environments.length),
-        statBox('Références', references.length)
-      ])
-    ]));
-    wrapper.appendChild(h('div', { class: 'card' }, [
-      h('div', { class: 'card-title' }, ['▤ File de génération', h('span', { class: 'badge' + (stats.running > 0 ? ' on' : ' off') }, [stats.running > 0 ? 'En cours' : 'Inactif'])]),
-      h('div', { style: 'display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center' }, [
-        miniStat('En file', stats.queued),
-        miniStat('En cours', stats.running),
-        miniStat('Terminées', stats.completed, 'success'),
-        miniStat('Échecs', stats.failed, stats.failed > 0 ? 'error' : null)
-      ])
-    ]));
-    wrapper.appendChild(h('div', { class: 'card' }, [
-      h('div', { class: 'card-title' }, ['⚡ Actions rapides']),
-      h('div', { style: 'display:grid;grid-template-columns:1fr 1fr;gap:8px' }, [
-        h('button', { class: 'btn btn-secondary btn-sm', style: 'width:100%;padding:12px', onClick: () => Modal.openSceneEditor(null) }, ['＋ Nouvelle scène']),
-        h('button', { class: 'btn btn-secondary btn-sm', style: 'width:100%;padding:12px', onClick: () => Modal.openCharacterLibrary() }, ['👤 Personnages']),
-        h('button', { class: 'btn btn-secondary btn-sm', style: 'width:100%;padding:12px', onClick: () => Modal.openEnvironmentLibrary() }, ['🏛 Décors']),
-        h('button', { class: 'btn btn-secondary btn-sm', style: 'width:100%;padding:12px', onClick: () => { AppState.setCurrentView('library'); Router.render(); } }, ['▦ Bibliothèque'])
-      ])
-    ]));
-    if (scenes.length) {
-      const scenesCard = h('div', { class: 'card' }, [h('div', { class: 'card-title' }, ['🎬 Scènes'])]);
-      for (const scene of scenes.slice(0, 5)) {
-        const shotCount = (scene.shotIds || []).length;
-        scenesCard.appendChild(h('div', { class: 'list-item', onClick: () => Modal.openSceneEditor(scene.id) }, [
-          h('div', { class: 'list-thumb' }, [String(scene.number)]),
-          h('div', { class: 'list-info' }, [
-            h('div', { class: 'list-name' }, [scene.title || 'Scène ' + scene.number]),
-            h('div', { class: 'list-sub' }, [shotCount + ' shot' + (shotCount > 1 ? 's' : '') + ' · ' + scene.status])
-          ])
-        ]));
-      }
-      wrapper.appendChild(scenesCard);
-    }
-    return wrapper;
-  }
-};
-
-function statBox(label, value) {
-  return h('div', { style: 'padding:12px;background:var(--bg2);border-radius:10px' }, [
-    h('div', { style: 'font-size:22px;font-weight:700;color:var(--rose2)' }, [String(value)]),
-    h('div', { style: 'font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px' }, [label])
-  ]);
-}
-
-function miniStat(label, value, tone = null) {
-  const color = tone === 'success' ? 'var(--success)' : tone === 'error' ? 'var(--error)' : 'var(--ink)';
-  return h('div', {}, [
-    h('div', { style: 'font-size:18px;font-weight:700;color:' + color }, [String(value)]),
-    h('div', { style: 'font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em' }, [label])
-  ]);
-}
-
-const CreateView = {
-  async render() {
-    const projectId = AppState.getCurrentProjectId();
-    const scenes = await SceneEngine.listByProject(projectId);
-    const characters = await CharacterEngine.listByProject(projectId);
-    const environments = await EnvironmentEngine.listByProject(projectId);
-    const wrapper = h('div', { class: 'fade-in' });
-
-    const sceneSelect = h('select', {}, [h('option', { value: '' }, ['— Choisir une scène —'])].concat(scenes.map(s => h('option', { value: s.id }, [`Scène ${s.number} : ${s.title || '(sans titre)'}`]))));
-    const typeSelect = h('select', {}, [h('option', { value: 'IMAGE' }, ['🖼 Images']), h('option', { value: 'VIDEO' }, ['🎬 Vidéos'])]);
-    const countInput = h('input', { type: 'number', min: '1', max: '20', value: '1' });
-    const promptInput = h('textarea', { placeholder: 'Prompt spécifique (facultatif)' });
-    const durationInput = h('input', { type: 'number', min: '5', max: '15', step: '0.1', value: '6.4' });
-    const durationField = h('div', { class: 'field hidden' }, [h('label', {}, ['Durée (secondes)']), durationInput]);
-    typeSelect.addEventListener('change', () => durationField.classList.toggle('hidden', typeSelect.value !== 'VIDEO'));
-
-    const charChips = h('div', { style: 'display:flex;flex-wrap:wrap;gap:6px' });
-    const selectedChars = new Set();
-    for (const c of characters) {
-      const chip = h('button', { class: 'lock off', type: 'button', onClick: () => {
-        if (selectedChars.has(c.id)) { selectedChars.delete(c.id); chip.classList.add('off'); chip.classList.remove('locked'); }
-        else { selectedChars.add(c.id); chip.classList.remove('off'); chip.classList.add('locked'); }
-      } }, ['👤 ' + c.name]);
-      charChips.appendChild(chip);
-    }
-    if (!characters.length) charChips.appendChild(h('div', { style: 'color:var(--ink4);font-size:12px' }, ['Aucun personnage']));
-
-    const envSelect = h('select', {}, [h('option', { value: '' }, ['— Aucun décor —'])].concat(environments.map(e => h('option', { value: e.id }, [e.name]))));
-
-    const estimateBox = h('div', { style: 'padding:12px;background:var(--bg2);border-radius:10px;font-size:13px;color:var(--ink2);margin-bottom:12px' }, ['Choisissez une scène et un type']);
-    async function updateEstimate() {
-      const type = typeSelect.value;
-      const count = Math.max(1, Math.min(20, parseInt(countInput.value) || 1));
-      const fakeTasks = Array.from({ length: count }, () => ({ type }));
-      const est = QueueEngine.estimateTime(fakeTasks);
-      if (est.minMs === 0) { estimateBox.textContent = 'Estimation indisponible'; return; }
-      estimateBox.innerHTML = `<div style="font-weight:700;color:var(--rose2);margin-bottom:4px">⏱ Temps estimé : ${QueueEngine.formatDuration(est.minMs)} – ${QueueEngine.formatDuration(est.maxMs)}</div><div style="font-size:11px;color:var(--ink3)">${count} ${type === 'IMAGE' ? 'image' + (count > 1 ? 's' : '') : 'vidéo' + (count > 1 ? 's' : '')}${type === 'VIDEO' ? ' · Agnes : 1 vidéo/minute' : ' · max 3 en parallèle'}</div>`;
-    }
-    countInput.addEventListener('input', updateEstimate);
-    typeSelect.addEventListener('change', updateEstimate);
-    updateEstimate();
-
-    const generateBtn = h('button', { class: 'btn btn-primary', disabled: true, onClick: async () => {
-      const sceneId = sceneSelect.value;
-      if (!sceneId) { Toast.show('Choisissez une scène', 'error'); return; }
-      const count = Math.max(1, Math.min(20, parseInt(countInput.value) || 1));
-      await generateBatch({ projectId, sceneId, type: typeSelect.value, count, promptOverride: promptInput.value.trim(), characterIds: Array.from(selectedChars), environmentId: envSelect.value || null, duration: parseFloat(durationInput.value) || 6.4 });
-    } }, ['✦ Lancer la génération']);
-    sceneSelect.addEventListener('change', () => { generateBtn.disabled = !sceneSelect.value; });
-
-    wrapper.appendChild(h('div', { class: 'card' }, [
-      h('div', { class: 'card-title' }, ['✦ Nouvelle génération']),
-      h('div', { class: 'field' }, [h('label', {}, ['Scène']), sceneSelect]),
-      h('div', { class: 'field' }, [h('label', {}, ['Type']), typeSelect]),
-      h('div', { class: 'field' }, [h('label', {}, ['Nombre (1 à 20)']), countInput]),
-      durationField,
-      h('div', { class: 'field' }, [h('label', {}, ['Prompt spécifique (facultatif)']), promptInput]),
-      h('div', { class: 'field' }, [h('label', {}, ['Personnages']), charChips]),
-      h('div', { class: 'field' }, [h('label', {}, ['Décor']), envSelect]),
-      estimateBox,
-      generateBtn
-    ]));
-    wrapper.appendChild(h('div', { class: 'card' }, [
-      h('div', { class: 'card-title' }, ['▤ Tâches en cours']),
-      h('div', { id: 'tasksLive' }, ['Chargement…'])
-    ]));
-    setTimeout(() => refreshTasksLive(), 100);
-    return wrapper;
-  }
-};
-
-async function refreshTasksLive() {
-  const el = document.getElementById('tasksLive');
-  if (!el) return;
-  const projectId = AppState.getCurrentProjectId();
-  if (!projectId) return;
-  const stats = await QueueEngine.getStats(projectId);
-  const active = stats.tasks.filter(t => ['QUEUED','RUNNING','VERIFYING','RETRYING'].includes(t.status));
-  if (!active.length && stats.completed === 0) { el.innerHTML = '<div style="color:var(--ink3);font-size:13px">Aucune tâche pour l\'instant</div>'; return; }
-  let html = '';
-  if (active.length) {
-    for (const t of active.slice(0, 10)) {
-      html += `<div class="task-item"><span class="task-status ${t.status}"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${t.type === 'IMAGE' ? '🖼' : '🎬'} ${escHtml(t.promptFinal.slice(0, 40))}…</span><span style="color:var(--ink3);font-size:11px">${t.progress}%</span><button class="icon-btn" style="width:24px;height:24px;font-size:10px" data-cancel="${t.id}">✕</button></div>`;
-    }
-    el.innerHTML = html;
-    el.querySelectorAll('[data-cancel]').forEach(b => b.addEventListener('click', async () => { await QueueEngine.cancelTask(b.dataset.cancel); refreshTasksLive(); }));
-  } else {
-    el.innerHTML = `<div style="color:var(--success);font-size:13px">✓ ${stats.completed} tâche${stats.completed > 1 ? 's' : ''} terminée${stats.completed > 1 ? 's' : ''}</div>`;
-  }
-}
-
-async function generateBatch({ projectId, sceneId, type, count, promptOverride, characterIds, environmentId, duration }) {
-  const scene = await SceneEngine.get(sceneId);
-  if (!scene) { Toast.show('Scène introuvable', 'error'); return; }
-  const shots = await ShotEngine.listByScene(sceneId);
-  const shot = shots[0] || null;
-  StatusBar.show(`Préparation de ${count} tâche${count > 1 ? 's' : ''}…`);
+async function generateSceneImage(scene) {
+  scene.status = 'creating';
+  renderPrompts();
   try {
-    const project = await ProjectEngine.get(projectId);
-    for (let i = 0; i < count; i++) {
-      const built = await PromptEngine.buildContext({ project, characterIds, environmentId, referenceIds: [].concat(scene.referenceIds || [], shot ? (shot.referenceIds || []) : []), scene, shot, generationType: type, technicalParameters: type === 'VIDEO' ? { duration: duration + 's' } : {}, masterPromptOverride: scene.masterPromptOverride });
-      const finalPrompt = promptOverride ? promptOverride + '. ' + built.prompt : built.prompt;
-      const promptObj = await PromptEngine.buildAndSave({ project, characterIds, environmentId, referenceIds: [].concat(scene.referenceIds || [], shot ? (shot.referenceIds || []) : []), scene, shot, generationType: type, technicalParameters: type === 'VIDEO' ? { duration: duration + 's' } : {}, masterPromptOverride: scene.masterPromptOverride });
-      await QueueEngine.createTask({ projectId, sceneId, shotId: shot ? shot.id : null, type, promptOriginal: promptOverride || (shot ? (type === 'IMAGE' ? shot.imagePrompt : shot.videoPrompt) : ''), promptFinal: finalPrompt, promptId: promptObj.id, referencesUsed: scene.referenceIds || [], charactersUsed: characterIds, environmentsUsed: environmentId ? [environmentId] : [], constraints: built.constraints, parameters: { duration } });
-    }
-    Toast.show(`${count} tâche${count > 1 ? 's' : ''} en file`, 'success');
-    StatusBar.hide();
-    QueueEngine.startLoop();
-    setTimeout(refreshTasksLive, 500);
-  } catch (e) {
-    console.error(e);
-    StatusBar.hide();
-    Toast.show('Erreur : ' + e.message, 'error', 4000);
+    const url = await generateImage(scene.imagePrompt);
+    scene.imageUrl = url;
+    scene.status = 'done';
+    debugLog('Image ' + (scene.number) + ' OK', 'success');
+  } catch(e) {
+    scene.status = 'failed';
+    debugLog('Image ' + scene.number + ': ' + e.message, 'error');
   }
+  renderPrompts();
 }
 
-const AgentView = {
-  async render() {
-    const wrapper = h('div', { class: 'fade-in' });
-    wrapper.appendChild(h('div', { class: 'card' }, [
-      h('div', { class: 'card-title' }, ['◉ Agent autonome', h('span', { class: 'badge off' }, ['NOT_CONFIGURED'])]),
-      h('div', { style: 'font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:12px' }, ['L\'agent autonome (planner multi-étapes) est prévu pour une phase ultérieure.']),
-      h('div', { style: 'padding:12px;background:var(--bg2);border-radius:10px;font-size:12px;color:var(--ink3);line-height:1.6' }, [
-        h('div', { style: 'font-weight:700;color:var(--warn);margin-bottom:6px' }, ['Ce qui manque :']),
-        h('div', {}, ['• Backend de planification multi-étapes']),
-        h('div', {}, ['• Modèle de compréhension de brief']),
-        h('div', {}, ['• Orchestrateur long-running'])
-      ])
-    ]));
-    wrapper.appendChild(h('div', { class: 'card' }, [
-      h('div', { class: 'card-title' }, ['📥 Import de protocole']),
-      h('div', { style: 'font-size:12px;color:var(--ink3);margin-bottom:10px;line-height:1.5' }, ['Importez un protocole (.txt, .md, .json) pour créer automatiquement un projet complet.']),
-      h('input', { type: 'file', accept: '.txt,.md,.json', id: 'protocolFile', style: 'display:none' }),
-      h('button', { class: 'btn btn-secondary', onClick: () => document.getElementById('protocolFile').click() }, ['📎 Choisir un fichier'])
-    ]));
-    setTimeout(() => {
-      const input = document.getElementById('protocolFile');
-      if (input) input.addEventListener('change', async (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-        try {
-          const text = await file.text();
-          const ext = file.name.split('.').pop().toLowerCase();
-          const parsed = ProtocolEngine.parse(text, ext);
-          const project = await ProtocolEngine.importProtocol(parsed);
-          Toast.show('Protocole importé : ' + project.name, 'success', 3000);
-          await AppState.setCurrentProject(project.id);
-          ProjectTabs.render();
-          Router.render();
-        } catch (err) { console.error(err); Toast.show('Erreur : ' + err.message, 'error', 4000); }
-      });
-    }, 100);
-    return wrapper;
-  }
-};
-
-const LibraryView = {
-  async render() {
-    const projectId = AppState.getCurrentProjectId();
-    const tasks = await QueueEngine.listByProject(projectId);
-    const doneTasks = tasks.filter(t => t.status === 'COMPLETED' && t.resultId);
-    const wrapper = h('div', { class: 'fade-in' });
-    wrapper.appendChild(h('div', { class: 'section-head' }, [
-      h('div', { class: 'section-title' }, ['▦ Bibliothèque', h('span', { class: 'count' }, [String(doneTasks.length)])]),
-      h('button', { class: 'section-action', onClick: async () => {
-        try { StatusBar.show('Création du ZIP…'); await ExportEngine.exportProjectZip(projectId); StatusBar.hide(); Toast.show('Export ZIP téléchargé', 'success'); }
-        catch (e) { StatusBar.hide(); Toast.show('Export : ' + e.message, 'error', 4000); }
-      } }, ['↓ ZIP'])
-    ]));
-    if (!doneTasks.length) {
-      wrapper.appendChild(h('div', { class: 'empty' }, [h('div', { class: 'icon' }, ['🖼']), h('div', { class: 'text' }, ['Aucun résultat pour l\'instant', h('br'), h('small', { style: 'color:var(--ink4)' }, ['Les images et vidéos générées apparaîtront ici'])])]));
-      return wrapper;
-    }
-    const gallery = h('div', { class: 'gallery' });
-    for (const task of doneTasks) {
-      const result = await StorageEngine.get('results', task.resultId);
-      if (!result) continue;
-      const item = h('div', { class: 'gallery-item', onClick: () => Modal.openResult(result) });
-      if (result.type === 'IMAGE') item.appendChild(h('img', { src: result.url, loading: 'lazy' }));
-      else item.appendChild(h('video', { src: result.url, muted: true, playsinline: true, preload: 'metadata' }));
-      item.appendChild(h('span', { class: 'badge' }, [result.type === 'IMAGE' ? '🖼' : '🎬']));
-      gallery.appendChild(item);
-    }
-    wrapper.appendChild(gallery);
-    return wrapper;
-  }
-};
-
-const ProfileView = {
-  async render() {
-    const wrapper = h('div', { class: 'fade-in' });
-    const key = ApiClient.getKey();
-    const keyInput = h('input', { type: 'password', placeholder: 'sk-...', value: key });
-    wrapper.appendChild(h('div', { class: 'card' }, [
-      h('div', { class: 'card-title' }, ['🔑 Clé API Agnes']),
-      h('div', { style: 'font-size:12px;color:var(--ink3);margin-bottom:10px;line-height:1.5' }, ['Stockée localement dans ce navigateur. Ne sera jamais envoyée ailleurs qu\'à Agnes. ', h('strong', { style: 'color:var(--warn)' }, ['Note : version frontend-only.'])]),
-      h('div', { class: 'field' }, [h('label', {}, ['Clé API']), keyInput]),
-      h('button', { class: 'btn btn-primary', onClick: () => { const k = keyInput.value.trim(); ApiClient.setKey(k); Toast.show(k ? 'Clé enregistrée' : 'Clé supprimée', 'success'); } }, ['Enregistrer'])
-    ]));
-    wrapper.appendChild(h('div', { class: 'card' }, [
-      h('div', { class: 'card-title' }, ['⚙️ Paramètres']),
-      h('div', { style: 'display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)' }, [h('div', { style: 'font-size:14px' }, ['Version']), h('div', { style: 'font-size:12px;color:var(--ink3)' }, [PLATFORM.version])]),
-      h('div', { style: 'display:flex;justify-content:space-between;align-items:center;padding:10px 0' }, [h('div', { style: 'font-size:14px' }, ['Provider']), h('div', { style: 'font-size:12px;color:var(--ink3)' }, ['Agnes AI'])])
-    ]));
-    wrapper.appendChild(h('div', { class: 'card' }, [
-      h('div', { class: 'card-title' }, ['🗑 Zone dangereuse']),
-      h('button', { class: 'btn btn-danger', onClick: async () => {
-        if (!confirm('Effacer TOUTES les données ?')) return;
-        for (const s of Object.values(PLATFORM.stores)) { try { await StorageEngine.clear(s); } catch (e) {} }
-        try { localStorage.clear(); } catch (e) {}
-        Toast.show('Toutes les données effacées', 'success');
-        location.reload();
-      } }, ['Tout effacer'])
-    ]));
-    return wrapper;
-  }
-};
-
-const Router = (() => {
-  const views = { home: HomeView, agent: AgentView, create: CreateView, library: LibraryView, profile: ProfileView };
-  async function render() {
-    const root = document.getElementById('view-root');
-    if (!root) return;
-    const projectId = AppState.getCurrentProjectId();
-    const view = AppState.getCurrentView();
-    if (!projectId && view !== 'profile') {
-      root.innerHTML = '<div class="empty" style="padding:60px 20px"><div class="icon">✦</div><div class="text">Aucun projet actif<br><small style="color:var(--ink4)">Créez votre premier projet pour commencer</small></div></div>';
-      return;
-    }
-    const viewObj = views[view];
-    if (!viewObj) return;
-    root.innerHTML = '';
-    try {
-      const node = await viewObj.render();
-      if (typeof node === 'string') root.innerHTML = node;
-      else if (node) root.appendChild(node);
-    } catch (e) { console.error('[Router]', e); root.innerHTML = `<div class="card"><div style="color:var(--error)">Erreur : ${escHtml(e.message)}</div></div>`; }
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-  }
-  return { render };
-})();
-
-const ProjectTabs = (() => {
-  async function render() {
-    const container = document.getElementById('tabsContainer');
-    if (!container) return;
-    const projects = await ProjectEngine.listAll();
-    const currentId = AppState.getCurrentProjectId();
-    let html = '<div class="tabs-scroll"><div class="tabs">';
-    for (const p of projects) html += `<button class="tab ${p.id === currentId ? 'active' : ''}" data-project="${p.id}"><span class="tab-dot"></span>${escHtml(p.name)}</button>`;
-    html += `<button class="tab tab-new" id="newProjectTab">＋ Projet</button></div></div>`;
-    container.innerHTML = html;
-    container.querySelectorAll('[data-project]').forEach(btn => {
-      btn.addEventListener('click', async () => { await AppState.setCurrentProject(btn.dataset.project); Router.render(); Toast.show('Projet actif', 'success', 1200); });
-    });
-    document.getElementById('newProjectTab').addEventListener('click', () => newProjectFlow());
-  }
-  async function newProjectFlow() {
-    const nameInput = h('input', { type: 'text', placeholder: 'Nom du projet', value: 'Projet ' + new Date().toLocaleDateString('fr-FR') });
-    const descInput = h('textarea', { placeholder: 'Description courte' });
-    const content = h('div', {}, [
-      h('div', { class: 'modal-title' }, ['Nouveau projet', h('button', { class: 'icon-btn', onClick: () => Modal.close() }, ['✕'])]),
-      h('div', { class: 'field' }, [h('label', {}, ['Nom']), nameInput]),
-      h('div', { class: 'field' }, [h('label', {}, ['Description']), descInput]),
-      h('button', { class: 'btn btn-primary', onClick: async () => {
-        const name = nameInput.value.trim() || 'Nouveau projet';
-        const project = await ProjectEngine.create({ name, description: descInput.value.trim() });
-        await AppState.setCurrentProject(project.id);
-        Modal.close();
-        Toast.show('Projet créé', 'success');
-        ProjectTabs.render();
-        Router.render();
-      } }, ['Créer'])
-    ]);
-    Modal.open(content);
-  }
-  return { render, newProjectFlow };
-})();
-
-Modal.openResult = function (result) {
-  const content = h('div', {}, [
-    h('div', { class: 'modal-title' }, [result.type === 'IMAGE' ? '🖼 Image' : '🎬 Vidéo', h('button', { class: 'icon-btn', onClick: () => Modal.close() }, ['✕'])])
-  ]);
-  if (result.type === 'IMAGE') content.appendChild(h('img', { src: result.url, style: 'width:100%;border-radius:12px;margin-bottom:12px' }));
-  else content.appendChild(h('video', { src: result.url, controls: true, playsinline: true, style: 'width:100%;border-radius:12px;margin-bottom:12px' }));
-  content.appendChild(h('div', { style: 'display:grid;grid-template-columns:1fr 1fr;gap:8px' }, [
-    h('button', { class: 'btn btn-secondary', onClick: async () => { const res = await fetch(result.url); const blob = await res.blob(); ExportEngine.downloadBlob(blob, result.type.toLowerCase() + '_' + result.id + (result.type === 'IMAGE' ? '.png' : '.mp4')); } }, ['↓ Télécharger']),
-    h('button', { class: 'btn btn-secondary', onClick: async () => { await StorageEngine.del('results', result.id); Modal.close(); Router.render(); } }, ['🗑 Supprimer'])
-  ]));
-  Modal.open(content);
-};
-
-Modal.openCharacterLibrary = async function () {
-  const projectId = AppState.getCurrentProjectId();
-  const characters = await CharacterEngine.listByProject(projectId);
-  const list = h('div', {});
-  for (const c of characters) {
-    const lockCount = Object.keys(c.locks || {}).length;
-    list.appendChild(h('div', { class: 'list-item', onClick: () => Modal.openCharacterEditor(c.id) }, [
-      h('div', { class: 'list-thumb' }, ['👤']),
-      h('div', { class: 'list-info' }, [h('div', { class: 'list-name' }, [c.name || '(sans nom)']), h('div', { class: 'list-sub' }, [lockCount + ' lock' + (lockCount > 1 ? 's' : '')])])
-    ]));
-  }
-  const content = h('div', {}, [
-    h('div', { class: 'modal-title' }, ['👤 Personnages', h('button', { class: 'icon-btn', onClick: () => Modal.close() }, ['✕'])]),
-    characters.length ? list : h('div', { class: 'empty' }, [h('div', { class: 'text' }, ['Aucun personnage'])]),
-    h('button', { class: 'btn btn-primary', style: 'margin-top:12px', onClick: () => Modal.openCharacterEditor(null) }, ['＋ Nouveau personnage'])
-  ]);
-  Modal.open(content);
-};
-
-Modal.openCharacterEditor = async function (characterId) {
-  const projectId = AppState.getCurrentProjectId();
-  let c = characterId ? await CharacterEngine.get(characterId) : CharacterEngine.createEmpty();
-  if (!c) return;
-  const nameInput = h('input', { type: 'text', value: c.name || '', placeholder: 'Nom' });
-  const descInput = h('textarea', { placeholder: 'Description' }, [c.description || '']);
-  const appearanceFields = ['face','hair','eyes','body','age','clothing','accessories','notes'];
-  const appearanceLabels = { face:'Visage', hair:'Cheveux', eyes:'Yeux', body:'Corps', age:'Âge', clothing:'Vêtements', accessories:'Accessoires', notes:'Notes' };
-  const appInputs = {};
-  const appContainer = h('div', {});
-  for (const field of appearanceFields) {
-    const input = h('input', { type: 'text', value: (c.appearance && c.appearance[field]) || '', placeholder: appearanceLabels[field] });
-    appInputs[field] = input;
-    const lockChip = h('button', { class: 'lock' + (c.locks && c.locks[field] ? ' locked' : ' off'), type: 'button', style: 'margin-left:6px;padding:2px 6px;font-size:10px', onClick: async () => {
-      if (!characterId) { Toast.show('Enregistrez d\'abord', 'warn'); return; }
-      await CharacterEngine.toggleLock(characterId, field, input.value);
-      lockChip.classList.toggle('locked'); lockChip.classList.toggle('off');
-    } }, [(c.locks && c.locks[field]) ? '🔒' : '🔓']);
-    appContainer.appendChild(h('div', { class: 'field' }, [
-      h('label', { style: 'display:flex;justify-content:space-between;align-items:center' }, [h('span', {}, [appearanceLabels[field]]), lockChip]),
-      input
-    ]));
-  }
-  const identityInput = h('textarea', { placeholder: 'Prompt d\'identité (auto si vide)' }, [c.identityPrompt || '']);
-  const content = h('div', {}, [
-    h('div', { class: 'modal-title' }, [characterId ? 'Modifier personnage' : 'Nouveau personnage', h('button', { class: 'icon-btn', onClick: () => Modal.close() }, ['✕'])]),
-    h('div', { class: 'field' }, [h('label', {}, ['Nom']), nameInput]),
-    h('div', { class: 'field' }, [h('label', {}, ['Description']), descInput]),
-    h('div', { style: 'font-size:12px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 8px' }, ['Apparence & locks']),
-    appContainer,
-    h('div', { class: 'field' }, [h('label', {}, ['Prompt d\'identité']), identityInput]),
-    h('button', { class: 'btn btn-primary', style: 'margin-top:12px', onClick: async () => {
-      const appearance = {};
-      for (const f of appearanceFields) appearance[f] = appInputs[f].value.trim();
-      const data = { name: nameInput.value.trim(), description: descInput.value.trim(), appearance, identityPrompt: identityInput.value.trim() };
-      if (!data.identityPrompt) data.identityPrompt = CharacterEngine.buildIdentityPrompt(data);
-      if (characterId) await CharacterEngine.update(characterId, data);
-      else { const saved = await CharacterEngine.create(data); await ProjectEngine.linkCharacter(projectId, saved.id); }
-      Toast.show('Personnage enregistré', 'success');
-      Modal.close();
-      Modal.openCharacterLibrary();
-      Router.render();
-    } }, ['Enregistrer'])
-  ]);
-  Modal.open(content);
-};
-
-Modal.openEnvironmentLibrary = async function () {
-  const projectId = AppState.getCurrentProjectId();
-  const environments = await EnvironmentEngine.listByProject(projectId);
-  const list = h('div', {});
-  for (const e of environments) {
-    const lockCount = Object.keys(e.locks || {}).length;
-    list.appendChild(h('div', { class: 'list-item', onClick: () => Modal.openEnvironmentEditor(e.id) }, [
-      h('div', { class: 'list-thumb' }, ['🏛']),
-      h('div', { class: 'list-info' }, [h('div', { class: 'list-name' }, [e.name || '(sans nom)']), h('div', { class: 'list-sub' }, [lockCount + ' lock' + (lockCount > 1 ? 's' : '')])])
-    ]));
-  }
-  const content = h('div', {}, [
-    h('div', { class: 'modal-title' }, ['🏛 Décors', h('button', { class: 'icon-btn', onClick: () => Modal.close() }, ['✕'])]),
-    environments.length ? list : h('div', { class: 'empty' }, [h('div', { class: 'text' }, ['Aucun décor'])]),
-    h('button', { class: 'btn btn-primary', style: 'margin-top:12px', onClick: () => Modal.openEnvironmentEditor(null) }, ['＋ Nouveau décor'])
-  ]);
-  Modal.open(content);
-};
-
-Modal.openEnvironmentEditor = async function (environmentId) {
-  const projectId = AppState.getCurrentProjectId();
-  let e = environmentId ? await EnvironmentEngine.get(environmentId) : EnvironmentEngine.createEmpty();
-  if (!e) return;
-  const nameInput = h('input', { type: 'text', value: e.name || '', placeholder: 'Nom' });
-  const descInput = h('textarea', { placeholder: 'Description' }, [e.description || '']);
-  const propFields = ['architecture','colors','furniture','layout','lighting','atmosphere','era','materials','weather','notes'];
-  const propLabels = { architecture:'Architecture', colors:'Couleurs', furniture:'Mobilier', layout:'Disposition', lighting:'Éclairage', atmosphere:'Ambiance', era:'Époque', materials:'Matériaux', weather:'Météo', notes:'Notes' };
-  const propInputs = {};
-  const propContainer = h('div', {});
-  for (const field of propFields) {
-    const input = h('input', { type: 'text', value: (e.properties && e.properties[field]) || '', placeholder: propLabels[field] });
-    propInputs[field] = input;
-    const lockChip = h('button', { class: 'lock' + (e.locks && e.locks[field] ? ' locked' : ' off'), type: 'button', style: 'margin-left:6px;padding:2px 6px;font-size:10px', onClick: async () => {
-      if (!environmentId) { Toast.show('Enregistrez d\'abord', 'warn'); return; }
-      await EnvironmentEngine.toggleLock(environmentId, field, input.value);
-      lockChip.classList.toggle('locked'); lockChip.classList.toggle('off');
-    } }, [(e.locks && e.locks[field]) ? '🔒' : '🔓']);
-    propContainer.appendChild(h('div', { class: 'field' }, [
-      h('label', { style: 'display:flex;justify-content:space-between;align-items:center' }, [h('span', {}, [propLabels[field]]), lockChip]),
-      input
-    ]));
-  }
-  const content = h('div', {}, [
-    h('div', { class: 'modal-title' }, [environmentId ? 'Modifier décor' : 'Nouveau décor', h('button', { class: 'icon-btn', onClick: () => Modal.close() }, ['✕'])]),
-    h('div', { class: 'field' }, [h('label', {}, ['Nom']), nameInput]),
-    h('div', { class: 'field' }, [h('label', {}, ['Description']), descInput]),
-    h('div', { style: 'font-size:12px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 8px' }, ['Propriétés & locks']),
-    propContainer,
-    h('button', { class: 'btn btn-primary', style: 'margin-top:12px', onClick: async () => {
-      const properties = {};
-      for (const f of propFields) properties[f] = propInputs[f].value.trim();
-      const data = { name: nameInput.value.trim(), description: descInput.value.trim(), properties };
-      if (environmentId) await EnvironmentEngine.update(environmentId, data);
-      else { const saved = await EnvironmentEngine.create(data); await ProjectEngine.linkEnvironment(projectId, saved.id); }
-      Toast.show('Décor enregistré', 'success');
-      Modal.close();
-      Modal.openEnvironmentLibrary();
-      Router.render();
-    } }, ['Enregistrer'])
-  ]);
-  Modal.open(content);
-};
-
-Modal.openSceneEditor = async function (sceneId) {
-  const projectId = AppState.getCurrentProjectId();
-  let s;
-  if (sceneId) s = await SceneEngine.get(sceneId);
-  else {
-    const scenes = await SceneEngine.listByProject(projectId);
-    s = { id: null, projectId, number: scenes.length + 1, title: '', description: '', characterIds: [], environmentId: null, referenceIds: [], shotIds: [], masterPromptOverride: null };
-  }
-  if (!s) return;
-  const characters = await CharacterEngine.listByProject(projectId);
-  const environments = await EnvironmentEngine.listByProject(projectId);
-  const shots = sceneId ? await ShotEngine.listByScene(sceneId) : [];
-  const numberInput = h('input', { type: 'number', value: String(s.number), min: '1' });
-  const titleInput = h('input', { type: 'text', value: s.title || '', placeholder: 'Titre' });
-  const descInput = h('textarea', { placeholder: 'Description' }, [s.description || '']);
-  const charChips = h('div', { style: 'display:flex;flex-wrap:wrap;gap:6px' });
-  const selectedChars = new Set(s.characterIds || []);
-  for (const c of characters) {
-    const chip = h('button', { class: 'lock' + (selectedChars.has(c.id) ? ' locked' : ' off'), type: 'button', onClick: () => {
-      if (selectedChars.has(c.id)) { selectedChars.delete(c.id); chip.classList.add('off'); chip.classList.remove('locked'); }
-      else { selectedChars.add(c.id); chip.classList.remove('off'); chip.classList.add('locked'); }
-    } }, ['👤 ' + c.name]);
-    charChips.appendChild(chip);
-  }
-  if (!characters.length) charChips.appendChild(h('div', { style: 'color:var(--ink4);font-size:12px' }, ['Aucun personnage']));
-  const envSelect = h('select', {}, [h('option', { value: '' }, ['— Aucun décor —'])].concat(environments.map(e => h('option', { value: e.id, selected: s.environmentId === e.id }, [e.name]))));
-  const overrideSelect = h('select', {}, [
-    h('option', { value: 'inherit', selected: s.masterPromptOverride === null }, ['Hériter du projet']),
-    h('option', { value: 'on', selected: s.masterPromptOverride === true }, ['Forcer ON']),
-    h('option', { value: 'off', selected: s.masterPromptOverride === false }, ['Forcer OFF'])
-  ]);
-  const shotsList = h('div', {});
-  for (const shot of shots) {
-    shotsList.appendChild(h('div', { class: 'list-item' }, [
-      h('div', { class: 'list-thumb' }, [String(shot.number)]),
-      h('div', { class: 'list-info' }, [h('div', { class: 'list-name' }, [shot.description || 'Shot ' + shot.number]), h('div', { class: 'list-sub' }, [`${shot.imageCount} img · ${shot.videoCount} vid`])]),
-      h('button', { class: 'icon-btn', style: 'width:28px;height:28px;font-size:12px', onClick: (ev) => { ev.stopPropagation(); Modal.openShotEditor(shot.id, sceneId); } }, ['✎'])
-    ]));
-  }
-  const content = h('div', {}, [
-    h('div', { class: 'modal-title' }, [sceneId ? 'Modifier scène' : 'Nouvelle scène', h('button', { class: 'icon-btn', onClick: () => Modal.close() }, ['✕'])]),
-    h('div', { class: 'row' }, [h('div', { class: 'field' }, [h('label', {}, ['Numéro']), numberInput]), h('div', { class: 'field' }, [h('label', {}, ['Titre']), titleInput])]),
-    h('div', { class: 'field' }, [h('label', {}, ['Description']), descInput]),
-    h('div', { class: 'field' }, [h('label', {}, ['Personnages']), charChips]),
-    h('div', { class: 'field' }, [h('label', {}, ['Décor']), envSelect]),
-    h('div', { class: 'field' }, [h('label', {}, ['Prompt Master']), overrideSelect]),
-    sceneId ? h('div', {}, [
-      h('div', { style: 'font-size:12px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 8px' }, ['Shots']),
-      shots.length ? shotsList : h('div', { style: 'color:var(--ink4);font-size:12px;margin-bottom:8px' }, ['Aucun shot']),
-      h('button', { class: 'btn btn-secondary btn-sm', style: 'width:100%;margin-bottom:12px', onClick: () => Modal.openShotEditor(null, sceneId) }, ['＋ Nouveau shot'])
-    ]) : null,
-    h('button', { class: 'btn btn-primary', style: 'margin-top:8px', onClick: async () => {
-      const data = { number: parseInt(numberInput.value) || 1, title: titleInput.value.trim(), description: descInput.value.trim(), characterIds: Array.from(selectedChars), environmentId: envSelect.value || null, masterPromptOverride: overrideSelect.value === 'inherit' ? null : overrideSelect.value === 'on' };
-      if (sceneId) await SceneEngine.update(sceneId, data);
-      else await SceneEngine.create(projectId, data);
-      Toast.show('Scène enregistrée', 'success');
-      Modal.close();
-      Router.render();
-    } }, ['Enregistrer'])
-  ]);
-  Modal.open(content);
-};
-
-Modal.openShotEditor = async function (shotId, sceneId) {
-  const projectId = AppState.getCurrentProjectId();
-  let shot;
-  if (shotId) shot = await ShotEngine.get(shotId);
-  else {
-    const shots = await ShotEngine.listByScene(sceneId);
-    shot = { id: null, sceneId, projectId, number: shots.length + 1, description: '', imagePrompt: '', videoPrompt: '', imageCount: 1, videoCount: 0, videoDuration: 6.4 };
-  }
-  if (!shot) return;
-  const numInput = h('input', { type: 'number', value: String(shot.number), min: '1' });
-  const descInput = h('textarea', { placeholder: 'Description' }, [shot.description || '']);
-  const imgPromptInput = h('textarea', { placeholder: 'Prompt image' }, [shot.imagePrompt || '']);
-  const vidPromptInput = h('textarea', { placeholder: 'Prompt vidéo' }, [shot.videoPrompt || '']);
-  const imgCountInput = h('input', { type: 'number', value: String(shot.imageCount || 1), min: '0', max: '20' });
-  const vidCountInput = h('input', { type: 'number', value: String(shot.videoCount || 0), min: '0', max: '20' });
-  const vidDurInput = h('input', { type: 'number', value: String(shot.videoDuration || 6.4), min: '5', max: '15', step: '0.1' });
-  const content = h('div', {}, [
-    h('div', { class: 'modal-title' }, [shotId ? 'Modifier shot' : 'Nouveau shot', h('button', { class: 'icon-btn', onClick: () => Modal.close() }, ['✕'])]),
-    h('div', { class: 'field' }, [h('label', {}, ['Numéro']), numInput]),
-    h('div', { class: 'field' }, [h('label', {}, ['Description']), descInput]),
-    h('div', { class: 'field' }, [h('label', {}, ['Prompt image']), imgPromptInput]),
-    h('div', { class: 'field' }, [h('label', {}, ['Prompt vidéo']), vidPromptInput]),
-    h('div', { class: 'row' }, [h('div', { class: 'field' }, [h('label', {}, ['Nb images']), imgCountInput]), h('div', { class: 'field' }, [h('label', {}, ['Nb vidéos']), vidCountInput])]),
-    h('div', { class: 'field' }, [h('label', {}, ['Durée vidéo (s)']), vidDurInput]),
-    h('button', { class: 'btn btn-primary', style: 'margin-top:12px', onClick: async () => {
-      const data = { number: parseInt(numInput.value) || 1, description: descInput.value.trim(), imagePrompt: imgPromptInput.value.trim(), videoPrompt: vidPromptInput.value.trim(), imageCount: parseInt(imgCountInput.value) || 0, videoCount: parseInt(vidCountInput.value) || 0, videoDuration: parseFloat(vidDurInput.value) || 6.4 };
-      if (shotId) await ShotEngine.update(shotId, data);
-      else await ShotEngine.create(sceneId, projectId, data);
-      Toast.show('Shot enregistré', 'success');
-      Modal.close();
-      if (sceneId) Modal.openSceneEditor(sceneId);
-    } }, ['Enregistrer'])
-  ]);
-  Modal.open(content);
-};
-
-document.querySelectorAll('.nav-btn').forEach(btn => {
-  btn.addEventListener('click', () => { AppState.setCurrentView(btn.dataset.view); Router.render(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-});
-
-document.getElementById('btnConsole').addEventListener('click', () => document.getElementById('consolePanel').classList.toggle('visible'));
-document.getElementById('consoleClose').addEventListener('click', () => document.getElementById('consolePanel').classList.remove('visible'));
-document.getElementById('consoleClear').addEventListener('click', () => Console.clear());
-document.querySelectorAll('#consoleFilters .cf').forEach(b => b.addEventListener('click', () => Console.setFilter(b.dataset.filter)));
-
-document.getElementById('btnMenu').addEventListener('click', async () => {
-  const projects = await ProjectEngine.listAll();
-  const projectId = AppState.getCurrentProjectId();
-  const list = h('div', {});
-  for (const p of projects) {
-    list.appendChild(h('div', { class: 'list-item' + (p.id === projectId ? ' selected' : ''), onClick: async () => {
-      await AppState.setCurrentProject(p.id);
-      Modal.close();
-      ProjectTabs.render();
-      Router.render();
-    } }, [
-      h('div', { class: 'list-thumb' }, ['✦']),
-      h('div', { class: 'list-info' }, [h('div', { class: 'list-name' }, [p.name]), h('div', { class: 'list-sub' }, [(p.sceneIds || []).length + ' scènes'])])
-    ]));
-  }
-  const content = h('div', {}, [
-    h('div', { class: 'modal-title' }, ['Projets', h('button', { class: 'icon-btn', onClick: () => Modal.close() }, ['✕'])]),
-    list,
-    h('button', { class: 'btn btn-primary', style: 'margin-top:12px', onClick: () => { Modal.close(); ProjectTabs.newProjectFlow(); } }, ['＋ Nouveau projet'])
-  ]);
-  Modal.open(content);
-});
-
-window.addEventListener('scroll', () => {
-  const header = document.getElementById('appHeader');
-  if (header) header.classList.toggle('scrolled', window.scrollY > 10);
-}, { passive: true });
-
-</script>
-
-<script>
-'use strict';
-
-const WakeLock = (() => {
-  let sentinel = null;
-  let canvasStream = null;
-  let canvasInterval = null;
-  function isSupported() { return 'wakeLock' in navigator && typeof navigator.wakeLock.request === 'function'; }
-  async function requestAPI() {
-    if (!isSupported()) return false;
-    try { sentinel = await navigator.wakeLock.request('screen'); sentinel.addEventListener('release', () => { sentinel = null; }); return true; }
-    catch (e) { return false; }
-  }
-  async function releaseAPI() { if (sentinel) { try { await sentinel.release(); } catch (e) {} sentinel = null; } }
-  function startCanvasFallback() {
-    if (canvasStream) return true;
-    try {
-      const canvas = document.createElement('canvas');
-      canvas.width = 2; canvas.height = 2;
-      canvas.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0.01;pointer-events:none;z-index:-1';
-      document.body.appendChild(canvas);
-      const video = document.createElement('video');
-      video.muted = true; video.playsInline = true; video.loop = true;
-      video.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0.01;pointer-events:none;z-index:-1';
-      document.body.appendChild(video);
-      const ctx = canvas.getContext('2d');
-      if (!ctx || typeof canvas.captureStream !== 'function') return false;
-      ctx.fillStyle = '#000'; ctx.fillRect(0, 0, 2, 2);
-      canvasStream = canvas.captureStream(1);
-      let toggle = false;
-      canvasInterval = setInterval(() => { toggle = !toggle; ctx.fillStyle = toggle ? '#000' : '#010101'; ctx.fillRect(0, 0, 2, 2); }, 1000);
-      video.srcObject = canvasStream;
-      video.play().catch(() => {});
-      return true;
-    } catch (e) { return false; }
-  }
-  function stopCanvasFallback() {
-    if (canvasInterval) { clearInterval(canvasInterval); canvasInterval = null; }
-    if (canvasStream) { try { canvasStream.getTracks().forEach(t => t.stop()); } catch (e) {} canvasStream = null; }
-  }
-  async function activate() { let ok = false; if (isSupported()) ok = await requestAPI(); if (!ok) ok = startCanvasFallback(); return ok; }
-  async function deactivate() { await releaseAPI(); stopCanvasFallback(); }
-  return { activate, deactivate, isSupported };
-})();
-
-function setupAntiRefresh() {
-  document.body.style.overscrollBehavior = 'none';
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'textarea') {
-      if (!e.target.classList.contains('allow-enter')) e.preventDefault();
-    }
-  }, true);
-  document.addEventListener('click', (e) => {
-    const a = e.target.closest && e.target.closest('a');
-    if (a && (!a.getAttribute('href') || a.getAttribute('href') === '#')) e.preventDefault();
-  }, true);
-}
-
-function setupEventListeners() {
-  const refresh = () => { if (AppState.getCurrentView() === 'create') setTimeout(refreshTasksLive, 100); };
-  EventBus.on('TASK_QUEUED', refresh);
-  EventBus.on('TASK_STARTED', refresh);
-  EventBus.on('TASK_PROGRESS', refresh);
-  EventBus.on('TASK_COMPLETED', () => { refresh(); if (AppState.getCurrentView() === 'library') Router.render(); });
-  EventBus.on('TASK_FAILED', refresh);
-  EventBus.on('TASK_CANCELLED', refresh);
-  document.addEventListener('visibilitychange', async () => {
-    if (document.visibilityState === 'visible') {
-      const enabled = localStorage.getItem(PLATFORM.lsKeys.wakeLock) === '1';
-      if (enabled) await WakeLock.activate();
-    }
-  });
-}
-
-function setupWakeLockButton() {
-  const actions = document.querySelector('.header-actions');
-  if (!actions) return;
-  const enabled = localStorage.getItem(PLATFORM.lsKeys.wakeLock) === '1';
-  const btn = document.createElement('button');
-  btn.className = 'icon-btn';
-  btn.title = 'Garder l\'écran allumé';
-  btn.textContent = enabled ? '☀' : '☾';
-  btn.addEventListener('click', async () => {
-    const currentlyEnabled = localStorage.getItem(PLATFORM.lsKeys.wakeLock) === '1';
-    if (currentlyEnabled) {
-      localStorage.setItem(PLATFORM.lsKeys.wakeLock, '0');
-      await WakeLock.deactivate();
-      btn.textContent = '☾';
-      Toast.show('Veille automatique réactivée', 'warn');
-    } else {
-      localStorage.setItem(PLATFORM.lsKeys.wakeLock, '1');
-      const ok = await WakeLock.activate();
-      btn.textContent = ok ? '☀' : '☾';
-      Toast.show(ok ? 'Écran va rester allumé' : 'Non supporté', ok ? 'success' : 'warn');
-    }
-  });
-  actions.insertBefore(btn, actions.firstChild);
-}
-
-async function resumeQueueIfNeeded() {
+async function generateSceneVideo(scene) {
+  scene.videoStatus = 'creating';
+  renderPrompts();
   try {
-    const allTasks = await StorageEngine.getAll('tasks');
-    const pending = allTasks.filter(t => ['QUEUED','RUNNING','RETRYING'].includes(t.status));
-    for (const t of pending) {
-      if (t.status === 'RUNNING') { t.status = 'QUEUED'; t.progress = 0; await StorageEngine.put('tasks', t); }
-    }
-    if (pending.length > 0) {
-      EventBus.emit('TASK_QUEUED', { category: 'QUEUE', message: `Reprise : ${pending.length} tâche${pending.length > 1 ? 's' : ''} en attente` });
-      QueueEngine.startLoop();
-    }
-  } catch (e) { console.warn('[Resume]', e); }
-}
-
-async function selfTest() {
-  const results = [];
-  function check(name, fn) {
-    try { const ok = fn(); results.push({ name, ok, error: null }); }
-    catch (e) { results.push({ name, ok: false, error: e.message }); }
+    const videoId = await createVideo(scene.imageUrl, scene.actionPrompt);
+    debugLog('Vidéo ' + scene.number + ' créée: ' + videoId, 'info');
+    const url = await pollVideo(videoId, (p) => { scene.videoProgress = p; renderPrompts(); });
+    scene.videoUrl = url;
+    scene.videoStatus = 'done';
+    debugLog('Vidéo ' + scene.number + ' OK', 'success');
+  } catch(e) {
+    scene.videoStatus = 'failed';
+    debugLog('Vidéo ' + scene.number + ': ' + e.message, 'error');
   }
-  check('IdGen', () => { const a = IdGen.new('project'); const b = IdGen.new('project'); return a !== b && a.startsWith('prj_'); });
-  check('EventBus', () => { let received = false; const unsub = EventBus.on('LOG', () => { received = true; }); EventBus.emit('LOG', { message: 'test' }); unsub(); return received; });
-  check('PromptEngine merge', () => { const merged = PromptEngine.mergeLayers([{ kind: 'MASTER', content: 'Style cinématographique', order: 1 }, { kind: 'SCENE', content: 'Une femme dans une forêt', order: 8 }]); return merged.final.includes('Style') && merged.final.includes('femme'); });
-  check('PromptEngine conflits', () => {
-    const merged = PromptEngine.mergeLayers([
-      { kind: 'CHARACTERS', content: 'Sarah', order: 5, locks: [{ id: 'l1', field: 'clothing', value: 'veste noire', source: 'CHARACTER', sourceId: 'c1', priority: 100, createdAt: Date.now() }] },
-      { kind: 'SCENE', content: 'robe rouge', order: 8, constraints: [{ id: 'c1', type: 'SCENE', target: 'clothing', value: 'robe rouge', source: 'scene', priority: 50, onConflict: 'LOCKED_WINS' }] }
-    ]);
-    return merged.conflicts.length > 0;
-  });
-  check('QueueEngine estimate', () => { const est = QueueEngine.estimateTime([{ type: 'IMAGE' }, { type: 'IMAGE' }, { type: 'VIDEO' }]); return est.minMs > 0 && est.maxMs > est.minMs; });
-  console.log('[SelfTest]', results);
-  const failures = results.filter(r => !r.ok);
-  if (failures.length > 0) { console.warn('[SelfTest] Échecs :', failures); EventBus.emit('LOG', { category: 'SYSTEM', message: `⚠️ Self-test : ${failures.length}/${results.length} échec(s)` }); }
-  else EventBus.emit('LOG', { category: 'SYSTEM', message: `✓ Self-test : ${results.length}/${results.length} OK` });
-  return results;
+  renderPrompts();
 }
 
-async function init() {
-  console.log('[Studio] Initialisation…');
-  setupAntiRefresh();
-  try { await StorageEngine.open(); console.log('[Studio] IndexedDB ouverte'); }
-  catch (e) { console.error('[Studio] Erreur IndexedDB', e); Toast.show('Erreur base de données : ' + e.message, 'error', 6000); return; }
-  const lastProjectId = localStorage.getItem(PLATFORM.lsKeys.lastProjectId);
-  let projects = await ProjectEngine.listAll();
-  if (projects.length === 0) {
-    console.log('[Studio] Aucun projet, création du premier…');
-    const first = await ProjectEngine.create({
-      name: 'Mon premier projet',
-      description: 'Projet créé automatiquement au démarrage',
-      masterPrompt: 'Univers cinématographique premium, photographie réaliste, lumière naturelle douce, contraste élégant, peau naturelle, profondeur de champ.',
-      globalStyle: 'Portrait 9:16 vertical, cinématographique, haute qualité'
+// ═══════════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════════
+function renderPrompts() {
+  const container = $('prompts-container');
+  if (!state.scenes.length) { container.innerHTML = ''; return; }
+ 
+  container.innerHTML = state.scenes.map(s => {
+    let statusHtml = '';
+    if (s.status === 'pending') statusHtml = '<div class="pc-status"><span class="dot"></span>En attente</div>';
+    else if (s.status === 'creating') statusHtml = '<div class="pc-status creating"><span class="dot"></span>Création…</div>';
+    else if (s.status === 'done') statusHtml = '<div class="pc-status done"><span class="dot"></span>Image prête</div>';
+    else statusHtml = '<div class="pc-status failed"><span class="dot"></span>Échec</div>';
+   
+    let videoHtml = '';
+    if (state.genType === 'video') {
+      if (s.videoStatus === 'done') videoHtml = '<div class="pc-status done"><span class="dot"></span>Vidéo prête</div>';
+      else if (s.videoStatus === 'creating') videoHtml = '<div class="pc-status creating"><span class="dot"></span>' + (s.videoProgress || 'Vidéo…') + '</div>';
+      else if (s.videoStatus === 'failed') videoHtml = '<div class="pc-status failed"><span class="dot"></span>Échec vidéo</div>';
+    }
+   
+    let mediaHtml = '';
+    if (s.videoUrl) mediaHtml = '<div class="pc-preview"><video src="' + s.videoUrl + '" controls playsinline muted></video></div>';
+    else if (s.imageUrl) mediaHtml = '<div class="pc-preview"><img src="' + s.imageUrl + '" alt=""></div>';
+   
+    return '<div class="prompt-card" data-scene="' + s.id + '">' +
+      '<div class="pc-header">' +
+        '<div class="pc-num">' + s.number + '</div>' +
+        '<div class="pc-title">Scène ' + s.number + '</div>' +
+        '<span class="pc-type' + (state.genType === 'video' ? ' video' : '') + '">' + (state.genType === 'video' ? '🎬 Vidéo' : '🖼️ Image') + '</span>' +
+      '</div>' +
+      '<textarea data-prompt="image" data-id="' + s.id + '" placeholder="Prompt image…">' + esc(s.imagePrompt) + '</textarea>' +
+      (state.genType === 'video' ? '<textarea data-prompt="action" data-id="' + s.id + '" placeholder="Prompt mouvement…">' + esc(s.actionPrompt) + '</textarea>' : '') +
+      statusHtml + videoHtml + mediaHtml +
+    '</div>';
+  }).join('');
+ 
+  container.querySelectorAll('textarea[data-prompt]').forEach(ta => {
+    ta.addEventListener('input', (e) => {
+      const id = parseInt(e.target.dataset.id);
+      const field = e.target.dataset.prompt;
+      const scene = state.scenes.find(s => s.id === id);
+      if (scene) scene[field === 'image' ? 'imagePrompt' : 'actionPrompt'] = e.target.value;
     });
-    projects = [first];
-  }
-  const targetProject = projects.find(p => p.id === lastProjectId) || projects[0];
-  await AppState.setCurrentProject(targetProject.id);
-  setupEventListeners();
-  setupWakeLockButton();
-  const wakeEnabled = localStorage.getItem(PLATFORM.lsKeys.wakeLock) === '1';
-  if (wakeEnabled) await WakeLock.activate();
-  await ProjectTabs.render();
-  AppState.setCurrentView('home');
-  await Router.render();
-  await resumeQueueIfNeeded();
-  EventBus.emit('LOG', { category: 'SYSTEM', message: '✦ Studio initialisé — ' + PLATFORM.version });
-  EventBus.emit('LOG', { category: 'SYSTEM', message: `${projects.length} projet${projects.length > 1 ? 's' : ''} · Provider : Agnes` });
-  if (!ApiClient.getKey()) setTimeout(() => Toast.show('Ajoutez votre clé API dans Profil', 'warn', 5000), 1500);
-  console.log('[Studio] Prêt.');
+  });
 }
 
-window.Studio = { EventBus, StorageEngine, PromptEngine, CharacterEngine, EnvironmentEngine, ReferenceEngine, SceneEngine, ShotEngine, ProjectEngine, QueueEngine, ExportEngine, ProtocolEngine, ApiClient, AppState, Router, selfTest };
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => { selfTest().then(() => init()); });
-} else {
-  selfTest().then(() => init());
+function updateGenerateBtn() {
+  const hasKey = !!state.apiKey;
+  const hasPrompt = $('main-prompt').value.trim().length > 0;
+  $('btn-generate').disabled = !hasKey || !hasPrompt || state.isRunning;
+  $('btn-generate').textContent = state.isRunning ? 'Génération…' :
+    (!hasKey ? '🔑 Ajoutez la clé API' : (!hasPrompt ? '💭 Décrivez votre vision' : '✨ Générer'));
 }
 
-console.log('[Studio] Module prêt. Studio.selfTest() pour tester.');
+// ═══════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════
+(function init() {
+  // API
+  state.apiKey = loadApiKey();
+  updateApiUI();
+  $('btn-save-api').addEventListener('click', () => { saveApiKey(); toast('Clé enregistrée ✨'); });
+  $('api-input').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); saveApiKey(); } });
+ 
+  // Characters
+  state.characters = loadCharacters();
+  renderCharacters();
+  $('btn-add-char').addEventListener('click', () => $('char-file-input').click());
+  $('char-file-input').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const name = prompt('Nom du personnage:', 'Personnage ' + (state.characters.length + 1));
+      if (name) {
+        state.characters.push({ id: Date.now(), name, imageData: ev.target.result });
+        saveCharacters(state.characters);
+        renderCharacters();
+        toast('Personnage sauvegardé ✨');
+      }
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  });
+  $('btn-clear-chars').addEventListener('click', () => {
+    if (confirm('Effacer tous les personnages ?')) {
+      state.characters = []; state.selectedCharacters.clear();
+      saveCharacters([]); renderCharacters();
+    }
+  });
+ 
+  // Styles
+  $('styles-grid').innerHTML = STYLES.map(s =>
+    '<div class="style-card ' + (state.selectedStyle.id === s.id ? 'selected' : '') + '" data-style="' + s.id + '">' +
+      '<span class="emoji">' + s.emoji + '</span><span class="name">' + s.name + '</span>' +
+    '</div>'
+  ).join('');
+  $('styles-grid').querySelectorAll('[data-style]').forEach(el => {
+    el.addEventListener('click', () => {
+      state.selectedStyle = STYLES.find(s => s.id === el.dataset.style);
+      $('styles-grid').querySelectorAll('.style-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+    });
+  });
+ 
+  // Sections toggle
+  document.querySelectorAll('[data-toggle]').forEach(h => {
+    h.addEventListener('click', () => $(h.dataset.toggle).classList.toggle('open'));
+  });
+ 
+  // Agent toggle
+  $('agent-toggle').addEventListener('click', () => {
+    state.agentEnabled = !state.agentEnabled;
+    $('agent-switch').classList.toggle('on', state.agentEnabled);
+    debugLog('Agent: ' + (state.agentEnabled ? 'activé' : 'désactivé'), 'info');
+  });
+ 
+  // Controls
+  $('main-prompt').addEventListener('input', updateGenerateBtn);
+  $('gen-type').addEventListener('change', e => { state.genType = e.target.value; });
+  $('scene-count').addEventListener('change', e => { state.sceneCount = parseInt(e.target.value); });
+  $('video-duration').addEventListener('change', e => { state.videoDuration = parseInt(e.target.value); });
+ 
+  // Buttons
+  $('btn-generate').addEventListener('click', startGeneration);
+  $('btn-stop').addEventListener('click', () => { state.stopRequested = true; setStatus('Arrêt…'); });
+ 
+  // Debug
+  $('debug-header').addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON') return;
+    $('debug-panel').classList.toggle('collapsed');
+    $('debug-collapse').textContent = $('debug-panel').classList.contains('collapsed') ? '+' : '−';
+  });
+  $('debug-clear').addEventListener('click', (e) => { e.stopPropagation(); $('debug-body').innerHTML = ''; });
+  $('debug-collapse').addEventListener('click', (e) => {
+    e.stopPropagation();
+    $('debug-panel').classList.toggle('collapsed');
+    e.target.textContent = $('debug-panel').classList.contains('collapsed') ? '+' : '−';
+  });
+ 
+  debugLog('Girly Studio prêt ✨', 'success');
+  debugLog('Modèles: ' + MODEL_TEXT + ' / ' + MODEL_IMAGE + ' / ' + MODEL_VIDEO, 'info');
+})();
 </script>
-
 </body>
 </html>
