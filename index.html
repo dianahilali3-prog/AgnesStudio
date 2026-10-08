@@ -1,1 +1,1231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d0510">
+<title>Diana Studio AI 💎</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --rose: #ff4d8d; --rose-soft: #ff7eb3; --rose-deep: #c9306a;
+  --violet: #b44dff; --violet-soft: #d08aff;
+  --gold: #ffd700; --gold-soft: #ffe55c;
+  --red: #ff3b5c; --red-deep: #b81c3a;
+  --bg: #0d0510; --bg-2: #1a0a22;
+  --glass: rgba(255,255,255,0.05); --glass-border: rgba(255,255,255,0.1);
+  --ink: #ffe8f2; --ink-dim: #c49ac4; --ink-faint: #8a5a8a;
+  --success: #4ade80; --error: #f87171; --warn: #fbbf24;
+  --radius: 24px; --radius-sm: 16px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+html, body { background: var(--bg); }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Helvetica, Arial, sans-serif;
+  background: radial-gradient(ellipse at 15% 0%, rgba(255,77,141,0.2) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 15%, rgba(180,77,255,0.16) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 100%, rgba(255,215,0,0.08) 0%, transparent 50%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--ink); min-height: 100vh;
+  padding: calc(var(--safe-top) + 0.5rem) 1rem calc(var(--safe-bottom) + 8rem);
+  font-size: 15px; line-height: 1.55;
+  max-width: 720px; margin: 0 auto; overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
 
+/* Particules diamants + rouges à lèvres */
+.deco-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.deco {
+  position: absolute; opacity: 0.25; animation: floatUp linear infinite;
+  filter: drop-shadow(0 0 6px rgba(255,77,141,0.5));
+}
+@keyframes floatUp {
+  0% { transform: translateY(105vh) rotate(0deg) scale(0.3); opacity: 0; }
+  8% { opacity: 0.35; }
+  92% { opacity: 0.35; }
+  100% { transform: translateY(-10vh) rotate(360deg) scale(1); opacity: 0; }
+}
+
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius); position: relative; z-index: 1; overflow: hidden;
+}
+.glass::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), rgba(255,77,141,0.4), transparent);
+}
+header { text-align: center; margin-bottom: 0.8rem; position: relative; z-index: 1; }
+.logo-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 64px; height: 64px; border-radius: 22px;
+  background: linear-gradient(135deg, var(--rose), var(--violet), var(--gold));
+  background-size: 200% 200%;
+  font-size: 30px; margin-bottom: 0.4rem;
+  box-shadow: 0 10px 40px rgba(255,77,141,0.45), 0 0 0 1px rgba(255,215,0,0.2) inset;
+  animation: float 3.5s ease-in-out infinite, shimmer 4s ease-in-out infinite;
+}
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes shimmer { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+h1 {
+  font-size: 1.75rem; font-weight: 800; letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--rose-soft), var(--gold), var(--violet-soft));
+  background-size: 200% 200%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: gradientShift 5s ease infinite;
+}
+@keyframes gradientShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.subtitle { font-size: 0.7rem; color: var(--ink-dim); letter-spacing: 0.12em; }
+
+/* Onglets */
+.tabs {
+  display: flex; gap: 0.25rem; padding: 0.3rem; margin-bottom: 0.7rem;
+  background: rgba(0,0,0,0.3); border-radius: var(--radius); position: relative; z-index: 1;
+  overflow-x: auto; scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 1; min-width: 60px; padding: 0.65rem 0.4rem; border-radius: var(--radius-sm);
+  border: none; background: transparent; color: var(--ink-faint);
+  font-family: inherit; font-size: 0.62rem; font-weight: 700;
+  cursor: pointer; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  display: flex; flex-direction: column; align-items: center; gap: 0.15rem;
+  white-space: nowrap;
+}
+.tab .tab-icon { font-size: 1.15rem; }
+.tab.active {
+  background: linear-gradient(135deg, var(--rose), var(--violet));
+  color: #fff; box-shadow: 0 4px 20px rgba(255,77,141,0.4);
+  transform: scale(1.03);
+}
+.tab:active { transform: scale(0.94); }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: panelIn 0.45s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.section { margin-bottom: 0.7rem; }
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.85rem 1.05rem; cursor: pointer; user-select: none;
+}
+.section-header:active { background: rgba(255,255,255,0.03); }
+.section-title {
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.16em;
+  font-weight: 700; color: var(--ink-dim); display: flex; align-items: center; gap: 0.45rem;
+}
+.badge {
+  padding: 0.1rem 0.4rem; border-radius: 999px; font-size: 0.54rem;
+  background: rgba(255,77,141,0.15); color: var(--rose-soft);
+  border: 1px solid rgba(255,77,141,0.3); letter-spacing: 0.04em;
+}
+.badge.ok { background: rgba(74,222,128,0.12); color: var(--success); border-color: rgba(74,222,128,0.3); }
+.chevron { font-size: 0.58rem; color: var(--ink-faint); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+.section.open .chevron { transform: rotate(180deg); }
+.section-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1); }
+.section.open .section-body { max-height: 20000px; }
+.section-content { padding: 0 1.05rem 1.05rem; }
+
+input, textarea, select {
+  width: 100%; padding: 0.85rem 1rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3);
+  color: var(--ink); font-family: inherit; font-size: 0.85rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none; border-color: var(--violet); box-shadow: 0 0 0 3px rgba(180,77,255,0.15);
+}
+textarea { min-height: 70px; line-height: 1.5; resize: vertical; }
+select {
+  -webkit-appearance: none; appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23ff7eb3' d='M0 0l5 6 5-6z'/></svg>");
+  background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem;
+}
+select option { background: var(--bg-2); color: var(--ink); }
+
+.btn {
+  width: 100%; padding: 0.9rem; border-radius: var(--radius-sm); border: none;
+  cursor: pointer; font-family: inherit; font-size: 0.85rem; font-weight: 700;
+  letter-spacing: 0.05em; color: #fff;
+  background: linear-gradient(135deg, var(--rose), var(--violet));
+  box-shadow: 0 4px 24px rgba(255,77,141,0.35);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn:active:not(:disabled) { transform: scale(0.97); }
+.btn:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
+.btn-primary { padding: 1.1rem; font-size: 1rem; margin-bottom: 0.5rem; }
+.btn-stop {
+  width: 100%; padding: 0.8rem; border-radius: var(--radius);
+  border: 1px solid rgba(248,113,113,0.4); background: rgba(248,113,113,0.08);
+  color: var(--error); font-family: inherit; font-size: 0.8rem; font-weight: 700;
+  cursor: pointer; display: none; margin-bottom: 0.5rem; letter-spacing: 0.08em;
+}
+.btn-stop.visible { display: block; }
+.btn-ghost {
+  padding: 0.7rem 0.9rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
+  color: var(--ink-dim); font-family: inherit; font-size: 0.72rem; font-weight: 600;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-ghost:active { transform: scale(0.97); }
+.btn-ghost.selected {
+  background: linear-gradient(135deg, rgba(255,77,141,0.3), rgba(180,77,255,0.2));
+  border-color: var(--rose); color: var(--ink);
+}
+
+.api-status {
+  display: flex; align-items: center; gap: 0.45rem; font-size: 0.68rem;
+  color: var(--ink-dim); padding: 0.45rem 0.65rem; margin-top: 0.45rem;
+  background: rgba(0,0,0,0.2); border-radius: var(--radius-sm);
+}
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-faint); flex-shrink: 0; }
+.api-status.ok .status-dot { background: var(--success); box-shadow: 0 0 8px var(--success); }
+
+/* Cœur progression */
+.heart-progress { display: flex; justify-content: center; padding: 0.5rem 0; }
+.heart-progress svg { width: 48px; height: 48px; filter: drop-shadow(0 0 14px rgba(255,77,141,0.6)); }
+
+/* Styles grid */
+.styles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 0.45rem; }
+.style-card {
+  padding: 0.7rem 0.35rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
+  cursor: pointer; text-align: center; transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+.style-card:active { transform: scale(0.94); }
+.style-card.selected {
+  background: linear-gradient(135deg, rgba(255,77,141,0.28), rgba(180,77,255,0.2));
+  border-color: var(--rose); box-shadow: 0 0 18px rgba(255,77,141,0.3);
+}
+.style-card .emoji { font-size: 1.3rem; display: block; margin-bottom: 0.2rem; }
+.style-card .name { font-size: 0.58rem; font-weight: 600; line-height: 1.2; }
+
+/* Références */
+.ref-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.45rem; max-height: 340px; overflow-y: auto;
+}
+.ref-card {
+  position: relative; border-radius: var(--radius-sm); overflow: hidden;
+  border: 1px solid var(--glass-border); aspect-ratio: 3/4; cursor: pointer;
+  transition: all 0.2s;
+}
+.ref-card.selected { border-color: var(--gold); box-shadow: 0 0 16px rgba(255,215,0,0.4); }
+.ref-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ref-card .ref-name {
+  position: absolute; bottom: 0; left: 0; right: 0; padding: 0.28rem 0.35rem;
+  font-size: 0.52rem; font-weight: 600;
+  background: linear-gradient(transparent, rgba(13,5,16,0.97));
+  text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
+}
+.ref-card .ref-remove {
+  position: absolute; top: 3px; right: 3px; width: 18px; height: 18px;
+  border-radius: 50%; background: rgba(248,113,113,0.9); color: #fff;
+  border: none; font-size: 9px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.ref-card .ref-check {
+  position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+  border-radius: 50%; background: var(--gold); color: #0d0510;
+  display: none; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700;
+}
+.ref-card.selected .ref-check { display: flex; }
+
+/* Prompt cards */
+.prompt-card {
+  background: rgba(0,0,0,0.18); border-radius: var(--radius-sm);
+  padding: 0.85rem; margin-bottom: 0.55rem; border: 1px solid var(--glass-border);
+}
+.pc-header { display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.55rem; }
+.pc-num {
+  width: 22px; height: 22px; border-radius: 7px;
+  background: linear-gradient(135deg, var(--rose), var(--violet));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.62rem; font-weight: 700; flex-shrink: 0;
+}
+.pc-title { font-size: 0.72rem; font-weight: 600; flex: 1; }
+.pc-type {
+  padding: 0.1rem 0.4rem; border-radius: 999px; font-size: 0.52rem;
+  font-weight: 700; background: rgba(180,77,255,0.15);
+  color: var(--violet-soft); border: 1px solid rgba(180,77,255,0.3);
+}
+.pc-type.video { background: rgba(255,77,141,0.15); color: var(--rose-soft); border-color: rgba(255,77,141,0.3); }
+.prompt-card textarea { min-height: 50px; font-size: 0.75rem; margin-bottom: 0.35rem; }
+.pc-refs { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.4rem; }
+.pc-ref-tag {
+  padding: 0.15rem 0.45rem; border-radius: 999px; font-size: 0.54rem;
+  background: rgba(255,215,0,0.12); color: var(--gold-soft);
+  border: 1px solid rgba(255,215,0,0.3);
+}
+.pc-preview {
+  border-radius: var(--radius-sm); overflow: hidden; background: #000;
+  aspect-ratio: 9/16; max-width: 105px; margin: 0.35rem auto;
+  border: 1px solid var(--glass-border);
+}
+.pc-preview img, .pc-preview video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pc-status { font-size: 0.6rem; color: var(--ink-dim); display: flex; align-items: center; gap: 0.35rem; margin-top: 0.25rem; }
+.pc-status .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--ink-faint); flex-shrink: 0; }
+.pc-status.creating .dot { background: var(--warn); animation: pulse 1s infinite; }
+.pc-status.done .dot { background: var(--success); }
+.pc-status.failed .dot { background: var(--error); }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.pc-actions { display: flex; gap: 0.35rem; margin-top: 0.45rem; }
+.pc-actions button {
+  flex: 1; padding: 0.45rem; border-radius: 8px;
+  border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);
+  color: var(--ink-dim); font-size: 0.58rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+}
+.pc-actions button:active { background: rgba(255,255,255,0.05); }
+.pc-actions button.dl {
+  background: linear-gradient(135deg, rgba(74,222,128,0.15), rgba(74,222,128,0.05));
+  border-color: rgba(74,222,128,0.3); color: var(--success);
+}
+.pc-actions button.refs-btn {
+  background: linear-gradient(135deg, rgba(255,215,0,0.12), rgba(255,215,0,0.04));
+  border-color: rgba(255,215,0,0.3); color: var(--gold-soft);
+}
+
+.status-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  padding: 0.75rem 1.05rem calc(var(--safe-bottom) + 0.75rem);
+  background: rgba(13,5,16,0.94); backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--glass-border);
+  font-size: 0.72rem; display: flex; align-items: center; gap: 0.45rem;
+  transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  z-index: 100;
+}
+.status-bar.visible { transform: translateY(0); }
+.spinner { width: 12px; height: 12px; border: 2px solid rgba(255,77,141,0.2); border-top-color: var(--rose); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.toast {
+  position: fixed; top: calc(var(--safe-top) + 1rem); left: 50%;
+  transform: translateX(-50%) translateY(-130px);
+  padding: 0.7rem 1.05rem; border-radius: var(--radius-sm);
+  background: rgba(13,5,16,0.96); backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border); font-size: 0.75rem; z-index: 1000;
+  display: flex; align-items: center; gap: 0.45rem; opacity: 0;
+  transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s;
+  max-width: 90vw;
+}
+.toast.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast.success { border-color: rgba(74,222,128,0.4); }
+.toast.error { border-color: rgba(248,113,113,0.4); }
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(13,5,16,0.9);
+  backdrop-filter: blur(10px); z-index: 500;
+  display: none; align-items: center; justify-content: center; padding: 1rem;
+}
+.modal-overlay.visible { display: flex; }
+.modal {
+  background: var(--bg-2); border: 1px solid var(--glass-border);
+  border-radius: var(--radius); padding: 1.1rem; max-width: 480px; width: 100%;
+  max-height: 80vh; overflow-y: auto; animation: panelIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.modal h3 { font-size: 0.9rem; margin-bottom: 0.7rem; color: var(--rose-soft); }
+.modal-actions { display: flex; gap: 0.45rem; margin-top: 0.9rem; }
+
+.debug-panel {
+  position: fixed; bottom: 0; left: 0; right: 0; height: 160px;
+  background: rgba(8,3,10,0.98); backdrop-filter: blur(24px);
+  border-top: 2px solid var(--violet); z-index: 200;
+  display: flex; flex-direction: column; font-family: ui-monospace, monospace;
+  transition: height 0.3s ease;
+}
+.debug-panel.collapsed { height: 26px; }
+.debug-header { display: flex; justify-content: space-between; align-items: center; padding: 0.25rem 0.65rem; cursor: pointer; user-select: none; border-bottom: 1px solid var(--glass-border); flex-shrink: 0; }
+.debug-title { font-size: 0.55rem; color: var(--violet-soft); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; }
+.debug-actions button { background: transparent; border: 1px solid var(--glass-border); color: var(--ink-dim); font-size: 0.5rem; padding: 0.1rem 0.35rem; border-radius: 4px; cursor: pointer; margin-left: 0.2rem; }
+.debug-body { flex: 1; overflow-y: auto; padding: 0.25rem 0.45rem; font-size: 0.55rem; line-height: 1.5; }
+.debug-entry { padding: 0.08rem 0; border-left: 2px solid transparent; padding-left: 0.3rem; word-break: break-word; }
+.debug-entry.info { border-left-color: var(--ink-faint); color: #a090a0; }
+.debug-entry.success { border-left-color: var(--success); color: #86efac; }
+.debug-entry.error { border-left-color: var(--error); color: #fca5a5; }
+.debug-entry.api { border-left-color: var(--violet); color: #d8b4fe; }
+
+.hidden { display: none !important; }
+.empty-state { grid-column: 1/-1; text-align: center; color: var(--ink-faint); font-size: 0.68rem; padding: 0.9rem; }
+</style>
+</head>
+<body>
+
+<div class="deco-layer" id="deco-layer"></div>
+
+<header>
+  <div class="logo-mark">💎</div>
+  <h1>Diana Studio AI</h1>
+  <p class="subtitle">Créez. Brillez. Dominez.</p>
+</header>
+
+<!-- Onglets -->
+<div class="tabs">
+  <button class="tab active" data-tab="creation"><span class="tab-icon">💎</span>Création</button>
+  <button class="tab" data-tab="characters"><span class="tab-icon">💄</span>Personnages</button>
+  <button class="tab" data-tab="decors"><span class="tab-icon">👠</span>Décors</button>
+  <button class="tab" data-tab="console"><span class="tab-icon">⚙️</span>Console</button>
+</div>
+
+<!-- ══════════ ONGLET CRÉATION ══════════ -->
+<div class="tab-panel active" id="panel-creation">
+
+  <div class="section glass open" id="sec-api">
+    <div class="section-header" data-toggle="sec-api">
+      <span class="section-title">🔑 Clé API <span class="badge" id="api-badge">requise</span></span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body"><div class="section-content">
+      <input type="password" id="api-input" placeholder="sk-..." autocomplete="off" spellcheck="false" style="font-family:ui-monospace,monospace;font-size:0.76rem;margin-bottom:0.45rem;">
+      <button class="btn" id="btn-save-api">Enregistrer ✨</button>
+      <div class="api-status" id="api-status"><span class="status-dot"></span><span id="api-status-text">Aucune clé</span></div>
+    </div></div>
+  </div>
+
+  <div class="section glass open" id="sec-type">
+    <div class="section-header" data-toggle="sec-type">
+      <span class="section-title">🎯 Type & Quantité</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body"><div class="section-content">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.35rem;margin-bottom:0.6rem;">
+        <button class="btn-ghost" data-gentype="image" style="padding:0.75rem 0.3rem;font-size:0.68rem;">🖼️ Images</button>
+        <button class="btn-ghost" data-gentype="video" style="padding:0.75rem 0.3rem;font-size:0.68rem;">🎬 Vidéos</button>
+        <button class="btn-ghost selected" data-gentype="both" style="padding:0.75rem 0.3rem;font-size:0.68rem;">✨ Les deux</button>
+      </div>
+      <div style="margin-bottom:0.55rem;">
+        <label style="font-size:0.62rem;color:var(--ink-dim);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;">Nombre de scènes</label>
+        <select id="scene-count" style="margin-top:0.3rem;">
+          <option value="1">1 scène</option>
+          <option value="2">2 scènes</option>
+          <option value="3">3 scènes</option>
+          <option value="5" selected>5 scènes</option>
+          <option value="7">7 scènes</option>
+          <option value="10">10 scènes</option>
+          <option value="15">15 scènes</option>
+          <option value="20">20 scènes</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:0.62rem;color:var(--ink-dim);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;">Durée vidéo</label>
+        <select id="video-duration" style="margin-top:0.3rem;">
+          <option value="5">5 secondes</option>
+          <option value="7" selected>7 secondes</option>
+          <option value="10">10 secondes</option>
+          <option value="12">12 secondes</option>
+        </select>
+        <div style="font-size:0.58rem;color:var(--ink-faint);margin-top:0.25rem;">Flash : 4-12s · RPM 1/min</div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="section glass" id="sec-style">
+    <div class="section-header" data-toggle="sec-style">
+      <span class="section-title">🎨 Style visuel</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body"><div class="section-content">
+      <div class="styles-grid" id="styles-grid"></div>
+    </div></div>
+  </div>
+
+  <div class="section glass" id="sec-agent">
+    <div class="section-header" data-toggle="sec-agent">
+      <span class="section-title">🤖 Agent Diana</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body"><div class="section-content">
+      <div style="display:flex;align-items:center;gap:0.55rem;margin-bottom:0.6rem;">
+        <div class="toggle-switch" id="agent-switch" style="width:38px;height:20px;border-radius:10px;background:rgba(255,255,255,0.1);position:relative;transition:background 0.3s;flex-shrink:0;cursor:pointer;">
+          <div style="position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);"></div>
+        </div>
+        <span style="font-size:0.75rem;">Activer l'agent (pré-remplit les champs)</span>
+      </div>
+      <textarea id="main-prompt" placeholder="Décrivez votre vision globale... L'agent structurera les scènes."></textarea>
+      <div style="margin-top:0.4rem;font-size:0.6rem;color:var(--ink-faint);">💡 Optionnel. Sinon, remplissez chaque champ manuellement.</div>
+    </div></div>
+  </div>
+
+  <button class="btn btn-primary" id="btn-generate" disabled>💎 Générer</button>
+  <button class="btn-stop" id="btn-stop">⏹ Arrêter</button>
+
+  <div class="heart-progress" id="heart-progress" style="display:none;">
+    <svg viewBox="0 0 24 24">
+      <defs>
+        <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ff4d8d"/>
+          <stop offset="50%" stop-color="#b44dff"/>
+          <stop offset="100%" stop-color="#ffd700"/>
+        </linearGradient>
+        <clipPath id="heartClip">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </clipPath>
+      </defs>
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="rgba(255,77,141,0.15)" stroke="rgba(255,77,141,0.4)" stroke-width="0.5"/>
+      <rect id="heart-fill-rect" x="0" y="24" width="24" height="24" fill="url(#heartGrad)" clip-path="url(#heartClip)" style="transition: y 0.6s cubic-bezier(0.4,0,0.2,1);"/>
+    </svg>
+  </div>
+
+  <div class="section glass hidden" id="sec-prompts">
+    <div class="section-header" data-toggle="sec-prompts">
+      <span class="section-title">📝 Scènes <span class="badge ok" id="prompt-count">0</span></span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body"><div class="section-content">
+      <div id="prompts-container"></div>
+    </div></div>
+  </div>
+
+</div>
+
+<!-- ══════════ PERSONNAGES ══════════ -->
+<div class="tab-panel" id="panel-characters">
+  <div class="section glass open" id="sec-chars">
+    <div class="section-header" data-toggle="sec-chars">
+      <span class="section-title">💄 Personnages <span class="badge" id="char-badge">0</span></span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body"><div class="section-content">
+      <div style="display:flex;gap:0.35rem;margin-bottom:0.55rem;">
+        <button class="btn" id="btn-add-char" style="flex:1;">＋ Ajouter</button>
+        <button class="btn" id="btn-clear-chars" style="flex:1;background:rgba(248,113,113,0.15);color:var(--error);box-shadow:none;">✕ Effacer</button>
+      </div>
+      <div class="ref-grid" id="char-grid"><div class="empty-state">Aucun personnage</div></div>
+      <input type="file" id="char-file-input" accept="image/*" style="display:none">
+    </div></div>
+  </div>
+</div>
+
+<!-- ══════════ DÉCORS ══════════ -->
+<div class="tab-panel" id="panel-decors">
+  <div class="section glass open" id="sec-decors">
+    <div class="section-header" data-toggle="sec-decors">
+      <span class="section-title">👠 Décors <span class="badge" id="decor-badge">0</span></span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body"><div class="section-content">
+      <div style="display:flex;gap:0.35rem;margin-bottom:0.55rem;">
+        <button class="btn" id="btn-add-decor" style="flex:1;">＋ Ajouter</button>
+        <button class="btn" id="btn-clear-decors" style="flex:1;background:rgba(248,113,113,0.15);color:var(--error);box-shadow:none;">✕ Effacer</button>
+      </div>
+      <div class="ref-grid" id="decor-grid"><div class="empty-state">Aucun décor</div></div>
+      <input type="file" id="decor-file-input" accept="image/*" style="display:none">
+    </div></div>
+  </div>
+</div>
+
+<!-- ══════════ CONSOLE ══════════ -->
+<div class="tab-panel" id="panel-console">
+  <div class="section glass open">
+    <div class="section-header" data-toggle="sec-console">
+      <span class="section-title">⚙️ Modèles & Limites</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body"><div class="section-content">
+      <div style="font-size:0.65rem;color:var(--ink-dim);">
+        <div style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px solid var(--glass-border);"><span>Texte</span><span style="font-family:monospace;">agnes-2.5-flash</span></div>
+        <div style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px solid var(--glass-border);"><span>Image</span><span style="font-family:monospace;">agnes-image-2.1-flash</span></div>
+        <div style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px solid var(--glass-border);"><span>Vidéo</span><span style="font-family:monospace;">agnes-video-2.5-flash</span></div>
+        <div style="display:flex;justify-content:space-between;padding:0.25rem 0;"><span>RPM vidéo</span><span style="color:var(--warn);">1 / minute</span></div>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<!-- Modal références -->
+<div class="modal-overlay" id="ref-modal">
+  <div class="modal">
+    <h3>📎 Références</h3>
+    <div style="font-size:0.65rem;color:var(--ink-dim);margin-bottom:0.55rem;">Max 5 par génération (limite API Flash).</div>
+    <div id="ref-modal-content"></div>
+    <div class="modal-actions"><button class="btn" id="ref-modal-close" style="background:rgba(0,0,0,0.2);color:var(--ink-dim);box-shadow:none;">Fermer</button></div>
+  </div>
+</div>
+
+<div class="status-bar" id="status-bar"><div class="spinner"></div><span id="status-text">Prêt</span></div>
+<div class="toast" id="toast"><span>💎</span><span id="toast-text"></span></div>
+
+<div class="debug-panel collapsed" id="debug-panel">
+  <div class="debug-header" id="debug-header">
+    <span class="debug-title">🖥️ Console</span>
+    <div class="debug-actions">
+      <button type="button" id="debug-clear">Effacer</button>
+      <button type="button" id="debug-collapse">+</button>
+    </div>
+  </div>
+  <div class="debug-body" id="debug-body"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// CONFIG — basé sur docs Agnes confirmées
+// ═══════════════════════════════════════════════════════════════════
+const API_BASE = 'https://apihub.agnes-ai.com/v1';
+const POLL_BASE = 'https://apihub.agnes-ai.com/agnesapi';
+const MODEL_TEXT = 'agnes-2.5-flash';
+const MODEL_IMAGE = 'agnes-image-2.1-flash';
+const MODEL_VIDEO = 'agnes-video-2.5-flash';
+const FRAME_RATE = 24;
+const VIDEO_RPM_SAFE_MS = 70000;
+const IMAGE_PARALLEL = 3;
+const IMAGE_INTERVAL_MS = 3400;
+const VIDEO_FIRST_POLL = 80;
+const POLL_INTERVALS = [8, 8, 12, 12, 20, 20, 25];
+const MAX_POLL = 100;
+const MAX_REFS = 5;
+const API_KEY_STORAGE = 'diana_api_key_v1';
+const CHAR_STORAGE = 'diana_chars_v1';
+const DECOR_STORAGE = 'diana_decors_v1';
+
+const STYLES = [
+  { id: 'cinematic', name: 'Réaliste Cinématique', emoji: '🎬', prompt: 'cinematic film look, dramatic lighting, shallow depth of field, photorealistic, 35mm film grain' },
+  { id: 'anime', name: 'Manga Animé', emoji: '🌸', prompt: 'Japanese anime style, cel shading, expressive eyes, vibrant colors, Studio Ghibli influence' },
+  { id: 'whiteboard', name: 'Whiteboard', emoji: '📝', prompt: 'whiteboard animation style, hand-drawn sketches on white background, simple black outlines' },
+  { id: 'painting', name: 'Peinture', emoji: '🎨', prompt: 'oil painting style, visible brushstrokes, rich textured paint, classical art technique' },
+  { id: 'documentary', name: 'Documentaire', emoji: '📹', prompt: 'documentary photography style, natural lighting, candid framing, 35mm film' },
+  { id: 'pedago', name: 'Pédagogue', emoji: '📚', prompt: 'educational illustration style, clear diagrams, friendly design, bright colors' },
+  { id: 'historical', name: 'Historique', emoji: '🏛️', prompt: 'historical film aesthetic, period-accurate costumes and sets, warm aged tones, dusty atmosphere' }
+];
+
+const state = {
+  apiKey: '', characters: [], decors: [],
+  selectedStyle: STYLES[0], genType: 'both', sceneCount: 5, videoDuration: 7,
+  agentEnabled: false, scenes: [], isRunning: false, stopRequested: false,
+  editingSceneId: null
+};
+
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(msg, type='success') {
+  $('toast-text').textContent = msg;
+  $('toast').className = 'toast ' + type;
+  requestAnimationFrame(() => $('toast').classList.add('visible'));
+  setTimeout(() => $('toast').classList.remove('visible'), 2500);
+}
+
+function debugLog(msg, type='info') {
+  const body = $('debug-body');
+  const time = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const el = document.createElement('div');
+  el.className = 'debug-entry ' + type;
+  el.textContent = '[' + time + '] ' + msg;
+  body.appendChild(el);
+  body.scrollTop = body.scrollHeight;
+  while (body.children.length > 150) body.removeChild(body.firstChild);
+}
+
+function setStatus(text) {
+  if (text) { $('status-bar').classList.add('visible'); $('status-text').textContent = text; }
+  else $('status-bar').classList.remove('visible');
+}
+
+function updateHeart(pct) {
+  const rect = $('heart-fill-rect');
+  if (rect) rect.setAttribute('y', 24 - (24 * pct / 100));
+}
+
+// Décorations flottantes : diamants, rouges à lèvres, talons
+(function initDeco() {
+  const layer = $('deco-layer');
+  const symbols = ['💎', '💄', '👠', '💋', '✨', '💎', '💄'];
+  for (let i = 0; i < 16; i++) {
+    const el = document.createElement('div');
+    el.className = 'deco';
+    el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    el.style.left = Math.random() * 100 + '%';
+    el.style.fontSize = (12 + Math.random() * 16) + 'px';
+    el.style.animationDuration = (10 + Math.random() * 15) + 's';
+    el.style.animationDelay = (Math.random() * 12) + 's';
+    layer.appendChild(el);
+  }
+})();
+
+// API KEY
+function loadApiKey() { try { return localStorage.getItem(API_KEY_STORAGE) || ''; } catch(e) { return ''; } }
+function saveApiKey() {
+  const key = $('api-input').value.trim();
+  state.apiKey = key;
+  if (key) localStorage.setItem(API_KEY_STORAGE, key); else localStorage.removeItem(API_KEY_STORAGE);
+  updateApiUI();
+}
+function updateApiUI() {
+  if (state.apiKey) {
+    $('api-status').classList.add('ok');
+    $('api-status-text').textContent = '✓ ' + state.apiKey.slice(0,8) + '…' + state.apiKey.slice(-4);
+    $('api-badge').textContent = 'active'; $('api-badge').className = 'badge ok';
+    $('api-input').value = state.apiKey;
+  } else {
+    $('api-status').classList.remove('ok');
+    $('api-status-text').textContent = 'Aucune clé';
+    $('api-badge').textContent = 'requise'; $('api-badge').className = 'badge';
+  }
+  updateGenerateBtn();
+}
+
+// RÉFÉRENCES
+function loadRefs(key) { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) { return []; } }
+function saveRefs(key, arr) { localStorage.setItem(key, JSON.stringify(arr.slice(-30))); }
+
+function renderRefGrid(gridId, arr, badgeId) {
+  const grid = $(gridId);
+  if (!arr.length) {
+    grid.innerHTML = '<div class="empty-state">Aucun élément</div>';
+    $(badgeId).textContent = '0';
+    return;
+  }
+  grid.innerHTML = arr.map(r =>
+    '<div class="ref-card" data-id="' + r.id + '">' +
+      '<img src="' + r.imageData + '">' +
+      '<div class="ref-name">' + esc(r.name) + '</div>' +
+      '<div class="ref-check">✓</div>' +
+      '<button class="ref-remove" data-remove="' + r.id + '">✕</button>' +
+    '</div>'
+  ).join('');
+  $(badgeId).textContent = arr.length;
+  grid.querySelectorAll('[data-remove]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = parseInt(btn.dataset.remove);
+      if (gridId === 'char-grid') { state.characters = state.characters.filter(c => c.id !== id); saveRefs(CHAR_STORAGE, state.characters); renderRefGrid(gridId, state.characters, badgeId); }
+      else { state.decors = state.decors.filter(c => c.id !== id); saveRefs(DECOR_STORAGE, state.decors); renderRefGrid(gridId, state.decors, badgeId); }
+    });
+  });
+}
+
+// API FETCH
+async function apiFetch(url, options, label) {
+  for (let i = 0; i < 7; i++) {
+    if (state.stopRequested) throw new Error('Arrêt');
+    try {
+      const res = await fetch(url, options);
+      if (res.status === 429) { const w = [10,20,35,50,75,100,150][Math.min(i,6)]; debugLog('429 — '+w+'s', 'error'); await sleep(w*1000); continue; }
+      if (res.status === 503) { const w = [5,10,15,20,30,45][Math.min(i,5)]; debugLog('503 — '+w+'s', 'error'); await sleep(w*1000); continue; }
+      return res;
+    } catch(e) {
+      if (e.message === 'Arrêt') throw e;
+      await sleep(5000);
+    }
+  }
+  return fetch(url, options);
+}
+
+// AGENT
+async function runAgent(userPrompt) {
+  debugLog('Agent Diana: analyse…', 'api');
+  const body = {
+    model: MODEL_TEXT,
+    messages: [
+      { role: 'system', content: 'Tu es Diana, directrice créative. Retourne UNIQUEMENT un JSON valide: {"title":"...","scenes":[{"number":1,"imagePrompt":"...","actionPrompt":"..."}]}. imagePrompt décrit UNE image. actionPrompt décrit le mouvement vidéo en anglais.' },
+      { role: 'user', content: 'Crée ' + state.sceneCount + ' scènes pour: ' + userPrompt + '\nStyle: ' + state.selectedStyle.prompt }
+    ],
+    temperature: 0.8, max_tokens: 4000, response_format: { type: 'json_object' }
+  };
+  const res = await apiFetch(API_BASE + '/chat/completions', {
+    method: 'POST', headers: { 'Authorization': 'Bearer ' + state.apiKey, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  }, 'Agent');
+  if (!res.ok) throw new Error('Agent HTTP ' + res.status);
+  const data = await res.json();
+  return parseJson(data.choices?.[0]?.message?.content);
+}
+
+function parseJson(text) {
+  if (!text) return null;
+  let c = text.trim();
+  const fm = c.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (fm) c = fm[1].trim();
+  const fb = c.indexOf('{');
+  if (fb >= 0) c = c.slice(fb);
+  try { return JSON.parse(c); } catch(e) {}
+  try { return JSON.parse(c.replace(/[\n\r\t]/g, ' ')); } catch(e) {}
+  return null;
+}
+
+// IMAGE
+async function generateImage(prompt, refs) {
+  const body = {
+    model: MODEL_IMAGE,
+    prompt: prompt + '. ' + state.selectedStyle.prompt + '. Portrait 9:16 vertical.',
+    n: 1, size: '1K', ratio: '9:16',
+    extra_body: { response_format: 'url' }
+  };
+  if (refs && refs.length) body.image = refs.map(r => r.imageData);
+  const res = await apiFetch(API_BASE + '/images/generations', {
+    method: 'POST', headers: { 'Authorization': 'Bearer ' + state.apiKey, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  }, 'Image');
+  if (!res.ok) throw new Error('Image HTTP ' + res.status);
+  const data = await res.json();
+  return data.data?.[0]?.url || data.data?.[0]?.b64_json;
+}
+
+// VIDEO — reference mode avec <Picture N>
+async function createVideo(prompt, refs, durationSec) {
+  const body = {
+    model: MODEL_VIDEO,
+    prompt: prompt,
+    seconds: String(durationSec),
+    size: '720P',
+    aspect_ratio: '9:16'
+  };
+  if (refs && refs.length) {
+    body.mode = 'reference';
+    body.images = refs.map(r => r.imageData);
+  } else {
+    body.mode = 'text';
+  }
+  const res = await apiFetch(API_BASE + '/videos', {
+    method: 'POST', headers: { 'Authorization': 'Bearer ' + state.apiKey, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  }, 'Video');
+  if (!res.ok) throw new Error('Video HTTP ' + res.status);
+  const data = await res.json();
+  return data.video_id || data.id || data.task_id;
+}
+
+async function pollVideo(videoId, onProgress) {
+  let rem = VIDEO_FIRST_POLL;
+  while (rem > 0) { if (state.stopRequested) throw new Error('Arrêt'); onProgress('Préparation… ' + rem + 's'); await sleep(1000); rem--; }
+  for (let i = 0; i < MAX_POLL; i++) {
+    if (state.stopRequested) throw new Error('Arrêt');
+    if (i > 0) {
+      const w = POLL_INTERVALS[Math.min(i-1, POLL_INTERVALS.length-1)];
+      let r = w;
+      while (r > 0) { if (state.stopRequested) throw new Error('Arrêt'); onProgress('En cours… ' + r + 's'); await sleep(1000); r--; }
+    }
+    const res = await apiFetch(POLL_BASE + '?video_id=' + encodeURIComponent(videoId) + '&model_name=' + MODEL_VIDEO, {
+      headers: { 'Authorization': 'Bearer ' + state.apiKey }
+    }, 'Poll');
+    const d = await res.json();
+    const st = d.status || 'unknown';
+    onProgress('Création… ' + (d.progress || 0) + '%');
+    if (st === 'completed' || st === 'succeeded' || st === 'done') return (d.metadata?.url) || d.url || (d.output?.url);
+    if (st === 'failed' || st === 'error') throw new Error('Échec vidéo');
+  }
+  throw new Error('Timeout');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CRÉATION DES CHAMPS DE PROMPT (au changement de nombre de scènes)
+// ═══════════════════════════════════════════════════════════════════
+function rebuildScenesFromCount() {
+  const n = state.sceneCount;
+  const old = state.scenes || [];
+  const newScenes = [];
+  for (let i = 0; i < n; i++) {
+    if (old[i]) {
+      newScenes.push(old[i]);
+    } else {
+      newScenes.push({
+        id: i, number: i + 1,
+        imagePrompt: '', actionPrompt: '',
+        imageUrl: null, videoUrl: null,
+        status: 'idle', videoStatus: 'idle',
+        selectedRefs: []
+      });
+    }
+  }
+  // Mettre à jour les numéros
+  newScenes.forEach((s, i) => { s.id = i; s.number = i + 1; });
+  state.scenes = newScenes;
+  $('sec-prompts').classList.remove('hidden');
+  $('sec-prompts').classList.add('open');
+  renderPrompts();
+  $('prompt-count').textContent = n;
+}
+
+function renderPrompts() {
+  const container = $('prompts-container');
+  if (!state.scenes.length) { container.innerHTML = ''; return; }
+  container.innerHTML = state.scenes.map(s => {
+    let st = '';
+    if (s.status === 'idle') st = '<div class="pc-status"><span class="dot"></span>Prêt à générer</div>';
+    else if (s.status === 'creating') st = '<div class="pc-status creating"><span class="dot"></span>Création…</div>';
+    else if (s.status === 'done') st = '<div class="pc-status done"><span class="dot"></span>Image prête</div>';
+    else st = '<div class="pc-status failed"><span class="dot"></span>Échec</div>';
+
+    let vt = '';
+    if (state.genType !== 'image') {
+      if (s.videoStatus === 'idle') vt = '';
+      else if (s.videoStatus === 'done') vt = '<div class="pc-status done"><span class="dot"></span>Vidéo prête</div>';
+      else if (s.videoStatus === 'creating') vt = '<div class="pc-status creating"><span class="dot"></span>' + (s.videoProgress || 'Vidéo…') + '</div>';
+      else if (s.videoStatus === 'failed') vt = '<div class="pc-status failed"><span class="dot"></span>Échec vidéo</div>';
+    }
+
+    let media = '';
+    if (s.videoUrl) media = '<div class="pc-preview"><video src="' + s.videoUrl + '" controls playsinline muted></video></div>';
+    else if (s.imageUrl) media = '<div class="pc-preview"><img src="' + s.imageUrl + '"></div>';
+
+    let refTags = '';
+    if (s.selectedRefs && s.selectedRefs.length) {
+      refTags = '<div class="pc-refs">' + s.selectedRefs.map(r => '<span class="pc-ref-tag">📎 ' + esc(r.name) + '</span>').join('') + '</div>';
+    }
+
+    const dlImg = s.imageUrl ? '<button class="dl" data-dl="img" data-id="' + s.id + '">⬇ Image</button>' : '';
+    const dlVid = s.videoUrl ? '<button class="dl" data-dl="vid" data-id="' + s.id + '">⬇ Vidéo</button>' : '';
+    const refsBtn = '<button class="refs-btn" data-refs="' + s.id + '">📎 Références</button>';
+
+    return '<div class="prompt-card" data-scene="' + s.id + '">' +
+      '<div class="pc-header"><div class="pc-num">' + s.number + '</div><div class="pc-title">Scène ' + s.number + '</div>' +
+      '<span class="pc-type' + (state.genType !== 'image' ? ' video' : '') + '">' + (state.genType !== 'image' ? '🎬' : '🖼️') + '</span></div>' +
+      refTags +
+      '<textarea data-prompt="image" data-id="' + s.id + '" placeholder="Prompt image pour cette scène…">' + esc(s.imagePrompt) + '</textarea>' +
+      (state.genType !== 'image' ? '<textarea data-prompt="action" data-id="' + s.id + '" placeholder="Prompt mouvement vidéo…">' + esc(s.actionPrompt) + '</textarea>' : '') +
+      st + vt + media +
+      '<div class="pc-actions">' + refsBtn + (dlImg || dlVid) + '</div>' +
+    '</div>';
+  }).join('');
+
+  container.querySelectorAll('textarea[data-prompt]').forEach(ta => {
+    ta.addEventListener('input', (e) => {
+      const id = parseInt(e.target.dataset.id);
+      const field = e.target.dataset.prompt;
+      const scene = state.scenes.find(s => s.id === id);
+      if (scene) scene[field === 'image' ? 'imagePrompt' : 'actionPrompt'] = e.target.value;
+      updateGenerateBtn();
+    });
+  });
+  container.querySelectorAll('[data-dl]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = parseInt(btn.dataset.id);
+      const scene = state.scenes.find(s => s.id === id);
+      if (!scene) return;
+      const url = btn.dataset.dl === 'img' ? scene.imageUrl : scene.videoUrl;
+      const ext = btn.dataset.dl === 'img' ? 'png' : 'mp4';
+      if (url) downloadFile(url, 'diana_scene_' + scene.number + '.' + ext);
+    });
+  });
+  container.querySelectorAll('[data-refs]').forEach(btn => {
+    btn.addEventListener('click', () => openRefModal(parseInt(btn.dataset.refs)));
+  });
+}
+
+async function downloadFile(url, filename) {
+  try {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = filename; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  } catch(e) { toast('Téléchargement échoué', 'error'); }
+}
+
+function updateGenerateBtn() {
+  const hasKey = !!state.apiKey;
+  const hasAnyPrompt = state.scenes.some(s => (s.imagePrompt && s.imagePrompt.trim()) || (s.actionPrompt && s.actionPrompt.trim()));
+  $('btn-generate').disabled = !hasKey || state.isRunning;
+  $('btn-generate').textContent = state.isRunning ? 'Génération…' :
+    (!hasKey ? '🔑 Ajoutez la clé' : '💎 Générer');
+}
+
+// MODAL RÉFÉRENCES
+function openRefModal(sceneId) {
+  const scene = state.scenes.find(s => s.id === sceneId);
+  if (!scene) return;
+  const allRefs = [...state.characters.map(c => ({...c, type:'char'})), ...state.decors.map(d => ({...d, type:'decor'}))];
+  if (!allRefs.length) { toast('Ajoutez des personnages ou décors d\'abord', 'error'); return; }
+  const currentIds = new Set((scene.selectedRefs || []).map(r => r.id));
+  $('ref-modal-content').innerHTML =
+    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:0.35rem;">' +
+    allRefs.map(r =>
+      '<div class="ref-card ' + (currentIds.has(r.id) ? 'selected' : '') + '" data-refid="' + r.id + '" style="cursor:pointer;">' +
+        '<img src="' + r.imageData + '">' +
+        '<div class="ref-name">' + esc(r.name) + '</div>' +
+        '<div class="ref-check" style="display:' + (currentIds.has(r.id) ? 'flex' : 'none') + ';">✓</div>' +
+      '</div>'
+    ).join('') + '</div>';
+  $('ref-modal-content').querySelectorAll('.ref-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const id = parseInt(card.dataset.refid);
+      const ref = allRefs.find(r => r.id === id);
+      if (!ref) return;
+      const idx = scene.selectedRefs.findIndex(r => r.id === id);
+      if (idx >= 0) {
+        scene.selectedRefs.splice(idx, 1);
+        card.classList.remove('selected');
+        card.querySelector('.ref-check').style.display = 'none';
+      } else {
+        if (scene.selectedRefs.length >= MAX_REFS) { toast('Maximum ' + MAX_REFS + ' références', 'error'); return; }
+        scene.selectedRefs.push(ref);
+        card.classList.add('selected');
+        card.querySelector('.ref-check').style.display = 'flex';
+      }
+      renderPrompts();
+    });
+  });
+  $('ref-modal').classList.add('visible');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PIPELINE DE GÉNÉRATION
+// ═══════════════════════════════════════════════════════════════════
+async function startGeneration() {
+  if (state.isRunning) return;
+  if (!state.apiKey) { toast('Ajoutez la clé API', 'error'); return; }
+
+  const hasAnyPrompt = state.scenes.some(s => (s.imagePrompt && s.imagePrompt.trim()) || (s.actionPrompt && s.actionPrompt.trim()));
+  if (!hasAnyPrompt) { toast('Remplissez au moins un prompt', 'error'); return; }
+
+  state.isRunning = true; state.stopRequested = false;
+  $('btn-stop').classList.add('visible'); $('btn-generate').disabled = true;
+  $('heart-progress').style.display = 'flex';
+  updateHeart(5);
+
+  debugLog('=== DIANA STUDIO ===', 'success');
+  debugLog('Type: ' + state.genType + ' | Scènes: ' + state.scenes.length, 'info');
+
+  try {
+    // Phase 1 : Agent (optionnel, pré-remplit les vides)
+    if (state.agentEnabled) {
+      const mainPrompt = $('main-prompt').value.trim();
+      if (mainPrompt) {
+        setStatus('Agent Diana analyse…');
+        const scenario = await runAgent(mainPrompt);
+        if (scenario?.scenes) {
+          scenario.scenes.forEach((s, i) => {
+            if (state.scenes[i]) {
+              if (!state.scenes[i].imagePrompt) state.scenes[i].imagePrompt = s.imagePrompt || '';
+              if (!state.scenes[i].actionPrompt) state.scenes[i].actionPrompt = s.actionPrompt || '';
+            }
+          });
+          renderPrompts();
+        }
+      }
+    }
+
+    // Phase 2 : Images
+    if (state.genType === 'image' || state.genType === 'both') {
+      setStatus('Génération des images…');
+      updateHeart(20);
+      let batch = [];
+      for (const s of state.scenes) {
+        if (!s.imagePrompt || !s.imagePrompt.trim()) continue;
+        batch.push(generateSceneImage(s));
+        if (batch.length >= IMAGE_PARALLEL) { await Promise.all(batch); batch = []; await sleep(IMAGE_INTERVAL_MS); }
+      }
+      await Promise.all(batch);
+    }
+
+    // Phase 3 : Vidéos
+    if (state.genType === 'video' || state.genType === 'both') {
+      setStatus('Génération des vidéos…');
+      updateHeart(55);
+      for (let i = 0; i < state.scenes.length; i++) {
+        if (state.stopRequested) break;
+        const s = state.scenes[i];
+        if (!s.actionPrompt || !s.actionPrompt.trim()) continue;
+        await generateSceneVideo(s);
+        if (i < state.scenes.length - 1) {
+          let r = Math.ceil(VIDEO_RPM_SAFE_MS / 1000);
+          while (r > 0) { if (state.stopRequested) break; setStatus('Prochaine vidéo dans ' + r + 's…'); await sleep(1000); r--; }
+        }
+      }
+    }
+
+    updateHeart(100);
+    const imgOk = state.scenes.filter(s => s.imageUrl).length;
+    const vidOk = state.scenes.filter(s => s.videoUrl).length;
+    debugLog('Terminé: ' + imgOk + ' img, ' + vidOk + ' vid', 'success');
+    toast('💎 ' + imgOk + ' images, ' + vidOk + ' vidéos');
+    setTimeout(() => { $('heart-progress').style.display = 'none'; updateHeart(0); }, 3000);
+
+  } catch(e) {
+    debugLog('Erreur: ' + e.message, 'error');
+    toast('Erreur: ' + e.message.slice(0, 50), 'error');
+    $('heart-progress').style.display = 'none';
+  }
+
+  state.isRunning = false; state.stopRequested = false;
+  $('btn-stop').classList.remove('visible'); $('btn-generate').disabled = false;
+  setStatus(null);
+  updateGenerateBtn();
+}
+
+async function generateSceneImage(scene) {
+  scene.status = 'creating'; renderPrompts();
+  try {
+    const url = await generateImage(scene.imagePrompt, scene.selectedRefs);
+    scene.imageUrl = url; scene.status = 'done';
+    debugLog('Image ' + scene.number + ' OK', 'success');
+  } catch(e) { scene.status = 'failed'; debugLog('Image ' + scene.number + ': ' + e.message, 'error'); }
+  renderPrompts();
+}
+
+async function generateSceneVideo(scene) {
+  scene.videoStatus = 'creating'; renderPrompts();
+  try {
+    let videoPrompt = scene.actionPrompt;
+    if (scene.selectedRefs && scene.selectedRefs.length) {
+      const refTags = scene.selectedRefs.map((r, i) => '<Picture ' + (i+1) + '>').join(' and ');
+      videoPrompt = 'Use ' + refTags + ' as character and/or decor reference. ' + scene.actionPrompt;
+    }
+    const vid = await createVideo(videoPrompt, scene.selectedRefs, state.videoDuration);
+    debugLog('Vidéo ' + scene.number + ': ' + vid, 'info');
+    const url = await pollVideo(vid, (p) => { scene.videoProgress = p; renderPrompts(); });
+    scene.videoUrl = url; scene.videoStatus = 'done';
+    debugLog('Vidéo ' + scene.number + ' OK', 'success');
+  } catch(e) { scene.videoStatus = 'failed'; debugLog('Vidéo ' + scene.number + ': ' + e.message, 'error'); }
+  renderPrompts();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════
+(function init() {
+  state.apiKey = loadApiKey(); updateApiUI();
+  $('btn-save-api').addEventListener('click', () => { saveApiKey(); toast('Clé enregistrée 💎'); });
+  $('api-input').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); saveApiKey(); } });
+
+  state.characters = loadRefs(CHAR_STORAGE);
+  state.decors = loadRefs(DECOR_STORAGE);
+  renderRefGrid('char-grid', state.characters, 'char-badge');
+  renderRefGrid('decor-grid', state.decors, 'decor-badge');
+
+  // Onglets
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      $('panel-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Ajout personnages
+  $('btn-add-char').addEventListener('click', () => $('char-file-input').click());
+  $('char-file-input').addEventListener('change', (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = (ev) => {
+      const name = prompt('Nom:', 'Personnage ' + (state.characters.length + 1));
+      if (name) {
+        state.characters.push({ id: Date.now(), name, imageData: ev.target.result });
+        saveRefs(CHAR_STORAGE, state.characters);
+        renderRefGrid('char-grid', state.characters, 'char-badge');
+        toast('Personnage ajouté 💄');
+      }
+    };
+    r.readAsDataURL(f); e.target.value = '';
+  });
+  $('btn-clear-chars').addEventListener('click', () => {
+    if (confirm('Effacer tous les personnages ?')) {
+      state.characters = []; saveRefs(CHAR_STORAGE, []);
+      renderRefGrid('char-grid', state.characters, 'char-badge');
+    }
+  });
+
+  // Ajout décors
+  $('btn-add-decor').addEventListener('click', () => $('decor-file-input').click());
+  $('decor-file-input').addEventListener('change', (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = (ev) => {
+      const name = prompt('Nom:', 'Décor ' + (state.decors.length + 1));
+      if (name) {
+        state.decors.push({ id: Date.now(), name, imageData: ev.target.result });
+        saveRefs(DECOR_STORAGE, state.decors);
+        renderRefGrid('decor-grid', state.decors, 'decor-badge');
+        toast('Décor ajouté 👠');
+      }
+    };
+    r.readAsDataURL(f); e.target.value = '';
+  });
+  $('btn-clear-decors').addEventListener('click', () => {
+    if (confirm('Effacer tous les décors ?')) {
+      state.decors = []; saveRefs(DECOR_STORAGE, []);
+      renderRefGrid('decor-grid', state.decors, 'decor-badge');
+    }
+  });
+
+  // Styles
+  $('styles-grid').innerHTML = STYLES.map(s =>
+    '<div class="style-card ' + (state.selectedStyle.id === s.id ? 'selected' : '') + '" data-style="' + s.id + '">' +
+    '<span class="emoji">' + s.emoji + '</span><span class="name">' + s.name + '</span></div>'
+  ).join('');
+  $('styles-grid').querySelectorAll('[data-style]').forEach(el => {
+    el.addEventListener('click', () => {
+      state.selectedStyle = STYLES.find(s => s.id === el.dataset.style);
+      $('styles-grid').querySelectorAll('.style-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+    });
+  });
+
+  // Sections toggle
+  document.querySelectorAll('[data-toggle]').forEach(h => {
+    h.addEventListener('click', () => $(h.dataset.toggle).classList.toggle('open'));
+  });
+
+  // Type
+  document.querySelectorAll('[data-gentype]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.genType = btn.dataset.gentype;
+      document.querySelectorAll('[data-gentype]').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      renderPrompts();
+    });
+  });
+
+  // Agent toggle
+  $('agent-switch').addEventListener('click', () => {
+    state.agentEnabled = !state.agentEnabled;
+    $('agent-switch').classList.toggle('on', state.agentEnabled);
+    $('agent-switch').style.background = state.agentEnabled ? 'linear-gradient(135deg, var(--rose), var(--violet))' : 'rgba(255,255,255,0.1)';
+    $('agent-switch').querySelector('div').style.transform = state.agentEnabled ? 'translateX(18px)' : 'translateX(0)';
+    debugLog('Agent Diana: ' + (state.agentEnabled ? 'activé' : 'désactivé'), 'info');
+  });
+
+  $('main-prompt').addEventListener('input', updateGenerateBtn);
+
+  // Changement du nombre de scènes → reconstruire les champs
+  $('scene-count').addEventListener('change', e => {
+    state.sceneCount = parseInt(e.target.value);
+    rebuildScenesFromCount();
+    updateGenerateBtn();
+    debugLog('Scènes : ' + state.sceneCount, 'info');
+  });
+  $('video-duration').addEventListener('change', e => { state.videoDuration = parseInt(e.target.value); });
+
+  $('btn-generate').addEventListener('click', startGeneration);
+  $('btn-stop').addEventListener('click', () => { state.stopRequested = true; setStatus('Arrêt…'); });
+
+  // Modal
+  $('ref-modal-close').addEventListener('click', () => $('ref-modal').classList.remove('visible'));
+  $('ref-modal').addEventListener('click', (e) => { if (e.target.id === 'ref-modal') $('ref-modal').classList.remove('visible'); });
+
+  // Debug
+  $('debug-header').addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON') return;
+    $('debug-panel').classList.toggle('collapsed');
+    $('debug-collapse').textContent = $('debug-panel').classList.contains('collapsed') ? '+' : '−';
+  });
+  $('debug-clear').addEventListener('click', (e) => { e.stopPropagation(); $('debug-body').innerHTML = ''; });
+  $('debug-collapse').addEventListener('click', (e) => {
+    e.stopPropagation();
+    $('debug-panel').classList.toggle('collapsed');
+    e.target.textContent = $('debug-panel').classList.contains('collapsed') ? '+' : '−';
+  });
+
+  // Initialiser les champs pour le nombre de scènes par défaut
+  rebuildScenesFromCount();
+  updateGenerateBtn();
+
+  debugLog('Diana Studio AI prêt 💎', 'success');
+  debugLog('Onglets : Création / Personnages / Décors / Console', 'info');
+})();
+</script>
+</body>
+</html>
